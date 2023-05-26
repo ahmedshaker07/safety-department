@@ -1,0 +1,10 @@
+{
+  "header": {
+    "change_language": "Change Language",
+    "languages": {
+      "arabic": "Arabic",
+      "english": "English",
+      "french": "French"
+    }
+  }
+}

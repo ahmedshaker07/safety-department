@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.ant-form-item {
+  width: 100%;
+}
+
+.ant-form-item
+  .ant-form-item-label
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::before {
+  display: none;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
