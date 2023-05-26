@@ -6,18 +6,13 @@ import FormItem from "../FormItem/FormItem";
 
 import "./Signin.scss";
 
-function Signin() {
+function Signin({ intl }) {
   return (
     <div className="signin-page">
-      <Animated
-        animationIn="bounceInLeft"
-        animationOut="fadeOut"
-        isVisible={true}
-        className="signin-page__modal"
-      >
+      <Animated animationIn="fadeInLeft" className="signin-page__modal">
         <div className="signin-page__modal-title">
-          <span>Sign in</span>
-          <span>Enter your credentials to signin to your account</span>
+          <span>{intl.formatMessage({ id: "signin.title" })}</span>
+          <span>{intl.formatMessage({ id: "signin.subtitle" })}</span>
         </div>
         <Form
           name="signin-form"
@@ -26,7 +21,7 @@ function Signin() {
         >
           <FormItem
             name="email"
-            label="Email"
+            label={intl.formatMessage({ id: "signin.email" })}
             rules={[
               {
                 required: true,
@@ -36,7 +31,7 @@ function Signin() {
           />
           <FormItem
             name="password"
-            label="Password"
+            label={intl.formatMessage({ id: "signin.password" })}
             isPassword
             rules={[
               {
@@ -46,47 +41,10 @@ function Signin() {
             ]}
           />
           <Button type="primary" htmlType="submit">
-            Submit
+            {intl.formatMessage({ id: "signin.continue" })}
           </Button>
         </Form>
       </Animated>
-
-      {/* <div className="signin-page__modal">
-        <div className="signin-page__modal-title">
-          <span>Sign in</span>
-          <span>Enter your credentials to signin to your account</span>
-        </div>
-        <Form
-          name="signin-form"
-          className="signin-page__modal-form"
-          layout="vertical"
-        >
-          <FormItem
-            name="email"
-            label="Email"
-            rules={[
-              {
-                required: true,
-                message: ""
-              }
-            ]}
-          />
-          <FormItem
-            name="password"
-            label="Password"
-            isPassword
-            rules={[
-              {
-                required: true,
-                message: ""
-              }
-            ]}
-          />
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form>
-      </div> */}
     </div>
   );
 }

@@ -6,5 +6,12 @@
       "english": "Anglaise",
       "french": "Français"
     }
+  },
+  "signin": {
+    "title": "S'identifier",
+    "subtitle": "Saisissez vos identifiants pour vous connecter à votre compte",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "continue": "Continuer"
   }
 }

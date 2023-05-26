@@ -6,5 +6,12 @@
       "english": "English",
       "french": "French"
     }
+  },
+  "signin": {
+    "title": "Sign in",
+    "subtitle": "Enter your credentials to sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "continue": "Continue"
   }
 }
