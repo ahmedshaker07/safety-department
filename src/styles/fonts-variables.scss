@@ -1,0 +1,34 @@
+:root[dir="ltr"] {
+  --default-body: "Lato/Regular";
+  --regular-font-1: "Poppins/Regular";
+  --regular-font-2: "Lato/Regular";
+  --semibold-font-1: "Poppins/SemiBold";
+  --semibold-font-2: "Lato/SemiBold";
+  --medium: "Poppins/Medium";
+  --arabic-bold-english-semi-bold: "Poppins/SemiBold";
+  --arabic-semibold-english-medium: "Poppins/Medium";
+  --bold-font: "Lato/Bold";
+}
+
+:root[dir="rtl"] {
+  --default-body: "Cairo/Regular";
+  --regular-font-1: "Cairo/Regular";
+  --regular-font-2: "Cairo/Regular";
+  --semibold-font-1: "Cairo/SemiBold";
+  --semibold-font-2: "Cairo/SemiBold";
+  --medium: "Cairo/Medium";
+  --arabic-bold-english-semi-bold: "Cairo/Bold";
+  --arabic-semibold-english-medium: "Cairo/SemiBold";
+  --bold-font: "Cairo/Bold";
+}
+
+$font-regular-1: var(--regular-font-1);
+$font-regular-2: var(--regular-font-2);
+$font-semibold-1: var(--semibold-font-1);
+$font-semibold-2: var(--semibold-font-2);
+$font-medium: var(--medium);
+$arabic-bold-english-semi-bold: var(--arabic-bold-english-semi-bold);
+$arabic-semibold-english-medium: var(--arabic-semibold-english-medium);
+$cairo-medium: "Cairo/SemiBold";
+$cairo-regular: "Cairo/Regular";
+$font-bold: var(--bold-font);

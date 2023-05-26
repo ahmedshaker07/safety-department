@@ -1,0 +1,176 @@
+@import "./fonts-variables.scss";
+
+//font-styles
+@mixin font-10 {
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0;
+}
+
+@mixin font-12 {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@mixin font-13 {
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@mixin font-14 {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@mixin font-15 {
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@mixin font-16 {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+@mixin font-17 {
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+@mixin font-18 {
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+@mixin font-20 {
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+@mixin font-24 {
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+@mixin font-28 {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0;
+}
+
+@mixin font-40 {
+  font-size: 40px;
+  line-height: 56px;
+  letter-spacing: 0;
+}
+
+//text styles
+.display-xl {
+  @include font-40;
+}
+
+.display-lg {
+  @include font-28;
+}
+
+.display-md {
+  @include font-24;
+}
+
+.display-sm {
+  @include font-20;
+}
+
+.display-xs {
+  @include font-18;
+}
+
+.sidebar-child-medium,
+.sidebar-child,
+.caption,
+.caption-medium {
+  @include font-12;
+}
+
+.heading,
+.button-lg,
+.subtitle-md {
+  @include font-16;
+}
+
+.subheading {
+  @include font-12;
+  letter-spacing: 0.04em;
+}
+
+.button,
+.body-medium,
+.body,
+.sidebar-parent {
+  @include font-14;
+}
+
+.caption-lg {
+  @include font-13;
+}
+
+.subtitle-sm,
+.subtitle-sm-secondary {
+  @include font-10;
+}
+
+.title-sm {
+  @include font-17;
+}
+
+//configuration related to language
+.display-lg {
+  font-family: $arabic-bold-english-semi-bold;
+}
+
+.display-md,
+.display-sm,
+.subtitle-sm-secondary,
+.title-sm {
+  font-family: $font-semibold-1;
+}
+
+.sidebar-parent {
+  font-family: $arabic-semibold-english-medium;
+}
+
+.sidebar-child-medium,
+.display-xs {
+  font-family: $font-medium;
+}
+
+.sidebar-child,
+.subtitle-md {
+  font-family: $font-regular-1;
+}
+
+.heading,
+.button-lg,
+.button,
+.body-medium,
+.button,
+.caption-medium,
+.subtitle-sm {
+  font-family: $font-semibold-2;
+}
+
+.subheading,
+.body,
+.caption-lg,
+.caption {
+  font-family: $font-regular-2;
+}

@@ -12,7 +12,9 @@ function Signin({ intl }) {
     <div className="signin-page">
       <Animated animationIn="fadeInLeft" className="signin-page__modal">
         <div className="signin-page__modal-title">
-          <span>{intl.formatMessage({ id: "signin.title" })}</span>
+          <span className="display-md">
+            {intl.formatMessage({ id: "signin.title" })}
+          </span>
           <span>{intl.formatMessage({ id: "signin.subtitle" })}</span>
         </div>
         <Form

@@ -16,7 +16,7 @@ import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
 import ASHeader from "./components/ASHeader/ASHeader";
 
-import "./styles/global-styles.scss";
+import "./styles/global-overrides.scss";
 
 // const isAuth = () => localStorage.getItem("newToken");
 const isAuth = () => false;

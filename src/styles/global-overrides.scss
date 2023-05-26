@@ -1,6 +1,6 @@
-* {
-  font-family: "Poppins", sans-serif;
-}
+@import "./variables.scss";
+@import "./fonts.scss";
+@import "./font-classes.scss";
 
 body {
   margin: 0;
