@@ -1,8 +1,17 @@
-body {
-  margin: 0;
+* {
   font-family: "Poppins", sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
+// layout styles
+.ant-layout.as-registration-layout {
+  background: linear-gradient(3.76deg, #ecfafc -0.32%, #fafdfe);
+}
+
+// form styles
 .ant-form-item {
   width: 100%;
 }
@@ -19,4 +28,11 @@ body {
   font-size: 14px;
   line-height: 20px;
   font-weight: 500;
+}
+
+// select styles
+.ant-select-dropdown
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: #014891;
+  color: white;
 }

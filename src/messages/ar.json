@@ -2,9 +2,9 @@
   "header": {
     "change_language": "تغيير اللغة",
     "languages": {
-      "arabic": "العربيه",
-      "english": "الإنجليزيه",
-      "french": "الفرنسيه"
+      "arabic": "AR",
+      "english": "EN",
+      "french": "FR"
     }
   },
   "signin": {

@@ -1,0 +1,24 @@
+.ant-select.as-language-changer {
+  .ant-select-selector {
+    border: none;
+    background: transparent;
+
+    .ant-select-selection-item {
+      font-weight: 600;
+      padding-inline-end: 24px;
+    }
+  }
+
+  .ant-select-arrow {
+    top: 40%;
+    svg path {
+      fill: #667085;
+    }
+  }
+
+  .ant-select-arrow,
+  .ant-select-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+}

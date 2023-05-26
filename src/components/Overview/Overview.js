@@ -1,10 +1,10 @@
 import { injectIntl } from "react-intl";
-import LanguageChanger from "../LanguageChanger/LanguageChanger";
+import ASLanguageChanger from "../ASLanguageChanger/ASLanguageChanger";
 
 function Overview() {
   return (
     <div>
-      <LanguageChanger />
+      <ASLanguageChanger />
       this is overview page
     </div>
   );

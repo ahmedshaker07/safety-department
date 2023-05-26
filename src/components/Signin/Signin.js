@@ -1,8 +1,9 @@
-import { Button, Form } from "antd";
+import { Form } from "antd";
 import { injectIntl } from "react-intl";
 import { Animated } from "react-animated-css";
 
-import FormItem from "../FormItem/FormItem";
+import ASFormItem from "../ASFormItem/ASFormItem";
+import ASButton from "../ASButton/ASButton";
 
 import "./Signin.scss";
 
@@ -19,7 +20,7 @@ function Signin({ intl }) {
           className="signin-page__modal-form"
           layout="vertical"
         >
-          <FormItem
+          <ASFormItem
             name="email"
             label={intl.formatMessage({ id: "signin.email" })}
             rules={[
@@ -29,7 +30,7 @@ function Signin({ intl }) {
               }
             ]}
           />
-          <FormItem
+          <ASFormItem
             name="password"
             label={intl.formatMessage({ id: "signin.password" })}
             isPassword
@@ -40,9 +41,11 @@ function Signin({ intl }) {
               }
             ]}
           />
-          <Button type="primary" htmlType="submit">
-            {intl.formatMessage({ id: "signin.continue" })}
-          </Button>
+          <ASButton
+            type="primary"
+            htmlType="submit"
+            label={intl.formatMessage({ id: "signin.continue" })}
+          />
         </Form>
       </Animated>
     </div>

@@ -1,12 +1,16 @@
 import { injectIntl } from "react-intl";
 import { Select } from "antd";
+import { GlobalOutlined } from "@ant-design/icons";
 
 import { changeLocale, getLocale } from "../../utils/intl-provider";
 import { LOCALE } from "../../constants/intl-wrapper";
 
-function LanguageChanger({ intl }) {
+import "./ASLanguageChanger.scss";
+
+function ASLanguageChanger({ intl }) {
   return (
     <Select
+      className="as-language-changer"
       defaultValue={getLocale()}
       onChange={changeLocale}
       options={[
@@ -23,8 +27,9 @@ function LanguageChanger({ intl }) {
           label: intl.formatMessage({ id: "header.languages.french" })
         }
       ]}
+      suffixIcon={<GlobalOutlined />}
     />
   );
 }
 
-export default injectIntl(LanguageChanger);
+export default injectIntl(ASLanguageChanger);

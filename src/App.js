@@ -7,12 +7,14 @@ import {
   Outlet,
   RouterProvider
 } from "react-router-dom";
+import { Layout } from "antd";
 
 import protectedRoutes from "./utils/routes";
 
 import Overview from "./components/Overview/Overview";
 import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
+import ASHeader from "./components/ASHeader/ASHeader";
 
 import "./styles/global-styles.scss";
 
@@ -20,7 +22,12 @@ import "./styles/global-styles.scss";
 const isAuth = () => false;
 
 function Root() {
-  return <Outlet />;
+  return (
+    <Layout className="as-registration-layout">
+      <ASHeader />
+      <Outlet />
+    </Layout>
+  );
 }
 
 function App() {
