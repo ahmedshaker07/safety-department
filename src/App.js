@@ -7,19 +7,16 @@ import {
   Outlet,
   RouterProvider
 } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 
 import protectedRoutes from "./utils/routes";
+import { isAuth } from "./utils/helpers";
 
-import Overview from "./components/Overview/Overview";
 import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
 import ASHeader from "./components/ASHeader/ASHeader";
 
 import "./styles/global-overrides.scss";
-
-// const isAuth = () => localStorage.getItem("newToken");
-const isAuth = () => false;
 
 function Root() {
   return (
@@ -40,11 +37,27 @@ function App() {
         />
         <Route
           path="/signin"
-          element={isAuth() ? <Navigate to="/overview" /> : <Signin />}
+          element={
+            isAuth() ? (
+              <Navigate to="/overview" />
+            ) : (
+              <React.Suspense fallback={<Spin />}>
+                <Signin />
+              </React.Suspense>
+            )
+          }
         />
         <Route element={isAuth() ? <Outlet /> : <Navigate to="/signin" />}>
-          {protectedRoutes.map(({ path }, idx) => (
-            <Route key={idx} element={<Overview />} path={path} />
+          {protectedRoutes.map(({ component: Component, path }, idx) => (
+            <Route
+              key={idx}
+              element={
+                <React.Suspense fallback={<Spin />}>
+                  <Component />
+                </React.Suspense>
+              }
+              path={path}
+            />
           ))}
         </Route>
       </Route>

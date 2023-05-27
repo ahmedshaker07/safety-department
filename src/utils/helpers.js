@@ -1,3 +1,7 @@
+export function isAuth() {
+  return true;
+}
+
 export function retry(fn, retriesLeft = 5, interval = 1000) {
   return new Promise((resolve, reject) => {
     fn()

@@ -3,9 +3,20 @@ import { Button } from "antd";
 
 import "./ASButton.scss";
 
-function ASButton({ type = "primary", htmlType = "", label = "" }) {
+function ASButton({
+  type = "primary",
+  htmlType = "",
+  label = "",
+  className = "",
+  onClick = () => {}
+}) {
   return (
-    <Button type={type} htmlType={htmlType}>
+    <Button
+      className={className}
+      type={type}
+      htmlType={htmlType}
+      onClick={onClick}
+    >
       {label}
     </Button>
   );

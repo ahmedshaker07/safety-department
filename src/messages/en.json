@@ -5,6 +5,15 @@
       "arabic": "AR",
       "english": "EN",
       "french": "FR"
+    },
+    "tabs_name": {
+      "overview": "Overview",
+      "reports": "Reports",
+      "settings": "Settings"
+    },
+    "tabs_sections": {
+      "home": "Home Section",
+      "reports": "Reports Section"
     }
   },
   "signin": {
