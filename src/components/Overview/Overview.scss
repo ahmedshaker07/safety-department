@@ -1,0 +1,31 @@
+.overview-page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.overview-page__header {
+  background-color: black;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  padding: 24px;
+  justify-content: space-between;
+  align-items: center;
+  height: 110px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.overview-page__charts {
+  display: flex;
+  gap: 24px;
+
+  > div {
+    flex: 1;
+  }
+}
