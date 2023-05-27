@@ -1,5 +1,6 @@
 import { Layout } from "antd";
 import { injectIntl } from "react-intl";
+import { MenuOutlined } from "@ant-design/icons";
 
 import { isAuth } from "../../utils/helpers";
 import { mediaHook } from "../../utils/hooks";
@@ -26,13 +27,11 @@ function ASHeader({
     return (
       <div className="as-header__title">
         {isLargeMobileScreen && (
-          <span
+          <MenuOutlined
             onClick={() => {
               setIsSidebarHidden(!isSidebarHidden);
             }}
-          >
-            icon
-          </span>
+          />
         )}
         <span className="display-md">{mapper[window.location.pathname]}</span>
       </div>
