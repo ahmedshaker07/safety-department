@@ -2,6 +2,7 @@ import { Layout } from "antd";
 import { injectIntl } from "react-intl";
 
 import { isAuth } from "../../utils/helpers";
+import { mediaHook } from "../../utils/hooks";
 
 import ASLanguageChanger from "../ASLanguageChanger/ASLanguageChanger";
 
@@ -9,7 +10,12 @@ import "./ASHeader.scss";
 
 const { Header } = Layout;
 
-function ASHeader({ intl }) {
+function ASHeader({
+  intl,
+  setIsSidebarHidden,
+  isSidebarHidden,
+  mobileScreenSizes: { isLargeMobileScreen }
+}) {
   function getTabTitle() {
     const mapper = {
       "/overview": intl.formatMessage({ id: "header.tabs_name.overview" }),
@@ -18,7 +24,18 @@ function ASHeader({ intl }) {
     };
 
     return (
-      <span className="display-md">{mapper[window.location.pathname]}</span>
+      <div className="as-header__title">
+        {isLargeMobileScreen && (
+          <span
+            onClick={() => {
+              setIsSidebarHidden(!isSidebarHidden);
+            }}
+          >
+            icon
+          </span>
+        )}
+        <span className="display-md">{mapper[window.location.pathname]}</span>
+      </div>
     );
   }
 
@@ -39,4 +56,4 @@ function ASHeader({ intl }) {
   );
 }
 
-export default injectIntl(ASHeader);
+export default injectIntl(mediaHook(ASHeader));

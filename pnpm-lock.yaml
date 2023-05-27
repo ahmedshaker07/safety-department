@@ -43,6 +43,9 @@ dependencies:
   sass:
     specifier: ^1.62.1
     version: 1.62.1
+  use-media:
+    specifier: ^1.4.0
+    version: 1.4.0(react@18.2.0)
   web-vitals:
     specifier: ^2.1.4
     version: 2.1.4
@@ -11315,6 +11318,14 @@ packages:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
+    dev: false
+
+  /use-media@1.4.0(react@18.2.0):
+    resolution: {integrity: sha512-XsgyUAf3nhzZmEfhc5MqLHwyaPjs78bgytpVJ/xDl0TF4Bptf3vEpBNBBT/EIKOmsOc8UbuECq3mrP3mt1QANA==}
+    peerDependencies:
+      react: ^16.8.1
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /util-deprecate@1.0.2:

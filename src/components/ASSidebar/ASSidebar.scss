@@ -1,0 +1,91 @@
+@import "../../styles/variables.scss";
+
+.default-layout .ant-layout-sider {
+  border-radius: 0 16px 16px 0;
+  background: $blue-800;
+  box-shadow: rgba(50, 50, 93, -0.75) 0 0 0px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 0px 60px -30px inset;
+  transition: all 0.5s;
+
+  .ant-layout-sider-children {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px 16px;
+  }
+
+  .sidebar__upper-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > img {
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+    }
+  }
+}
+
+.sidebar__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+  > span {
+    color: white;
+  }
+
+  .sidebar__section-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.as-sider-button {
+  height: 40px;
+  color: white;
+}
+
+.as-sider-button-active {
+  background-color: $blue-900;
+  color: white;
+}
+
+.as-sider-button.ant-btn-text:not(:disabled):hover {
+  color: white;
+  background-color: $blue-900;
+}
+
+.as-sider-button-active.ant-btn-text:not(:disabled):hover {
+  background-color: $blue-700;
+  color: white;
+}
+
+.default-layout__sidebar-hidden {
+  .ant-layout-sider {
+    flex: 0 !important;
+    max-width: 0 !important;
+    min-width: 0 !important;
+    width: 0 !important;
+    .ant-layout-sider-children {
+      display: none;
+    }
+  }
+}
+
+html[dir="rtl"] {
+  .default-layout .ant-layout-sider {
+    border-radius: 16px 0 0 16px;
+  }
+}
