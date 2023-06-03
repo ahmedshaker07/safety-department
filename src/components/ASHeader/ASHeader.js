@@ -18,11 +18,11 @@ function ASHeader({
   mobileScreenSizes: { isLargeMobileScreen }
 }) {
   function getTabTitle() {
-    const mapper = {
-      "/overview": intl.formatMessage({ id: "header.tabs_name.overview" }),
-      "/reports": intl.formatMessage({ id: "header.tabs_name.reports" }),
-      "/settings": intl.formatMessage({ id: "header.tabs_name.settings" })
-    };
+    // const mapper = {
+    //   "/overview": intl.formatMessage({ id: "header.tabs_name.overview" }),
+    //   "/reports": intl.formatMessage({ id: "header.tabs_name.reports" }),
+    //   "/settings": intl.formatMessage({ id: "header.tabs_name.settings" })
+    // };
 
     return (
       <div className="as-header__title">
