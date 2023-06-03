@@ -7,23 +7,18 @@ import { mediaHook } from "../../utils/hooks";
 
 import ASLanguageChanger from "../ASLanguageChanger/ASLanguageChanger";
 
+import ECPCLogo from "../../assests/images/ECPC_Logo_original.png";
+
 import "./ASHeader.scss";
 
 const { Header } = Layout;
 
 function ASHeader({
-  intl,
   setIsSidebarHidden,
   isSidebarHidden,
   mobileScreenSizes: { isLargeMobileScreen }
 }) {
   function getTabTitle() {
-    // const mapper = {
-    //   "/overview": intl.formatMessage({ id: "header.tabs_name.overview" }),
-    //   "/reports": intl.formatMessage({ id: "header.tabs_name.reports" }),
-    //   "/settings": intl.formatMessage({ id: "header.tabs_name.settings" })
-    // };
-
     return (
       <div className="as-header__title">
         {isLargeMobileScreen && (
@@ -33,7 +28,9 @@ function ASHeader({
             }}
           />
         )}
-        {/* <span className="display-md">{mapper[window.location.pathname]}</span> */}
+        {(isSidebarHidden || !isLargeMobileScreen) && (
+          <img width="100%" height="64" src={ECPCLogo} alt="" />
+        )}
       </div>
     );
   }
@@ -55,4 +52,4 @@ function ASHeader({
   );
 }
 
-export default injectIntl(mediaHook(ASHeader));
+export default mediaHook(ASHeader);

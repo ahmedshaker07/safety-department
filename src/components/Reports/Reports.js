@@ -94,8 +94,10 @@ function Reports({ intl }) {
   };
 
   const onSearchClick = () => {
-    fetchData();
-    setSearchText("");
+    if (searchText) {
+      fetchData();
+      setSearchText("");
+    }
   };
 
   useEffect(() => {

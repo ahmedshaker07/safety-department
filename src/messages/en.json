@@ -5,6 +5,7 @@
   },
   "header": {
     "change_language": "Change Language",
+    "name": "Hello, {name}",
     "languages": {
       "arabic": "AR",
       "english": "EN",

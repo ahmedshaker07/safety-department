@@ -7,8 +7,6 @@ import { mediaHook } from "../../utils/hooks";
 
 import ASButton from "../ASButton/ASButton";
 
-import ECPCLogo from "../../assests/images/ECPC_logo.png";
-
 import "./ASSidebar.scss";
 
 const { Sider } = Layout;
@@ -69,7 +67,14 @@ function ASSidebar({
   return (
     <Sider className="sidebar">
       <div className="sidebar__upper-section">
-        <img width="100%" height="64" src={ECPCLogo} alt="" />
+        <span className="sidebar-header display-xs">
+          {intl.formatMessage(
+            { id: "header.name" },
+            {
+              name: "Sherif Mohamed Ahmed"
+            }
+          )}
+        </span>
         <div>
           <div className="sidebar__section">
             <span className="subheading">

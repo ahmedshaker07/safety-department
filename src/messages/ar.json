@@ -5,6 +5,7 @@
   },
   "header": {
     "change_language": "تغيير اللغة",
+    "name": "مرحبًا {name}",
     "languages": {
       "arabic": "AR",
       "english": "EN",

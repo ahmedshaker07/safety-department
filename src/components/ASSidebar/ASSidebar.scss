@@ -21,8 +21,15 @@
     align-items: center;
     width: 100%;
 
-    > img {
-      margin: 24px 0;
+    .sidebar-header {
+      color: $white;
+      min-height: 64px;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: $border_bottom;
+      margin-bottom: 24px;
     }
 
     > div {
