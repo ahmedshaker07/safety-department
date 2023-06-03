@@ -27,7 +27,13 @@
   display: flex;
   gap: 24px;
 
-  > div {
-    flex: 1;
+  .overview-page__card {
+    width: calc(50% - 12px);
   }
+}
+
+.overview-page__card {
+  padding: 24px 16px;
+  border-radius: 8px;
+  box-shadow: $shadow-md;
 }

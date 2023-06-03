@@ -27,6 +27,14 @@
     "password": "Password",
     "continue": "Continue"
   },
+  "overview": {
+    "metrics": {
+      "days": "Days since an incident",
+      "critical_incidents": "Critical incidents this year",
+      "incidents": "Incidents this year",
+      "reports": "Number of Reports this year"
+    }
+  },
   "reports": {
     "create_reports": "Create Reports",
     "footer": "zero harm - no loss of life",

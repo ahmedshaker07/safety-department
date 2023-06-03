@@ -27,6 +27,14 @@
     "password": "كلمة المرور",
     "continue": "استمرار"
   },
+  "overview": {
+    "metrics": {
+      "days": "أيام منذ الحادث",
+      "critical_incidents": "حوادث حرجة هذا العام",
+      "incidents": "حوادث هذا العام",
+      "reports": "عدد التقارير هذا العام"
+    }
+  },
   "reports": {
     "create_reports": "إنشاء التقارير",
     "footer": "لا ضرر ولا خسارة في الأرواح",

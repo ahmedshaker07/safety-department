@@ -33,7 +33,7 @@ function ASHeader({
             }}
           />
         )}
-        <span className="display-md">{mapper[window.location.pathname]}</span>
+        {/* <span className="display-md">{mapper[window.location.pathname]}</span> */}
       </div>
     );
   }

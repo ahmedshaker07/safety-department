@@ -6,32 +6,46 @@ import AreaChart from "./components/AreaChart/AreaChart";
 
 import "./Overview.scss";
 
-function Overview() {
+function Overview({ intl }) {
   return (
     <div className="overview-page">
       <div className="overview-page__header">
         <div>
-          <span className="body-medium">Days since an incident</span>
+          <span className="body-medium">
+            {intl.formatMessage({ id: "overview.metrics.days" })}
+          </span>
           <span className="caption-medium">135</span>
         </div>
         <div>
-          <span className="body-medium">Critical incidents this year</span>
+          <span className="body-medium">
+            {intl.formatMessage({ id: "overview.metrics.critical_incidents" })}
+          </span>
           <span className="caption-medium">1</span>
         </div>
         <div>
-          <span className="body-medium">Incidents this year</span>
+          <span className="body-medium">
+            {intl.formatMessage({ id: "overview.metrics.incidents" })}
+          </span>
           <span className="caption-medium">13</span>
         </div>
         <div>
-          <span className="body-medium">Number of Reports this year</span>
+          <span className="body-medium">
+            {intl.formatMessage({ id: "overview.metrics.reports" })}
+          </span>
           <span className="caption-medium">385</span>
         </div>
       </div>
       <div className="overview-page__charts">
-        <ColumnChart />
-        <LineChart />
+        <div className="overview-page__card">
+          <ColumnChart />
+        </div>
+        <div className="overview-page__card">
+          <LineChart />
+        </div>
       </div>
-      <AreaChart />
+      <div className="overview-page__card">
+        <AreaChart />
+      </div>
     </div>
   );
 }
