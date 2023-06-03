@@ -35,6 +35,18 @@ function ASSidebar({
         label: intl.formatMessage({
           id: "header.tabs_name.reports"
         })
+      },
+      {
+        path: "/reports/day",
+        label: intl.formatMessage({
+          id: "header.tabs_name.reports_by_day"
+        })
+      },
+      {
+        path: "/reports/reporter",
+        label: intl.formatMessage({
+          id: "header.tabs_name.reports_by_reporter"
+        })
       }
     ],
     bottom: [
@@ -70,7 +82,7 @@ function ASSidebar({
                   type="text"
                   label={label}
                   className={classNames("button as-sider-button", {
-                    "as-sider-button-active": pathname.includes(path)
+                    "as-sider-button-active": pathname === path
                   })}
                   onClick={() => {
                     onTabClick(path);
@@ -90,7 +102,7 @@ function ASSidebar({
                   type="text"
                   label={label}
                   className={classNames("button as-sider-button", {
-                    "as-sider-button-active": pathname.includes(path)
+                    "as-sider-button-active": pathname === path
                   })}
                   onClick={() => {
                     onTabClick(path);
@@ -109,7 +121,7 @@ function ASSidebar({
               type="text"
               label={label}
               className={classNames("button as-sider-button", {
-                "as-sider-button-active": pathname.includes(path)
+                "as-sider-button-active": pathname === path
               })}
               onClick={() => {
                 onTabClick(path);

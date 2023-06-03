@@ -13,6 +13,8 @@
     "tabs_name": {
       "overview": "Aperçu",
       "reports": "Rapports",
+      "reports_by_day": "Rapports par jour",
+      "reports_by_reporter": "Rapports par reporter",
       "settings": "Paramètres"
     },
     "tabs_sections": {

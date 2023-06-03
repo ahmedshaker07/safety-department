@@ -19,6 +19,13 @@ const AddEditReports = lazy(
     )
 );
 
+const FilteredReports = lazy(
+  async () =>
+    await retry(
+      async () => await import("../components/FilteredReports/FilteredReports")
+    )
+);
+
 const Settings = lazy(
   async () =>
     await retry(async () => await import("../components/Settings/Settings"))
@@ -39,6 +46,16 @@ const protectedRoutes = [
     path: "/reports/add",
     name: "Create Reports",
     component: AddEditReports
+  },
+  {
+    path: "/reports/day",
+    name: "Reports by day",
+    component: FilteredReports
+  },
+  {
+    path: "/reports/reporter",
+    name: "Reports by day",
+    component: FilteredReports
   },
   {
     path: "/settings",

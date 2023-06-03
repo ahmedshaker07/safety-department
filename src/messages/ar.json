@@ -13,6 +13,8 @@
     "tabs_name": {
       "overview": "نظرة عامة",
       "reports": "التقارير",
+      "reports_by_day": "تقارير حسب اليوم",
+      "reports_by_reporter": "تقارير حسب المقيم",
       "settings": "إعدادات"
     },
     "tabs_sections": {
