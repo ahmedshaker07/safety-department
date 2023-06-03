@@ -1,0 +1,10 @@
+.reports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reports-page__add-report {
+  display: flex;
+  justify-content: flex-end;
+}

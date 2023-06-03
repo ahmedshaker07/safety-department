@@ -1,8 +1,52 @@
+@import "../../styles/variables.scss";
+
 .ant-btn {
-  width: 100%;
+  width: unset;
+  height: 40px;
+
+  &.ant-btn-primary {
+    background-color: $blue-800;
+
+    &:hover {
+      background-color: $blue-900;
+    }
+  }
 }
 
-.ant-btn-primary {
-  background-color: #014891;
-  height: 40px;
+// Button with destructive-basic type
+.asbutton.destructive-basic svg path {
+  fill: $red-700;
+}
+.asbutton.destructive-basic,
+.asbutton.destructive-basic:focus {
+  border-color: $red-50;
+  background-color: $red-100;
+  span {
+    color: $red-700;
+  }
+}
+.asbutton.destructive-basic:hover {
+  border-color: $red-100;
+  background-color: $red-100;
+  span {
+    color: $red-700;
+  }
+}
+.asbutton.destructive-basic.ant-btn:not([disabled]):active {
+  border-color: $red-50;
+  background-color: $red-50;
+  box-shadow: $shadow-xs-red;
+  span {
+    color: $red-700;
+  }
+}
+.asbutton.destructive-basic.ant-btn[disabled]:not(.asbutton__loading) {
+  border-color: $red-25;
+  background-color: $red-25;
+  svg path {
+    fill: $red-300;
+  }
+  span {
+    color: $red-300;
+  }
 }

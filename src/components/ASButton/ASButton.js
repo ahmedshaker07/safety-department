@@ -1,5 +1,6 @@
 import { injectIntl } from "react-intl";
 import { Button } from "antd";
+import classNames from "classnames";
 
 import "./ASButton.scss";
 
@@ -12,7 +13,7 @@ function ASButton({
 }) {
   return (
     <Button
-      className={className}
+      className={classNames("asbutton", "button", className, type)}
       type={type}
       htmlType={htmlType}
       onClick={onClick}

@@ -1,4 +1,8 @@
 {
+  "common": {
+    "save": "Sauver",
+    "cancel": "Annulate"
+  },
   "header": {
     "change_language": "Changer de langue",
     "languages": {
@@ -22,5 +26,29 @@
     "email": "E-mail",
     "password": "Mot de passe",
     "continue": "Continuer"
+  },
+  "reports": {
+    "create_reports": "Créer des rapports",
+    "footer": "zéro blessure - pas de perte de vie",
+    "safety": " - la sécurité est la responsabilité de chacun",
+    "nmha": "Cochez NMHA si une carte est également remplie. Envoyez une copie du rapport au secrétaire administratif, qui placera une copie dans le dossier VdF sur le serveur et mettra à jour la feuille de calcul du suivi Vdf. Une copie de ce rapport doit être affichée dans la zone évaluée. Informez toutes les personnes qui ont des actions de suivi à effectuer.",
+    "hsm": "Reportez-vous au Guide de l'utilisateur HSM 0041.1 pour obtenir de l'aide pour entreprendre des « Entretiens de prévention des incidents ». Tenez compte des « catégories à risque » lors de l'observation de la personne ou de la tâche et enregistrez-les ci-dessous : si plus d'une personne est vue en train d'accomplir l'acte dangereux, c'est-à-dire deux personnes ne portant pas de protection auditive, enregistrez-les comme 2 actes dangereux.",
+    "add_safe_action": "Ajouter une action sécurisée",
+    "add_unsafe_action": "Ajouter une action non sécurisée",
+    "add_followup_action": "Ajouter une action de suivi",
+    "agreed_followups": "ACTIONS DE SUIVI CONVENUES",
+    "unsafe_acts": "ACTES DANGEREUX/ÉCART DE SÉCURITÉ OBSERVÉ",
+    "safe_acts": "ACTIONS SÉCURITAIRES/BONS COMPORTEMENTS OBSERVÉS",
+    "safe_action": "Action sûre",
+    "unsafe_action": "Action dangereuse",
+    "followup_action": "Mesures de suivi",
+    "area": "Secteur/Département",
+    "assessor": "Assesseur",
+    "assited": "Assisté par",
+    "observed": "Nbre de personnes observées",
+    "date": "Date",
+    "start_time": "Heure de début",
+    "finish_time": "Heure de fin",
+    "duration": "Durée"
   }
 }

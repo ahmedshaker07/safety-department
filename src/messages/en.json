@@ -1,4 +1,8 @@
 {
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
   "header": {
     "change_language": "Change Language",
     "languages": {
@@ -22,5 +26,29 @@
     "email": "Email",
     "password": "Password",
     "continue": "Continue"
+  },
+  "reports": {
+    "create_reports": "Create Reports",
+    "footer": "zero harm - no loss of life",
+    "safety": "- safety is everyone’s responsibility",
+    "nmha": "Tick NMHA if a card is also completed. Send a copy of the report to the Admin Secretary, who will place a copy in the VFL folder on the server and update the VFL tracker spread sheet. A copy this report should be posted in the area assessed. Inform all persons who have follow up actions to complete.",
+    "hsm": "Refer to the User Guide HSM 0041.1 for assistance in undertaking ‘Incident Prevention Talks’. Consider the ‘at risk categories’ when observing the person or task and record below: If more than one person is seen performing the unsafe act, i.e., two people not wearing hearing protection, then records as 2 unsafe acts.",
+    "add_safe_action": "Add safe action",
+    "add_unsafe_action": "Add unsafe action",
+    "add_followup_action": "Add follow up action",
+    "agreed_followups": "AGREED FOLLOW UP ACTIONS",
+    "unsafe_acts": "UNSAFE ACTS/SAFETY DEVIATION OBSERVED",
+    "safe_acts": "SAFE ACTIONS/GOOD BEHAVIOUR OBSERVED",
+    "safe_action": "Safe action",
+    "unsafe_action": "Unsafe action",
+    "followup_action": "Follow up action",
+    "area": "Area/Dept",
+    "assessor": "Assessor",
+    "assited": "Assited by",
+    "observed": "No. of people observed",
+    "date": "Date",
+    "start_time": "Start time",
+    "finish_time": "Finish Time",
+    "duration": "Duration"
   }
 }
