@@ -1,5 +1,4 @@
 import { Layout } from "antd";
-import { injectIntl } from "react-intl";
 import { MenuOutlined } from "@ant-design/icons";
 
 import { isAuth } from "../../utils/helpers";
