@@ -71,7 +71,7 @@ function ASSidebar({
           {intl.formatMessage(
             { id: "header.name" },
             {
-              name: "Sherif Mohamed Ahmed"
+              name: "Sherif"
             }
           )}
         </span>

@@ -126,11 +126,14 @@ function Reports({ intl }) {
         title={() => (
           <>
             <Input
-              placeholder="Search"
+              placeholder={intl.formatMessage({ id: "common.search" })}
               value={searchText}
               onChange={onSearchTextChange}
             />
-            <ASButton label="Search" onClick={onSearchClick} />
+            <ASButton
+              label={intl.formatMessage({ id: "common.search" })}
+              onClick={onSearchClick}
+            />
           </>
         )}
       />

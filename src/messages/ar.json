@@ -1,11 +1,12 @@
 {
   "common": {
     "save": "حفظ",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "search": "بحث"
   },
   "header": {
     "change_language": "تغيير اللغة",
-    "name": "مرحبًا {name}",
+    "name": "مرحبًا {name}!",
     "languages": {
       "arabic": "AR",
       "english": "EN",
