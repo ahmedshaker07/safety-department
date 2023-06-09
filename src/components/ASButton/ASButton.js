@@ -9,7 +9,9 @@ function ASButton({
   htmlType = "",
   label = "",
   className = "",
-  onClick = () => {}
+  onClick = () => {},
+  isLoading = false,
+  ...rest
 }) {
   return (
     <Button
@@ -17,6 +19,8 @@ function ASButton({
       type={type}
       htmlType={htmlType}
       onClick={onClick}
+      isLoading={isLoading}
+      {...rest}
     >
       {label}
     </Button>

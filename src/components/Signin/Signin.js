@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Form } from "antd";
 import { injectIntl } from "react-intl";
 import { Animated } from "react-animated-css";
@@ -12,13 +12,19 @@ import ASButton from "../ASButton/ASButton";
 import "./Signin.scss";
 
 function Signin({ intl }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { setToken } = useContext(ContextWrapper);
+
   async function handleSignin(values) {
     try {
+      setIsLoading(true);
       const userData = await login(values);
       localStorage.setItem("token", userData);
+      setIsLoading(false);
       setToken(userData);
     } catch (error) {
+      setIsLoading(false);
       alert(error);
     }
   }
@@ -63,6 +69,7 @@ function Signin({ intl }) {
             type="primary"
             htmlType="submit"
             label={intl.formatMessage({ id: "signin.continue" })}
+            loading={isLoading}
           />
         </Form>
       </Animated>
