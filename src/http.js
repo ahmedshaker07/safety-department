@@ -6,7 +6,7 @@ class Http {
     const BASE_API_URL =
       window.env && window.env.ENVIRONMENT === "production"
         ? window.env.BASE_API_URL
-        : "https://dev-app.bosta.co/api/v2";
+        : "https://vflbe.cyclic.app/";
 
     const initialClient = axios.create({
       baseURL:
@@ -30,8 +30,8 @@ class Http {
   }
 
   handleRequestHeader = (config) => {
-    const API_KEY = localStorage.getItem("newToken")
-      ? localStorage.getItem("newToken")
+    const API_KEY = localStorage.getItem("token")
+      ? localStorage.getItem("token")
       : "";
 
     if (API_KEY) {
@@ -39,7 +39,7 @@ class Http {
     }
 
     config.headers["Accept-Language"] =
-      localStorage.getItem("Locale")?.toLowerCase() || "en";
+      localStorage.getItem("locale")?.toLowerCase() || "ar";
     const isFormData = config.data instanceof FormData;
     // sanitize request body
     config.data =

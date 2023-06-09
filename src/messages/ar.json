@@ -2,7 +2,8 @@
   "common": {
     "save": "حفظ",
     "cancel": "إلغاء",
-    "search": "بحث"
+    "search": "بحث",
+    "logout": "تسجيل خروج"
   },
   "header": {
     "change_language": "تغيير اللغة",

@@ -2,6 +2,7 @@ import React from "react";
 import { ConfigProvider } from "antd";
 import ReactDOM from "react-dom/client";
 
+import { UserContext } from "./contexts/user.context";
 import { getLocale } from "./utils/intl-provider";
 
 import IntlWrapper from "./components/IntlWrapper/IntlWrapper";
@@ -16,7 +17,9 @@ root.render(
         locale={getLocale()}
         getPopupContainer={(trigger) => trigger?.parentElement || document.body}
       >
-        <App />
+        <UserContext>
+          <App />
+        </UserContext>
       </ConfigProvider>
     </IntlWrapper>
   </React.StrictMode>

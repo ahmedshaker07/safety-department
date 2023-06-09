@@ -4,10 +4,6 @@ import DOMPurify from "dompurify";
 
 import { END_DATES_KEYS } from "../constants/helpers";
 
-export function isAuth() {
-  return true;
-}
-
 export function retry(fn, retriesLeft = 5, interval = 1000) {
   return new Promise((resolve, reject) => {
     fn()
@@ -104,8 +100,8 @@ export const sanitizeAll = (obj) => {
 };
 
 export const logout = () => {
-  const locale = localStorage.getItem("Locale");
+  const locale = localStorage.getItem("locale");
   localStorage.clear();
-  localStorage.setItem("Locale", locale ? locale : "ar");
+  localStorage.setItem("locale", locale ? locale : "ar");
   window.location.replace("/signin");
 };

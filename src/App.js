@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Route,
   Navigate,
   createBrowserRouter,
   createRoutesFromElements,
   Outlet,
-  RouterProvider
+  RouterProvider,
 } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
 import protectedRoutes from "./utils/routes";
-import { isAuth } from "./utils/helpers";
+import { ContextWrapper } from "./contexts/user.context";
 
 import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
@@ -28,17 +28,19 @@ function Root() {
 }
 
 function App() {
+  const { token } = useContext(ContextWrapper);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={isAuth() ? <DefaultLayout /> : <Root />}>
+      <Route path="/" element={token ? <DefaultLayout /> : <Root />}>
         <Route
           index
-          element={<Navigate to={isAuth() ? "/overview" : "/signin"} />}
+          element={<Navigate to={token ? "/overview" : "/signin"} />}
         />
         <Route
           path="/signin"
           element={
-            isAuth() ? (
+            token ? (
               <Navigate to="/overview" />
             ) : (
               <React.Suspense fallback={<Spin />}>
@@ -47,7 +49,7 @@ function App() {
             )
           }
         />
-        <Route element={isAuth() ? <Outlet /> : <Navigate to="/signin" />}>
+        <Route element={token ? <Outlet /> : <Navigate to="/signin" />}>
           {protectedRoutes.map(({ component: Component, path }, idx) => (
             <Route
               key={idx}

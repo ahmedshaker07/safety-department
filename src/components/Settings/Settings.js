@@ -1,9 +1,16 @@
 import { injectIntl } from "react-intl";
 
-function Settings() {
+import { logout } from "../../utils/helpers";
+
+import ASButton from "../ASButton/ASButton";
+
+function Settings({ intl }) {
   return (
     <div className="settings-page">
-      <span>this is settings page</span>
+      <ASButton
+        label={intl.formatMessage({ id: "common.logout" })}
+        onClick={logout}
+      />
     </div>
   );
 }

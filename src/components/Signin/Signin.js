@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Form } from "antd";
 import { injectIntl } from "react-intl";
 import { Animated } from "react-animated-css";
+
+import { login } from "../../services/auth";
+import { ContextWrapper } from "../../contexts/user.context";
 
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
@@ -8,6 +12,17 @@ import ASButton from "../ASButton/ASButton";
 import "./Signin.scss";
 
 function Signin({ intl }) {
+  const { setToken } = useContext(ContextWrapper);
+  async function handleSignin(values) {
+    try {
+      const userData = await login(values);
+      localStorage.setItem("token", userData);
+      setToken(userData);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="signin-page">
       <Animated animationIn="fadeInLeft" className="signin-page__modal">
@@ -21,6 +36,7 @@ function Signin({ intl }) {
           name="signin-form"
           className="signin-page__modal-form"
           layout="vertical"
+          onFinish={handleSignin}
         >
           <ASFormItem
             name="email"

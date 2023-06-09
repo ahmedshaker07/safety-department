@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { Layout } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
-import { isAuth } from "../../utils/helpers";
 import { mediaHook } from "../../utils/hooks";
+import { ContextWrapper } from "../../contexts/user.context";
 
 import ASLanguageChanger from "../ASLanguageChanger/ASLanguageChanger";
 
@@ -15,8 +16,10 @@ const { Header } = Layout;
 function ASHeader({
   setIsSidebarHidden,
   isSidebarHidden,
-  mobileScreenSizes: { isLargeMobileScreen }
+  mobileScreenSizes: { isLargeMobileScreen },
 }) {
+  const { token } = useContext(ContextWrapper);
+
   function getTabTitle() {
     return (
       <div className="as-header__title">
@@ -36,7 +39,7 @@ function ASHeader({
 
   return (
     <Header className="as-header">
-      {isAuth() ? (
+      {token ? (
         getTabTitle()
       ) : (
         <img
