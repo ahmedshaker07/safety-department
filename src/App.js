@@ -15,6 +15,7 @@ import { ContextWrapper } from "./contexts/user.context";
 import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
 import ASHeader from "./components/ASHeader/ASHeader";
+import ASLoading from "./components/ASLoading/ASLoading";
 
 import "./styles/global-overrides.scss";
 
@@ -28,7 +29,7 @@ function Root() {
 }
 
 function App() {
-  const { token } = useContext(ContextWrapper);
+  const { token, isFetchingInitialData } = useContext(ContextWrapper);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -66,7 +67,11 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return isFetchingInitialData ? (
+    <ASLoading />
+  ) : (
+    <RouterProvider router={router} />
+  );
 }
 
 export default App;

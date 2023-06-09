@@ -39,8 +39,9 @@
   }
 }
 
-.add-edit-report__safe-action {
+.add-edit-report__action {
   margin-bottom: 0;
+
   .ant-form-item-control-input-content {
     display: flex;
     gap: 16px;
@@ -48,14 +49,31 @@
     input {
       height: 40px;
     }
+  }
+}
 
-    .anticon svg {
-      width: 24px;
-      height: 24px;
+.add-edit-report__followup-action {
+  display: flex;
+  gap: 16px;
 
-      path {
-        fill: $red-500;
-      }
+  .ant-form-item-control-input-content {
+    flex-direction: column;
+
+    > div {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}
+
+.add-edit-report__action,
+.add-edit-report__followup-action {
+  .anticon svg {
+    width: 24px;
+    height: 24px;
+
+    path {
+      fill: $red-500;
     }
   }
 }
