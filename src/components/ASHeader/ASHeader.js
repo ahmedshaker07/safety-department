@@ -35,7 +35,7 @@ function ASHeader({
           />
         )}
         {(isSidebarHidden || !isLargeMobileScreen) && (
-          <img width="100%" height="64" src={ECPCLogo} alt="" />
+          <img width="160" height="64" src={ECPCLogo} alt="" />
         )}
       </div>
     );
