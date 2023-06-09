@@ -28,8 +28,8 @@ function Signin({ intl }) {
             rules={[
               {
                 required: true,
-                message: ""
-              }
+                message: "",
+              },
             ]}
           />
           <ASFormItem
@@ -39,8 +39,8 @@ function Signin({ intl }) {
             rules={[
               {
                 required: true,
-                message: ""
-              }
+                message: "",
+              },
             ]}
           />
           <ASButton
