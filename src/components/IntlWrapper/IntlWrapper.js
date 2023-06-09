@@ -5,25 +5,27 @@ import { RawIntlProvider, createIntl, createIntlCache } from "react-intl";
 import {
   changeDocumentDirection,
   flattenMessages,
-  getLocale
+  getLocale,
 } from "../../utils/intl-provider";
 
-const IntlWrapper = ({ children }) => {
-  const locale = getLocale();
-  localStorage.setItem("locale", locale);
-  const cache = createIntlCache();
-  const intl = createIntl(
-    {
-      locale: locale,
-      messages: flattenMessages(messages[locale])
-    },
-    cache
-  );
+const locale = getLocale();
+localStorage.setItem("locale", locale);
+const cache = createIntlCache();
+const intl = createIntl(
+  {
+    locale: locale,
+    messages: flattenMessages(messages[locale]),
+  },
+  cache
+);
 
+export const fmt = intl.formatMessage;
+
+const IntlWrapper = ({ children }) => {
   useEffect(() => {
     document.documentElement.lang = locale;
     changeDocumentDirection(locale);
-  }, [locale]);
+  }, []);
 
   return <RawIntlProvider value={intl}>{children}</RawIntlProvider>;
 };
