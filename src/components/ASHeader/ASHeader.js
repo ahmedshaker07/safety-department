@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { Layout } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
+import { injectIntl } from "react-intl";
 
 import { mediaHook } from "../../utils/hooks";
 import { ContextWrapper } from "../../contexts/user.context";
+import { logout } from "../../utils/helpers";
 
 import ASLanguageChanger from "../ASLanguageChanger/ASLanguageChanger";
+import ASButton from "../ASButton/ASButton";
 
 import ECPCLogo from "../../assests/images/ECPC_Logo_original.png";
 
@@ -14,8 +17,9 @@ import "./ASHeader.scss";
 const { Header } = Layout;
 
 function ASHeader({
-  setIsSidebarHidden,
+  intl,
   isSidebarHidden,
+  setIsSidebarHidden,
   mobileScreenSizes: { isLargeMobileScreen },
 }) {
   const { token } = useContext(ContextWrapper);
@@ -49,9 +53,17 @@ function ASHeader({
           alt=""
         />
       )}
-      <ASLanguageChanger />
+      <div>
+        <ASLanguageChanger />
+        {token && !isLargeMobileScreen && (
+          <ASButton
+            label={intl.formatMessage({ id: "common.logout" })}
+            onClick={logout}
+          />
+        )}
+      </div>
     </Header>
   );
 }
 
-export default mediaHook(ASHeader);
+export default injectIntl(mediaHook(ASHeader));

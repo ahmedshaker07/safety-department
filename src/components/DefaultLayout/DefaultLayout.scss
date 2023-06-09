@@ -22,13 +22,21 @@
 }
 
 @media only screen and (max-width: $xs) {
-  .inner-layout .inner-layout {
+  .inner-layout {
     .as-header.ant-layout-header {
       padding: 12px;
     }
 
-    > div {
+    // content of the page
+    > :nth-child(2) {
       padding: 12px;
+    }
+  }
+
+  .inner-layout.inner-layout__blurry {
+    // content of the page
+    > :nth-child(2) {
+      filter: blur(5px);
     }
   }
 }
