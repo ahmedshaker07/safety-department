@@ -12,6 +12,7 @@ import ReportsFooter from "./components/ReportsFooter";
 import ReportsFirstSection from "./components/ReportsFirstSection";
 import ActionsList from "./components/ActionsList";
 import FollowupActionsList from "./components/FollowupActionsList";
+import ReportsImages from "./components/ReportsImages";
 
 import "./AddEditReport.scss";
 
@@ -97,6 +98,10 @@ function AddEditReport({ intl }) {
       </ReportsCards>
 
       <ReportsInfoCard title={intl.formatMessage({ id: "reports.nmha" })} />
+
+      <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
+        <ReportsImages />
+      </ReportsCards>
 
       <ReportsFooter />
     </Form>

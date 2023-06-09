@@ -44,3 +44,40 @@ body {
 .as-text-red {
   color: $text-red;
 }
+
+.ant-notification {
+  .ant-notification-notice {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    width: unset;
+    gap: 12px;
+
+    .ant-notification-notice-content > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .anticon {
+        position: unset;
+      }
+
+      .ant-notification-notice-message {
+        padding: 0;
+        margin: 0;
+      }
+
+      .ant-notification-notice-description {
+        display: none;
+      }
+    }
+
+    .ant-notification-notice-close {
+      position: unset;
+    }
+  }
+}
+
+.ant-notification-notice.ant-notification-notice-error {
+  background-color: $red-50;
+}

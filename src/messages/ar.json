@@ -3,7 +3,8 @@
     "save": "حفظ",
     "cancel": "إلغاء",
     "search": "بحث",
-    "logout": "تسجيل خروج"
+    "logout": "تسجيل خروج",
+    "upload": "ارفع الصور"
   },
   "header": {
     "change_language": "تغيير اللغة",
@@ -65,6 +66,8 @@
     "date": "تاريخ",
     "start_time": "وقت البداية",
     "finish_time": "وقت الانتهاء",
-    "duration": "المدة"
+    "duration": "المدة",
+    "images": "إضافة صور",
+    "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)"
   }
 }

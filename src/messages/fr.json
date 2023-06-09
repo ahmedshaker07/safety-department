@@ -3,7 +3,8 @@
     "save": "Sauver",
     "cancel": "Annulate",
     "search": "Recherche",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "upload": "Télécharger"
   },
   "header": {
     "change_language": "Changer de langue",
@@ -65,6 +66,8 @@
     "date": "Date",
     "start_time": "Heure de début",
     "finish_time": "Heure de fin",
-    "duration": "Durée"
+    "duration": "Durée",
+    "images": "Ajouter images",
+    "image_error": "Accepte uniquement JPG, PNG - Max (10 Mo)"
   }
 }

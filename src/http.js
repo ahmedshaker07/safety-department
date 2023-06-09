@@ -41,7 +41,6 @@ class Http {
     config.headers["Accept-Language"] =
       localStorage.getItem("locale")?.toLowerCase() || "ar";
     const isFormData = config.data instanceof FormData;
-    // sanitize request body
     config.data =
       config.data && !isFormData
         ? sanitizeAll({ ...config.data })
@@ -91,8 +90,6 @@ class Http {
         message: "Too many requests.",
       };
     } else if (error.response) {
-      // Request was made but server responded with something
-      // other than 2xx
       errorTemp = {
         ...error.response.data,
         status: error.response.status,
@@ -103,8 +100,6 @@ class Http {
             error?.message,
       };
     } else {
-      // Something else happened while setting up the request
-      // triggered the error
       errorTemp = {
         status: -1,
         message: error.message,
@@ -144,10 +139,6 @@ class Http {
   all = (promises) => {
     return executeAllPromises(promises);
   };
-
-  // all = promises => {
-  //   return Promise.all(promises);
-  // };
 }
 
 const getErrorsString = (errorArray) => {
@@ -158,50 +149,23 @@ const getErrorsString = (errorArray) => {
 };
 
 const executeAllPromises = (promises) => {
-  // Wrap all Promises in a Promise that will always "resolve"
   const resolvingPromises = promises.map((promise) => {
     return new Promise((resolve) => {
-      // const payload = new Array(2);
       let payload = null;
       promise
         .then((result) => {
-          // payload[0] = result;
           payload = result;
         })
         .catch((error) => {
-          // payload[1] = error;
           payload = error;
         })
         .then(() => {
-          /*
-           * The wrapped Promise returns an array:
-           * The first position in the array holds the result (if any)
-           * The second position in the array holds the error (if any)
-           */
           resolve(payload);
         });
     });
   });
 
-  // const errors = [];
-  // const results = [];
-
-  // Execute all wrapped Promises
   return Promise.all(resolvingPromises);
-  // .then(items => {
-  //   items.forEach(payload => {
-  //     if (payload[1]) {
-  //       errors.push(payload[1]);
-  //     } else {
-  //       results.push(payload[0]);
-  //     }
-  //   });
-
-  //   return {
-  //     errors,
-  //     results,
-  //   };
-  // });
 };
 
 const HttpClient = new Http();
