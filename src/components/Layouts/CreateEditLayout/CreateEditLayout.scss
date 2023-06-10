@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px;
+    padding: 24px 8px;
     gap: 32px;
     overflow: auto;
 
     >div {
         width: 100%;
+        max-width: 994px;
     }
 
     .add-edit-report__actions {
