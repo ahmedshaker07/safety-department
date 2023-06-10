@@ -35,33 +35,35 @@ const protectedRoutes = [
   {
     path: "/overview",
     name: "Overview",
-    component: Overview
+    component: Overview,
   },
   {
     path: "/reports",
     name: "Reports",
-    component: Reports
+    component: Reports,
   },
   {
     path: "/reports/add",
     name: "Create Reports",
-    component: AddEditReports
+    component: AddEditReports,
   },
   {
     path: "/reports/day",
     name: "Reports by day",
-    component: FilteredReports
+    component: FilteredReports,
+    props: { pageType: "day" },
   },
   {
     path: "/reports/reporter",
-    name: "Reports by day",
-    component: FilteredReports
+    name: "Reports by reporter",
+    component: FilteredReports,
+    props: { pageType: "reporter" },
   },
   {
     path: "/settings",
     name: "Settings",
-    component: Settings
-  }
+    component: Settings,
+  },
 ];
 
 export default protectedRoutes;

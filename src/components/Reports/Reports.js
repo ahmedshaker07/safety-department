@@ -17,25 +17,25 @@ const columns = [
     dataIndex: "name",
     sorter: true,
     render: (name) => `${name.first} ${name.last}`,
-    width: "20%"
+    width: "20%",
   },
   {
     title: "Gender",
     dataIndex: "gender",
     sorter: true,
-    width: "20%"
+    width: "20%",
   },
   {
     title: "Email",
     sorter: true,
-    dataIndex: "email"
-  }
+    dataIndex: "email",
+  },
 ];
 
 const getRandomuserParams = (params) => ({
   results: params.pagination?.pageSize,
   page: params.pagination?.current,
-  ...params
+  ...params,
 });
 
 function Reports({ intl }) {
@@ -44,8 +44,8 @@ function Reports({ intl }) {
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
-      pageSize: 10
-    }
+      pageSize: 10,
+    },
   });
   const [searchText, setSearchText] = useState("");
 
@@ -68,10 +68,10 @@ function Reports({ intl }) {
           ...tableParams,
           pagination: {
             ...tableParams.pagination,
-            total: 200
+            total: 200,
             // 200 is mock data, you should read it from server
             // total: data.totalCount,
-          }
+          },
         });
       });
   };
@@ -80,7 +80,7 @@ function Reports({ intl }) {
     setTableParams({
       pagination,
       filters,
-      ...sorter
+      ...sorter,
     });
 
     // `dataSource` is useless since `pageSize` changed

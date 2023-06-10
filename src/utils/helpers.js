@@ -1,8 +1,12 @@
 import dayjs from "dayjs";
 import isBoolean from "lodash/isBoolean";
 import DOMPurify from "dompurify";
+import PickerArabic from "antd/es/date-picker/locale/ar_EG";
+import PickerEnglish from "antd/es/date-picker/locale/en_US";
+import PickerFrench from "antd/es/date-picker/locale/fr_FR";
 
 import { END_DATES_KEYS } from "../constants/helpers";
+import { getLocale } from "./intl-provider";
 
 export function retry(fn, retriesLeft = 5, interval = 1000) {
   return new Promise((resolve, reject) => {
@@ -104,4 +108,15 @@ export const logout = () => {
   localStorage.clear();
   localStorage.setItem("locale", locale ? locale : "ar");
   window.location.replace("/signin");
+};
+
+export const getRangePickerLocale = () => {
+  const locale = getLocale();
+  const pickerLocal = {
+    en: PickerEnglish,
+    ar: PickerArabic,
+    fr: PickerFrench,
+  };
+
+  return pickerLocal[locale];
 };

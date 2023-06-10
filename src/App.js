@@ -51,17 +51,19 @@ function App() {
           }
         />
         <Route element={token ? <Outlet /> : <Navigate to="/signin" />}>
-          {protectedRoutes.map(({ component: Component, path }, idx) => (
-            <Route
-              key={idx}
-              element={
-                <React.Suspense fallback={<Spin />}>
-                  <Component />
-                </React.Suspense>
-              }
-              path={path}
-            />
-          ))}
+          {protectedRoutes.map(
+            ({ component: Component, path, props = {} }, idx) => (
+              <Route
+                key={idx}
+                element={
+                  <React.Suspense fallback={<Spin />}>
+                    <Component {...props} />
+                  </React.Suspense>
+                }
+                path={path}
+              />
+            )
+          )}
         </Route>
       </Route>
     )
