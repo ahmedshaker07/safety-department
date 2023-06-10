@@ -13,7 +13,7 @@ import protectedRoutes from "./utils/routes";
 import { ContextWrapper } from "./contexts/user.context";
 
 import Signin from "./components/Signin/Signin";
-import DefaultLayout from "./components/DefaultLayout/DefaultLayout";
+import DefaultLayout from "./components/Layouts/DefaultLayout/DefaultLayout";
 import ASHeader from "./components/ASHeader/ASHeader";
 import ASLoading from "./components/ASLoading/ASLoading";
 

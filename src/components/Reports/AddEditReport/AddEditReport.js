@@ -5,7 +5,7 @@ import { Form } from "antd";
 
 import { DEFAULT_ACTIONS } from "../../../constants/reports";
 
-import ASButton from "../../ASButton/ASButton";
+import CreateEditLayout from "../../Layouts/CreateEditLayout/CreateEditLayout";
 import ReportsCards from "./components/ReportsCard";
 import ReportsInfoCard from "./components/ReportsInfoCard";
 import ReportsFooter from "./components/ReportsFooter";
@@ -28,21 +28,12 @@ function AddEditReport({ intl }) {
   };
 
   return (
-    <Form
-      className="add-edit-report__form"
-      layout="vertical"
-      onFinish={onFinish}
+    <CreateEditLayout
       form={form}
+      onFinish={onFinish}
+      className="add-edit-report__form"
+      onCancelClick={() => navigate("/reports")}
     >
-      <div className="add-edit-report__actions">
-        <ASButton
-          type="destructive-basic"
-          label={intl.formatMessage({ id: "common.cancel" })}
-          onClick={() => navigate("/reports")}
-        />
-        <ASButton label={intl.formatMessage({ id: "common.save" })} />
-      </div>
-
       <ReportsFirstSection />
 
       <ReportsCards title={intl.formatMessage({ id: "reports.safe_acts" })}>
@@ -104,7 +95,7 @@ function AddEditReport({ intl }) {
       </ReportsCards>
 
       <ReportsFooter />
-    </Form>
+    </CreateEditLayout>
   );
 }
 

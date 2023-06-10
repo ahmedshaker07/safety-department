@@ -3,11 +3,11 @@ import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import classNames from "classnames";
 
-import { mediaHook } from "../../utils/hooks";
-import { ContextWrapper } from "../../contexts/layout.context";
+import { mediaHook } from "../../../utils/hooks";
+import { ContextWrapper } from "../../../contexts/layout.context";
 
-import ASHeader from "../ASHeader/ASHeader";
-import ASSidebar from "../ASSidebar/ASSidebar";
+import ASHeader from "../../ASHeader/ASHeader";
+import ASSidebar from "../../ASSidebar/ASSidebar";
 
 import "./DefaultLayout.scss";
 

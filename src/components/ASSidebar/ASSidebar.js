@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 
 import { mediaHook } from "../../utils/hooks";
+import { SIDEBAR_UPPER_SECTIONS } from "../../constants/helpers";
 
 import ASButton from "../ASButton/ASButton";
 
@@ -14,7 +15,7 @@ const { Sider } = Layout;
 function ASSidebar({
   intl,
   setIsSidebarHidden,
-  mobileScreenSizes: { isLargeMobileScreen }
+  mobileScreenSizes: { isLargeMobileScreen },
 }) {
   const pathname = window.location.pathname;
 
@@ -23,38 +24,58 @@ function ASSidebar({
       {
         path: "/overview",
         label: intl.formatMessage({
-          id: "header.tabs_name.overview"
-        })
-      }
+          id: "header.tabs_name.overview",
+        }),
+      },
     ],
     reports: [
       {
         path: "/reports",
         label: intl.formatMessage({
-          id: "header.tabs_name.reports"
-        })
+          id: "header.tabs_name.reports",
+        }),
       },
       {
         path: "/reports/day",
         label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_day"
-        })
+          id: "header.tabs_name.reports_by_day",
+        }),
       },
       {
         path: "/reports/reporter",
         label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_reporter"
-        })
-      }
+          id: "header.tabs_name.reports_by_reporter",
+        }),
+      },
+    ],
+    entities: [
+      {
+        path: "/users",
+        label: intl.formatMessage({
+          id: "header.tabs_name.users",
+        }),
+      },
+      {
+        path: "/actions",
+        label: intl.formatMessage({
+          id: "header.tabs_name.actions",
+        }),
+      },
+      {
+        path: "/departments",
+        label: intl.formatMessage({
+          id: "header.tabs_name.departments",
+        }),
+      },
     ],
     bottom: [
       {
         path: "/settings",
         label: intl.formatMessage({
-          id: "header.tabs_name.settings"
-        })
-      }
-    ]
+          id: "header.tabs_name.settings",
+        }),
+      },
+    ],
   };
 
   const navigate = useNavigate();
@@ -71,51 +92,38 @@ function ASSidebar({
           {intl.formatMessage(
             { id: "header.name" },
             {
-              name: "Sherif"
+              name: "Sherif",
             }
           )}
         </span>
         <div>
-          <div className="sidebar__section">
-            <span className="subheading">
-              {intl.formatMessage({ id: "header.tabs_sections.home" })}
-            </span>
-            <div className="sidebar__section-buttons">
-              {SIDEBAR_TABS.home.map(({ path, label }, idx) => (
-                <ASButton
-                  key={idx}
-                  type="text"
-                  label={label}
-                  className={classNames("button as-sider-button", {
-                    "as-sider-button-active": pathname === path
-                  })}
-                  onClick={() => {
-                    onTabClick(path);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="sidebar__section">
-            <span className="subheading">
-              {intl.formatMessage({ id: "header.tabs_sections.reports" })}
-            </span>
-            <div className="sidebar__section-buttons">
-              {SIDEBAR_TABS.reports.map(({ path, label }, idx) => (
-                <ASButton
-                  key={idx}
-                  type="text"
-                  label={label}
-                  className={classNames("button as-sider-button", {
-                    "as-sider-button-active": pathname === path
-                  })}
-                  onClick={() => {
-                    onTabClick(path);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          {Object.keys(SIDEBAR_TABS).map(
+            (section) =>
+              SIDEBAR_UPPER_SECTIONS.includes(section) && (
+                <div className="sidebar__section">
+                  <span className="subheading">
+                    {intl.formatMessage({
+                      id: `header.tabs_sections.${section}`,
+                    })}
+                  </span>
+                  <div className="sidebar__section-buttons">
+                    {SIDEBAR_TABS[section].map(({ path, label }, idx) => (
+                      <ASButton
+                        key={idx}
+                        type="text"
+                        label={label}
+                        className={classNames("button as-sider-button", {
+                          "as-sider-button-active": pathname === path,
+                        })}
+                        onClick={() => {
+                          onTabClick(path);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+          )}
         </div>
       </div>
       <div className="sidebar__section">
@@ -126,7 +134,7 @@ function ASSidebar({
               type="text"
               label={label}
               className={classNames("button as-sider-button", {
-                "as-sider-button-active": pathname === path
+                "as-sider-button-active": pathname === path,
               })}
               onClick={() => {
                 onTabClick(path);

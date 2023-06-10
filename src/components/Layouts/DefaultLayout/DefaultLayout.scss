@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "../../../styles/variables.scss";
 
 .default-layout {
   height: 100vh;
@@ -8,7 +8,7 @@
   background: white;
   border-radius: 8px;
 
-  > div {
+  >div {
     overflow: auto;
     padding: 24px;
   }
@@ -34,6 +34,7 @@
   }
 
   .inner-layout.inner-layout__blurry {
+
     // content of the page
     > :nth-child(2) {
       filter: blur(5px);

@@ -21,11 +21,15 @@
       "reports": "التقارير",
       "reports_by_day": "تقارير حسب اليوم",
       "reports_by_reporter": "تقارير حسب المقيم",
+      "users": "المستخدمون",
+      "departments": "الإدارات",
+      "actions": "الإجراءات",
       "settings": "إعدادات"
     },
     "tabs_sections": {
       "home": "الصفحة الرئيسية",
-      "reports": "قسم التقارير"
+      "reports": "قسم التقارير",
+      "entities": "قسم الكيانات"
     }
   },
   "signin": {
@@ -71,5 +75,14 @@
     "duration": "المدة",
     "images": "إضافة صور",
     "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)"
+  },
+  "users": {
+    "create_user": "إنشاء مستخدم"
+  },
+  "actions": {
+    "create_action": "إنشاء حدث"
+  },
+  "departments": {
+    "create_department": "إنشاء قسم"
   }
 }

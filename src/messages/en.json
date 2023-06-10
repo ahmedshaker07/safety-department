@@ -21,11 +21,15 @@
       "reports": "Reports",
       "reports_by_day": "Reports by day",
       "reports_by_reporter": "Reports by reporter",
+      "users": "Users",
+      "departments": "Departments",
+      "actions": "Actions",
       "settings": "Settings"
     },
     "tabs_sections": {
       "home": "Home Section",
-      "reports": "Reports Section"
+      "reports": "Reports Section",
+      "entities": "Entities Section"
     }
   },
   "signin": {
@@ -71,5 +75,14 @@
     "duration": "Duration",
     "images": "Add Images",
     "image_error": "Only accepts JPG, PNG - Max (10 MB)"
+  },
+  "users": {
+    "create_user": "Create User"
+  },
+  "actions": {
+    "create_action": "Create Action"
+  },
+  "departments": {
+    "create_department": "Create Department"
   }
 }

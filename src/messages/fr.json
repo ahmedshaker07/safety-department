@@ -21,11 +21,15 @@
       "reports": "Rapports",
       "reports_by_day": "Rapports par jour",
       "reports_by_reporter": "Rapports par reporter",
+      "users": "Utilisateurs",
+      "departments": "Départements",
+      "actions": "Actions",
       "settings": "Paramètres"
     },
     "tabs_sections": {
       "home": "Rubrique Accueil",
-      "reports": "Section des rapports"
+      "reports": "Section des rapports",
+      "entities": "Rubrique Entités"
     }
   },
   "signin": {
@@ -71,5 +75,14 @@
     "duration": "Durée",
     "images": "Ajouter images",
     "image_error": "Accepte uniquement JPG, PNG - Max (10 Mo)"
+  },
+  "users": {
+    "create_user": "Créer un utilisateur"
+  },
+  "actions": {
+    "create_action": "créer une action"
+  },
+  "departments": {
+    "create_department": "Créer un département"
   }
 }
