@@ -41,6 +41,7 @@ function Reports({ intl }) {
           .then(({ results }) => {
             setData(results);
           });
+        return { count: 200 };
       } catch (error) {
         openNotification({
           title: error,

@@ -31,8 +31,13 @@ const ASTable = ({
   const getData = useCallback(
     async ({ pageNumber = 1, pageSize = 10, sorter = {}, search = "" }) => {
       setLoading(true);
-      await fetchData({ pageNumber, pageSize, sorter, search });
-      setTotal(200);
+      const { count } = await fetchData({
+        pageNumber,
+        pageSize,
+        sorter,
+        search,
+      });
+      setTotal(count);
       setLoading(false);
     },
     [fetchData]
@@ -88,6 +93,7 @@ const ASTable = ({
               onChange={onSearchTextChange}
             />
             <ASButton
+              disabled={!searchText}
               label={intl.formatMessage({ id: "common.search" })}
               onClick={onSearchClick}
             />

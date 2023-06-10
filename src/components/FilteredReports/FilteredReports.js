@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { injectIntl } from "react-intl";
-import { Input, Table, DatePicker, Form } from "antd";
+import { DatePicker, Form } from "antd";
 
 import { getRangePickerLocale } from "../../utils/helpers";
+import { ContextWrapper } from "../../contexts/layout.context";
 
 import FilteredReportsColumn from "./components/FilteredReportsColumn";
 import ASButton from "../ASButton/ASButton";
+import ASTable from "../ASTable/ASTable";
 
 import "./FilteredReports.scss";
 
@@ -60,36 +62,25 @@ function FilteredReports({ intl, pageType }) {
       date: "12-11-96",
     },
   ]);
-  const [searchText, setSearchText] = useState("");
-  const [tableParams, setTableParams] = useState({
-    pagination: {
-      current: 1,
-      pageSize: 10,
+
+  const { openNotification } = useContext(ContextWrapper);
+
+  const fetchData = useCallback(
+    async ({ pageSize, pageNumber, sorter, search }) => {
+      try {
+        setData((oldData) => {
+          return oldData;
+        });
+        return { count: 4 };
+      } catch (error) {
+        openNotification({
+          title: error,
+          type: "error",
+        });
+      }
     },
-  });
-
-  const onSearchClick = () => {
-    if (searchText) {
-      setSearchText("");
-    }
-  };
-
-  const onSearchTextChange = ({ target }) => {
-    setSearchText(target.value);
-  };
-
-  const handleTableChange = (pagination, filters, sorter) => {
-    setTableParams({
-      pagination,
-      filters,
-      ...sorter,
-    });
-
-    // `dataSource` is useless since `pageSize` changed
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
-    }
-  };
+    [openNotification]
+  );
 
   return (
     <div className="filtered-reports-page">
@@ -102,34 +93,12 @@ function FilteredReports({ intl, pageType }) {
         <ASButton label={intl.formatMessage({ id: "common.filter" })} />
       </div>
 
-      <Table
-        bordered
-        className="filtered-reports-page__table"
+      <ASTable
         columns={columns}
-        rowKey={(record) => record.id}
         dataSource={data}
-        pagination={tableParams.pagination}
-        loading={false}
-        onChange={handleTableChange}
-        title={() => (
-          <>
-            <div className="filtered-reports-page__table-actions">
-              <ASButton label="PDF" />
-              <ASButton label="Excel" />
-            </div>
-            <div className="filtered-reports-page__table-search">
-              <Input
-                placeholder={intl.formatMessage({ id: "common.search" })}
-                value={searchText}
-                onChange={onSearchTextChange}
-              />
-              <ASButton
-                label={intl.formatMessage({ id: "common.search" })}
-                onClick={onSearchClick}
-              />
-            </div>
-          </>
-        )}
+        fetchData={fetchData}
+        rowKey={(record) => record.id}
+        hasExportFeatures
       />
 
       <FilteredReportsColumn />
