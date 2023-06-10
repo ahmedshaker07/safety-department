@@ -5,7 +5,8 @@
     "search": "بحث",
     "logout": "تسجيل خروج",
     "filter": "فلتر",
-    "upload": "ارفع الصور"
+    "upload": "ارفع الصور",
+    "per_page": "بالصفحة"
   },
   "header": {
     "change_language": "تغيير اللغة",

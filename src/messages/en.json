@@ -5,7 +5,8 @@
     "search": "Search",
     "logout": "Logout",
     "filter": "Filter",
-    "upload": "Upload"
+    "upload": "Upload",
+    "per_page": "/ page"
   },
   "header": {
     "change_language": "Change Language",

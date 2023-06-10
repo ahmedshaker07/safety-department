@@ -5,7 +5,8 @@
     "search": "Recherche",
     "logout": "Se déconnecter",
     "filter": "Filtre",
-    "upload": "Télécharger"
+    "upload": "Télécharger",
+    "per_page": "/ page"
   },
   "header": {
     "change_language": "Changer de langue",
