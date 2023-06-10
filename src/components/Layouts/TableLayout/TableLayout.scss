@@ -1,0 +1,10 @@
+.table-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.table-layout__add-report {
+    display: flex;
+    justify-content: flex-end;
+}
