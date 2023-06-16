@@ -2,6 +2,7 @@
   "common": {
     "save": "حفظ",
     "cancel": "إلغاء",
+    "confirm": "تأكيد",
     "search": "بحث",
     "logout": "تسجيل خروج",
     "filter": "فلتر",
@@ -77,7 +78,14 @@
     "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)"
   },
   "users": {
-    "create_user": "إنشاء مستخدم"
+    "create_user": "إنشاء مستخدم",
+    "full_name": "الاسم الكامل",
+    "admin": "مسؤل",
+    "reporter": "ريبورتر",
+    "role": "وظيفة",
+    "create_new_user": "إنشاء مستخدم جديد",
+    "phone": "رقم التليفون",
+    "edit_user": "تعديل المستخدم"
   },
   "actions": {
     "create_action": "إنشاء حدث"

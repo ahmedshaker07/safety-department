@@ -98,9 +98,9 @@ function ASSidebar({
         </span>
         <div>
           {Object.keys(SIDEBAR_TABS).map(
-            (section) =>
+            (section, idx) =>
               SIDEBAR_UPPER_SECTIONS.includes(section) && (
-                <div className="sidebar__section">
+                <div className="sidebar__section" key={idx}>
                   <span className="subheading">
                     {intl.formatMessage({
                       id: `header.tabs_sections.${section}`,

@@ -7,6 +7,10 @@
     width: 100%;
     max-width: 994px;
 
+    .ant-input {
+      height: 40px;
+    }
+
     .add-edit-report__card {
       flex: 1 1;
 
@@ -23,6 +27,7 @@
 
 .add-edit-report__action {
   margin-bottom: 0;
+  width: 100%;
 
   .ant-form-item-control-input-content {
     display: flex;

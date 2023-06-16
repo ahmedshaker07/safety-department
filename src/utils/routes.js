@@ -35,13 +35,6 @@ const AddEditReports = lazy(
     )
 );
 
-const AddEditUsers = lazy(
-  async () =>
-    await retry(
-      async () => await import("../components/Users/AddEditUser/AddEditUser")
-    )
-);
-
 const AddEditActions = lazy(
   async () =>
     await retry(
@@ -104,11 +97,6 @@ const protectedRoutes = [
     path: "/users",
     name: "Users",
     component: Users,
-  },
-  {
-    path: "/users/add",
-    name: "Create Users",
-    component: AddEditUsers,
   },
   {
     path: "/actions",

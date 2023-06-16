@@ -2,6 +2,7 @@
   "common": {
     "save": "Sauver",
     "cancel": "Annulate",
+    "confirm": "confirmer",
     "search": "Recherche",
     "logout": "Se déconnecter",
     "filter": "Filtre",
@@ -77,7 +78,14 @@
     "image_error": "Accepte uniquement JPG, PNG - Max (10 Mo)"
   },
   "users": {
-    "create_user": "Créer un utilisateur"
+    "create_user": "Créer un utilisateur",
+    "full_name": "nom et prénom",
+    "admin": "Administratrice",
+    "reporter": "Reporter",
+    "role": "Rôle",
+    "create_new_user": "Créer un nouvel utilisateur",
+    "phone": "Numéro de téléphone",
+    "edit_user": "Modifier l'utilisateur"
   },
   "actions": {
     "create_action": "créer une action"

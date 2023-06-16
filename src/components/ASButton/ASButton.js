@@ -6,7 +6,7 @@ import "./ASButton.scss";
 
 function ASButton({
   type = "primary",
-  htmlType = "",
+  htmlType,
   label = "",
   className = "",
   onClick = () => {},

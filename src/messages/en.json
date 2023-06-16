@@ -2,6 +2,7 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "search": "Search",
     "logout": "Logout",
     "filter": "Filter",
@@ -77,7 +78,14 @@
     "image_error": "Only accepts JPG, PNG - Max (10 MB)"
   },
   "users": {
-    "create_user": "Create User"
+    "create_user": "Create User",
+    "full_name": "Full Name",
+    "admin": "Admin",
+    "reporter": "Reporter",
+    "role": "Role",
+    "create_new_user": "Create New User",
+    "phone": "Phone number",
+    "edit_user": "Edit User"
   },
   "actions": {
     "create_action": "Create Action"

@@ -10,6 +10,8 @@ const TableLayout = ({
   dataSource,
   fetchData,
   rowKey,
+  tableRef,
+  onRowClick,
 }) => {
   return (
     <div className="table-layout">
@@ -21,6 +23,8 @@ const TableLayout = ({
         dataSource={dataSource}
         fetchData={fetchData}
         rowKey={rowKey}
+        tableRef={tableRef}
+        onRowClick={onRowClick}
       />
     </div>
   );

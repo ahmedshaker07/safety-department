@@ -15,7 +15,6 @@ export const LayoutContext = ({ children }) => {
     api[type]({
       message: title,
       placement,
-      duration: 30000,
     });
   };
 
