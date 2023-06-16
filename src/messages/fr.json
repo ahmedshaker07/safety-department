@@ -2,6 +2,7 @@
   "common": {
     "save": "Sauver",
     "cancel": "Annulate",
+    "edit": "Modifier",
     "confirm": "confirmer",
     "search": "Recherche",
     "logout": "Se déconnecter",

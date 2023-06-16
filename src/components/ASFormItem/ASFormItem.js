@@ -1,8 +1,6 @@
 import { injectIntl } from "react-intl";
 import { Form, Input } from "antd";
 
-import "./ASFormItem.scss";
-
 function ASFormItem({
   label = "",
   name = "",
@@ -10,6 +8,9 @@ function ASFormItem({
   isPassword = false,
   placeholder,
   autoComplete,
+  disabled = false,
+  readOnly = false,
+  hasFeedback = false,
 }) {
   return (
     <Form.Item
@@ -17,12 +18,22 @@ function ASFormItem({
       label={label}
       name={name}
       rules={rules}
-      hasFeedback
+      hasFeedback={hasFeedback}
     >
       {isPassword ? (
-        <Input.Password autoComplete={autoComplete} placeholder={placeholder} />
+        <Input.Password
+          autoComplete={autoComplete}
+          placeholder={placeholder}
+          disabled={disabled}
+          readOnly={readOnly}
+          className="input-password"
+        />
       ) : (
-        <Input placeholder={placeholder} />
+        <Input
+          placeholder={placeholder}
+          disabled={disabled}
+          readOnly={readOnly}
+        />
       )}
     </Form.Item>
   );

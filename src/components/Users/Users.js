@@ -100,12 +100,14 @@ function Users({ intl }) {
             label={intl.formatMessage({ id: "users.full_name" })}
             placeholder={intl.formatMessage({ id: "users.full_name" })}
             rules={[{ required: true, message: "" }]}
+            hasFeedback
           />
           <ASFormItem
             name="email"
             placeholder={intl.formatMessage({ id: "signin.email" })}
             label={intl.formatMessage({ id: "signin.email" })}
             rules={[{ required: true, message: "" }]}
+            hasFeedback
           />
           {!record && (
             <ASFormItem
@@ -115,6 +117,7 @@ function Users({ intl }) {
               label={intl.formatMessage({ id: "signin.password" })}
               rules={[{ required: true, message: "" }]}
               autoComplete="new-password"
+              hasFeedback
             />
           )}
           <ASFormItem
@@ -122,6 +125,7 @@ function Users({ intl }) {
             placeholder={intl.formatMessage({ id: "users.phone" })}
             label={intl.formatMessage({ id: "users.phone" })}
             rules={[{ required: true, message: "" }]}
+            hasFeedback
           />
           <Form.Item
             name="role"

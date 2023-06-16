@@ -13,6 +13,8 @@ function CreateEditLayout({
   onFinish,
   className,
   children,
+  actions,
+  initialFormValues = {},
 }) {
   return (
     <Form
@@ -20,14 +22,22 @@ function CreateEditLayout({
       layout="vertical"
       onFinish={onFinish}
       form={form}
+      initialValues={initialFormValues}
     >
       <div className="add-edit-report__actions">
-        <ASButton
-          type="destructive-basic"
-          label={intl.formatMessage({ id: "common.cancel" })}
-          onClick={onCancelClick}
-        />
-        <ASButton label={intl.formatMessage({ id: "common.save" })} />
+        {actions || (
+          <>
+            <ASButton
+              type="destructive-basic"
+              label={intl.formatMessage({ id: "common.cancel" })}
+              onClick={onCancelClick}
+            />
+            <ASButton
+              label={intl.formatMessage({ id: "common.save" })}
+              htmlType="submit"
+            />
+          </>
+        )}
       </div>
       {children}
     </Form>
