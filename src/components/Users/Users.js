@@ -55,19 +55,6 @@ function Users({ intl }) {
     [openNotification]
   );
 
-  const onSubmit = (values) => {
-    try {
-      console.log(values);
-      tableRef.current.refreshTable();
-      onCancel();
-    } catch (error) {
-      openNotification({
-        title: error,
-        type: "error",
-      });
-    }
-  };
-
   const onOpenModal = ({ data }) => {
     if (data) {
       setRecord(data);
@@ -80,6 +67,19 @@ function Users({ intl }) {
     setRecord(null);
     createUserForm.resetFields();
     setIsModalOpen(false);
+  };
+
+  const onSubmit = (values) => {
+    try {
+      console.log(values);
+      tableRef.current.refreshTable();
+      onCancel();
+    } catch (error) {
+      openNotification({
+        title: error,
+        type: "error",
+      });
+    }
   };
 
   return (

@@ -10,7 +10,8 @@
     "upload": "ارفع الصور",
     "per_page": "بالصفحة",
     "deactivate": "إلغاء التنشيط",
-    "delete": "حذف"
+    "delete": "حذف",
+    "name": "الاسم"
   },
   "header": {
     "change_language": "تغيير اللغة",
@@ -91,9 +92,11 @@
     "edit_user": "تعديل المستخدم"
   },
   "actions": {
-    "create_action": "إنشاء حدث"
+    "create_action": "إنشاء حدث",
+    "edit_action": "تعديل الحدث"
   },
   "departments": {
-    "create_department": "إنشاء قسم"
+    "create_department": "إنشاء قسم",
+    "edit_department": "تعديل قسم"
   }
 }

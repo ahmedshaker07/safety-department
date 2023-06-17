@@ -35,24 +35,6 @@ const AddEditReports = lazy(
     )
 );
 
-const AddEditActions = lazy(
-  async () =>
-    await retry(
-      async () =>
-        await import("../components/Actions/AddEditAction/AddEditAction")
-    )
-);
-
-const AddEditDepartments = lazy(
-  async () =>
-    await retry(
-      async () =>
-        await import(
-          "../components/Departments/AddEditDepartment/AddEditDepartment"
-        )
-    )
-);
-
 const FilteredReports = lazy(
   async () =>
     await retry(
@@ -104,19 +86,9 @@ const protectedRoutes = [
     component: Actions,
   },
   {
-    path: "/actions/add",
-    name: "Create Actions",
-    component: AddEditActions,
-  },
-  {
     path: "/departments",
     name: "Departments",
     component: Departments,
-  },
-  {
-    path: "/departments/add",
-    name: "Create Departments",
-    component: AddEditDepartments,
   },
   {
     path: "/settings",

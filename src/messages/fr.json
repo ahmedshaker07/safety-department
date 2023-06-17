@@ -10,7 +10,8 @@
     "upload": "Télécharger",
     "per_page": "/ page",
     "deactivate": "Désactiver",
-    "delete": "Effacer"
+    "delete": "Effacer",
+    "name": "Nom"
   },
   "header": {
     "change_language": "Changer de langue",
@@ -91,9 +92,11 @@
     "edit_user": "Modifier l'utilisateur"
   },
   "actions": {
-    "create_action": "créer une action"
+    "create_action": "créer une action",
+    "edit_action": "Modifier l'action"
   },
   "departments": {
-    "create_department": "Créer un département"
+    "create_department": "Créer un département",
+    "edit_department": "Modifier le département"
   }
 }
