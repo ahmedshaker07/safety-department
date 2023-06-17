@@ -1,15 +1,15 @@
 import { injectIntl } from "react-intl";
 
 import AnalyticCard from "../AnalyticCard/AnalyticCard";
-import ActionsPerDepartment from "./components/ActionsPerDepartment";
+import AvgActionsPerDepartment from "./components/AvgActionsPerDepartment";
 import AvgDurationPerDepartment from "./components/AvgDurationPerDepartment";
 import AvgObservedPerDepartment from "./components/AvgObservedPerDepartment";
 
 function PerDepartment() {
   return (
     <>
-      <AnalyticCard title="Number of actions per department">
-        <ActionsPerDepartment />
+      <AnalyticCard title="Average number of actions per department">
+        <AvgActionsPerDepartment />
       </AnalyticCard>
       <AnalyticCard title="Average report duration per department">
         <AvgDurationPerDepartment />
