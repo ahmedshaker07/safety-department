@@ -8,7 +8,9 @@
     "logout": "Logout",
     "filter": "Filter",
     "upload": "Upload",
-    "per_page": "/ page"
+    "per_page": "/ page",
+    "deactivate": "Deactivate",
+    "delete": "Delete"
   },
   "header": {
     "change_language": "Change Language",
@@ -93,5 +95,9 @@
   },
   "departments": {
     "create_department": "Create Department"
+  },
+  "settings": {
+    "delete_account": "Delete Account",
+    "delete_account_description": "Are you sure you want to delete your account? This action can not be reversed. You can deactivate your account instead."
   }
 }

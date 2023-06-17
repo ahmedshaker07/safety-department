@@ -5,9 +5,14 @@ import { Form } from "antd";
 import CreateEditLayout from "../Layouts/CreateEditLayout/CreateEditLayout";
 import ASButton from "../ASButton/ASButton";
 import ASFormItem from "../ASFormItem/ASFormItem";
+import ASConfirmationModal from "../ASConfirmationModal/ASConfirmationModal";
+
+import "./Settings.scss";
 
 function Settings({ intl }) {
   const [inEditMode, setInEditMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -27,6 +32,7 @@ function Settings({ intl }) {
   return (
     <CreateEditLayout
       form={form}
+      className="settings-page-layout"
       onFinish={onFinish}
       onCancelClick={handleDisableEditMode}
       actions={
@@ -44,7 +50,7 @@ function Settings({ intl }) {
         phone: "01030220179",
       }}
     >
-      <div>
+      <div className="settings-page">
         <ASFormItem
           name="fullName"
           disabled={!inEditMode}
@@ -75,7 +81,38 @@ function Settings({ intl }) {
           rules={[{ required: true, message: "" }]}
           autoComplete="new-password"
         />
+
+        {!inEditMode && (
+          <ASButton
+            label="Delete Account"
+            type="destructive-basic"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          />
+        )}
       </div>
+      <ASConfirmationModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        title={intl.formatMessage({ id: "settings.delete_account" })}
+        description={intl.formatMessage({
+          id: "settings.delete_account_description",
+        })}
+        cancelText={intl.formatMessage({
+          id: "common.deactivate",
+        })}
+        confirmText={intl.formatMessage({
+          id: "common.delete",
+        })}
+        onCancel={() => {
+          setIsModalOpen(false);
+        }}
+        onConfirm={() => {
+          setIsModalOpen(false);
+        }}
+        hasCloseIcon
+      />
     </CreateEditLayout>
   );
 }

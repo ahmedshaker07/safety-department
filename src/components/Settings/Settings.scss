@@ -1,0 +1,12 @@
+.create-edit-layout.settings-page-layout {
+    gap: 0;
+
+    .settings-page {
+        display: flex;
+        flex-direction: column;
+
+        .ant-btn {
+            align-self: flex-end;
+        }
+    }
+}

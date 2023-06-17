@@ -80,7 +80,6 @@ const ReportsImages = ({ intl }) => {
         title={null}
         footer={null}
         onCancel={handleCancel}
-        closeIcon={<></>}
       >
         <img
           alt=""

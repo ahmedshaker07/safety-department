@@ -91,7 +91,6 @@ function Users({ intl }) {
         title={intl.formatMessage({
           id: `users.${record ? "edit_user" : "create_new_user"}`,
         })}
-        closeIcon={<></>}
         onCancel={onCancel}
       >
         <Form layout="vertical" form={createUserForm} onFinish={onSubmit}>

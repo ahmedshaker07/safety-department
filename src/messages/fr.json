@@ -8,7 +8,9 @@
     "logout": "Se déconnecter",
     "filter": "Filtre",
     "upload": "Télécharger",
-    "per_page": "/ page"
+    "per_page": "/ page",
+    "deactivate": "Désactiver",
+    "delete": "Effacer"
   },
   "header": {
     "change_language": "Changer de langue",

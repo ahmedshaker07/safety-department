@@ -8,7 +8,9 @@
     "logout": "تسجيل خروج",
     "filter": "فلتر",
     "upload": "ارفع الصور",
-    "per_page": "بالصفحة"
+    "per_page": "بالصفحة",
+    "deactivate": "إلغاء التنشيط",
+    "delete": "حذف"
   },
   "header": {
     "change_language": "تغيير اللغة",
