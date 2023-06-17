@@ -1,0 +1,9 @@
+.analytics-tabpane {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    >.analytics-card:last-child {
+        margin-bottom: 24px;
+    }
+}
