@@ -23,12 +23,13 @@
     },
     "tabs_name": {
       "overview": "نظرة عامة",
+      "analytics": "تحليلات",
       "reports": "التقارير",
       "reports_by_day": "تقارير حسب اليوم",
       "reports_by_reporter": "تقارير حسب المقيم",
       "users": "المستخدمون",
       "departments": "الإدارات",
-      "actions": "الإجراءات",
+      "actions": "الأحداث",
       "settings": "إعدادات"
     },
     "tabs_sections": {
@@ -93,7 +94,8 @@
   },
   "actions": {
     "create_action": "إنشاء حدث",
-    "edit_action": "تعديل الحدث"
+    "edit_action": "تعديل الحدث",
+    "type": "النوع"
   },
   "departments": {
     "create_department": "إنشاء قسم",

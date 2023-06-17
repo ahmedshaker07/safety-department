@@ -23,6 +23,7 @@
     },
     "tabs_name": {
       "overview": "Overview",
+      "analytics": "Analytics",
       "reports": "Reports",
       "reports_by_day": "Reports by day",
       "reports_by_reporter": "Reports by reporter",

@@ -23,6 +23,7 @@
     },
     "tabs_name": {
       "overview": "Aperçu",
+      "analytics": "Analytique",
       "reports": "Rapports",
       "reports_by_day": "Rapports par jour",
       "reports_by_reporter": "Rapports par reporter",
@@ -93,7 +94,8 @@
   },
   "actions": {
     "create_action": "créer une action",
-    "edit_action": "Modifier l'action"
+    "edit_action": "Modifier l'action",
+    "type": "Type"
   },
   "departments": {
     "create_department": "Créer un département",

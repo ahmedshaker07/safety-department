@@ -27,6 +27,12 @@ function ASSidebar({
           id: "header.tabs_name.overview",
         }),
       },
+      {
+        path: "/analytics",
+        label: intl.formatMessage({
+          id: "header.tabs_name.analytics",
+        }),
+      },
     ],
     reports: [
       {
