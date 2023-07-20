@@ -40,6 +40,7 @@ function Actions({ intl }) {
           title: error.message,
           type: "error",
         });
+        return { count: 0 };
       }
     },
     [openNotification]

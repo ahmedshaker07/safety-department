@@ -54,6 +54,11 @@ const protectedRoutes = [
     component: AddEditReports,
   },
   {
+    path: "/reports/:id",
+    name: "Edit Reports",
+    component: AddEditReports,
+  },
+  {
     path: "/reports/day",
     name: "Reports by day",
     component: FilteredReports,

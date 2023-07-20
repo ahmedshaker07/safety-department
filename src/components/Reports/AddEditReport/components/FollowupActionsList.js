@@ -25,15 +25,11 @@ const FollowupActionsList = ({
               <div key={key}>
                 <div className="add-edit-report__followup-action">
                   <Form.Item className="add-edit-report__action">
-                    <Form.Item
-                      name={[name, "actionName"]}
-                      {...restField}
-                      noStyle
-                    >
+                    <Form.Item name={[name, "actionName"]} {...restField}>
                       <Input placeholder={placeholder} />
                     </Form.Item>
                     <div>
-                      <Form.Item name={[name, "userId"]} {...restField} noStyle>
+                      <Form.Item name={[name, "userId"]} {...restField}>
                         <Select
                           options={formattedUsers}
                           placeholder={intl.formatMessage({
@@ -41,14 +37,14 @@ const FollowupActionsList = ({
                           })}
                         />
                       </Form.Item>
-                      <Form.Item name={[name, "bywhen"]} {...restField} noStyle>
+                      <Form.Item name={[name, "bywhen"]} {...restField}>
                         <Input
                           placeholder={intl.formatMessage({
                             id: "reports.by_when",
                           })}
                         />
                       </Form.Item>
-                      <Form.Item name={[name, "nmha"]} {...restField} noStyle>
+                      <Form.Item name={[name, "nmha"]} {...restField}>
                         <Input
                           placeholder={intl.formatMessage({
                             id: "reports.nmha_card",

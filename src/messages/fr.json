@@ -12,7 +12,10 @@
     "deactivate": "Désactiver",
     "delete": "Effacer",
     "name": "Nom",
-    "required": "Ce champ est obligatoire."
+    "required": "Ce champ est obligatoire.",
+    "yesterday": "Hier",
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain"
   },
   "header": {
     "change_language": "Changer de langue",

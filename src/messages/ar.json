@@ -12,7 +12,10 @@
     "deactivate": "إلغاء التنشيط",
     "delete": "حذف",
     "name": "الاسم",
-    "required": "هذه الخانة مطلوبه."
+    "required": "هذه الخانة مطلوبه.",
+    "yesterday": "أمس",
+    "today": "اليوم",
+    "tomorrow": "غداً"
   },
   "header": {
     "change_language": "تغيير اللغة",

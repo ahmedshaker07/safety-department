@@ -7,6 +7,7 @@ import PickerFrench from "antd/es/date-picker/locale/fr_FR";
 
 import { END_DATES_KEYS } from "../constants/helpers";
 import { getLocale } from "./intl-provider";
+import { fmt } from "../components/IntlWrapper/IntlWrapper";
 
 export function retry(fn, retriesLeft = 5, interval = 1000) {
   return new Promise((resolve, reject) => {
@@ -119,4 +120,32 @@ export const getRangePickerLocale = () => {
   };
 
   return pickerLocal[locale];
+};
+
+export const dates = (value, format) => {
+  const date = format
+    ? dayjs(value).tz("Africa/Cairo").format(format)
+    : dayjs(value).tz("Africa/Cairo");
+  return date;
+};
+
+export const checkDate = (date) => {
+  if (dayjs(date).isToday()) {
+    return fmt({ id: `common.today` });
+  } else if (dayjs(date).isYesterday()) {
+    return fmt({ id: `common.yesterday` });
+  } else if (dayjs(date).isTomorrow()) {
+    return fmt({ id: `common.tomorrow` });
+  } else {
+    return;
+  }
+};
+
+export const checkSmartDate = (date, format = "ddd, DD MMM") => {
+  const formattedDate = checkDate(date);
+  if (formattedDate) {
+    return formattedDate;
+  } else {
+    return dates(date, format);
+  }
 };

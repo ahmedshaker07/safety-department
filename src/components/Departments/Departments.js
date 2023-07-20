@@ -32,7 +32,6 @@ function Departments({ intl }) {
           page: pageNumber,
           limit: pageSize,
         });
-
         setData(departments);
 
         return { count };
@@ -41,6 +40,7 @@ function Departments({ intl }) {
           title: error.message,
           type: "error",
         });
+        return { count: 0 };
       }
     },
     [openNotification]

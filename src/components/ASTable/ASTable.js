@@ -85,7 +85,6 @@ const ASTable = forwardRef(
     return (
       <Table
         ref={tableRef}
-        bordered
         className="astable"
         columns={columns}
         rowKey={rowKey}

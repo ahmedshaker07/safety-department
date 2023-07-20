@@ -12,7 +12,10 @@
     "deactivate": "Deactivate",
     "delete": "Delete",
     "name": "Name",
-    "required": "This field is required."
+    "required": "This field is required.",
+    "yesterday": "Yesterday",
+    "today": "Today",
+    "tomorrow": "Tomorrow"
   },
   "header": {
     "change_language": "Change Language",
@@ -85,7 +88,7 @@
   },
   "users": {
     "create_user": "Create User",
-    "full_name": "Full Name",
+    "full_name": "Full name",
     "admin": "Admin",
     "reporter": "Reporter",
     "role": "Role",

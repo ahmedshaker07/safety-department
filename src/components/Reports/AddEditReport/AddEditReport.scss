@@ -53,7 +53,9 @@
   box-shadow: $shadow-md;
 
   .ant-form-item-control-input-content {
-    .ant-form-item {
+
+    .ant-form-item,
+    .ant-row {
       width: 100%;
     }
   }
@@ -69,6 +71,13 @@
       height: 40px;
     }
   }
+}
+
+.add-edit-report__spinner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-edit-report__actions-card {

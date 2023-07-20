@@ -1,14 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
-import { useNavigate } from "react-router-dom";
-import { Form } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { Form, Spin } from "antd";
 
 import { getAllDepartments } from "../../../services/departments";
 import { ContextWrapper } from "../../../contexts/layout.context";
 import { getAllActions } from "../../../services/actions";
 import { SAFE_ACTION, UNSAFE_ACTION } from "../../../constants/actions";
 import { getAllUsers } from "../../../services/users";
-import { createReport } from "../../../services/reports";
+import {
+  createReport,
+  editReport,
+  getReportById,
+} from "../../../services/reports";
 
 import CreateEditLayout from "../../Layouts/CreateEditLayout/CreateEditLayout";
 import ReportsCards from "./components/ReportsCard";
@@ -23,22 +27,28 @@ import "./AddEditReport.scss";
 function AddEditReport({ intl }) {
   const { openNotification } = useContext(ContextWrapper);
 
+  const [report, setReport] = useState(null);
   const [departments, setDepartments] = useState([]);
   const [safeActions, setSafeActions] = useState([]);
   const [unsafeActions, setUnsafeActions] = useState([]);
   const [users, setUsers] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
+  const { id } = useParams();
+
   const [form] = Form.useForm();
 
+  //handling create/edit report
   const onFinish = async ({
     departmentId,
     assistorName,
     followUpActions,
     safeactions,
     unsafeactions,
+    NumberOfObservers,
   }) => {
     const getActionsIds = ({ actions = [], type }) => {
       return actions.map((action) => action[type]);
@@ -48,6 +58,7 @@ function AddEditReport({ intl }) {
       departmentId,
       assistorName,
       areaId: 1,
+      NumberOfObservers,
       followUpActions,
       actions: [
         ...getActionsIds({ actions: safeactions, type: SAFE_ACTION }),
@@ -60,7 +71,7 @@ function AddEditReport({ intl }) {
 
     try {
       setIsSubmitting(true);
-      await createReport(payload);
+      await (report ? editReport(id, payload) : createReport(payload));
       openNotification({
         title: "Report Created",
       });
@@ -74,6 +85,7 @@ function AddEditReport({ intl }) {
     setIsSubmitting(false);
   };
 
+  // get all required data for report creation
   useEffect(() => {
     const getDepartments = async () => {
       try {
@@ -119,16 +131,63 @@ function AddEditReport({ intl }) {
     getUsers();
   }, [openNotification]);
 
-  return (
+  //get report data in case of edit
+  useEffect(() => {
+    const getReportData = async () => {
+      try {
+        const reportData = await getReportById(id);
+        setReport(reportData);
+
+        const getInitialActions = (type) =>
+          reportData.ReportActions.reduce((actions, { Action }) => {
+            Action.type === type && actions.push(Action);
+            return actions;
+          }, []);
+
+        const initialFollowupActions = reportData.ReportFollowUpActions.map(
+          ({ actionName, User }) => {
+            return {
+              actionName,
+              userId: User.id,
+            };
+          }
+        );
+
+        form.setFieldsValue({
+          assessor: reportData.creator.fullName,
+          assistorName: reportData.assistorName,
+          departmentId: reportData.Department.id,
+          NumberOfObservers: reportData.NumberOfObservers,
+          safeactions: getInitialActions(SAFE_ACTION),
+          unsafeactions: getInitialActions(UNSAFE_ACTION),
+          followUpActions: initialFollowupActions,
+        });
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+      setIsLoading(false);
+    };
+
+    if (id) {
+      getReportData();
+    } else {
+      form.setFieldsValue({ safeactions: [""] });
+      setIsLoading(false);
+    }
+  }, [id, openNotification, form]);
+
+  return isLoading ? (
+    <Spin className="add-edit-report__spinner" />
+  ) : (
     <CreateEditLayout
       form={form}
       onFinish={onFinish}
       className="add-edit-report__form"
       onCancelClick={() => navigate("/reports")}
       isLoading={isSubmitting}
-      initialFormValues={{
-        safeactions: [""],
-      }}
     >
       <ReportsFirstSection departments={departments} />
 

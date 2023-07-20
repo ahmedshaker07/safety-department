@@ -134,3 +134,24 @@ body {
   display: flex;
   justify-content: center;
 }
+
+
+//icons
+.ant-icon-sm {
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.ant-icon-md {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+html[dir="rtl"] .ant-pagination-item-link {
+  transform: scaleX(-1);
+}

@@ -36,6 +36,7 @@ function Users({ intl }) {
           title: error.message,
           type: "error",
         });
+        return { count: 0 };
       }
     },
     [openNotification]
@@ -55,13 +56,12 @@ function Users({ intl }) {
     setIsModalOpen(false);
   };
 
-  const onSubmit = async ({ email, password, fullName, phone, role }) => {
+  const onSubmit = async ({ email, password, fullName, phoneNumber, role }) => {
     const payload = {
       email,
       password,
-      firstName: fullName,
-      lastName: fullName,
-      // phone,
+      fullName,
+      phoneNumber,
       role,
     };
 
@@ -117,7 +117,7 @@ function Users({ intl }) {
             />
           )}
           <ASFormItem
-            name="phone"
+            name="phoneNumber"
             placeholder={intl.formatMessage({ id: "users.phone" })}
             label={intl.formatMessage({ id: "users.phone" })}
             rules={[{ required: true, message: "" }]}
@@ -161,7 +161,7 @@ function Users({ intl }) {
         columns={USERS_COLUMNS}
         dataSource={data}
         fetchData={fetchData}
-        rowKey={(record) => record.login.uuid}
+        rowKey={(record) => record.id}
         tableRef={tableRef}
         onClick={onOpenModal}
         onRowClick={onOpenModal}

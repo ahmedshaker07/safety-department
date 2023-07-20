@@ -1,12 +1,21 @@
+import { fmt } from "../components/IntlWrapper/IntlWrapper";
+
 export const USERS_COLUMNS = [
   {
-    title: "Name",
-    dataIndex: "name",
-    render: (name) => `${name.first} ${name.last}`,
-    width: "20%",
+    title: fmt({ id: "users.full_name" }),
+    dataIndex: "fullName",
   },
   {
-    title: "Email",
+    title: fmt({ id: "signin.email" }),
     dataIndex: "email",
+  },
+  {
+    title: fmt({ id: "users.phone" }),
+    dataIndex: "phoneNumber",
+  },
+  {
+    title: fmt({ id: "users.role" }),
+    dataIndex: "role",
+    render: (role) => role.toLowerCase(),
   },
 ];
