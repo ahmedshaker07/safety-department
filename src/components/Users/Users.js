@@ -1,20 +1,14 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
-import qs from "qs";
 import { Form, Modal, Select } from "antd";
 
 import { USERS_COLUMNS } from "../../constants/users";
 import { ContextWrapper } from "../../contexts/layout.context";
+import { createUser, editUser, getAllUsers } from "../../services/users";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
-
-const getRandomuserParams = (params) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params,
-});
 
 function Users({ intl }) {
   const [data, setData] = useState();
@@ -30,24 +24,16 @@ function Users({ intl }) {
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, sorter, search }) => {
       try {
-        await fetch(
-          `https://randomuser.me/api?${qs.stringify(
-            getRandomuserParams({
-              pagination: {
-                current: pageNumber,
-                pageSize: pageSize,
-              },
-            })
-          )}`
-        )
-          .then((res) => res.json())
-          .then(({ results }) => {
-            setData(results);
-          });
-        return { count: 10 };
+        const { users, count } = await getAllUsers({
+          page: pageNumber,
+          limit: pageSize,
+        });
+        setData(users);
+
+        return { count };
       } catch (error) {
         openNotification({
-          title: error,
+          title: error.message,
           type: "error",
         });
       }
@@ -69,14 +55,25 @@ function Users({ intl }) {
     setIsModalOpen(false);
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async ({ email, password, fullName, phone, role }) => {
+    const payload = {
+      email,
+      password,
+      firstName: fullName,
+      lastName: fullName,
+      // phone,
+      role,
+    };
+
     try {
-      console.log(values);
+      await (record
+        ? editUser(record.id, { set: payload })
+        : createUser(payload));
       tableRef.current.refreshTable();
       onCancel();
     } catch (error) {
       openNotification({
-        title: error,
+        title: error.message,
         type: "error",
       });
     }
@@ -136,11 +133,11 @@ function Users({ intl }) {
               placeholder={intl.formatMessage({ id: "users.role" })}
               options={[
                 {
-                  value: "admin",
+                  value: "ADMIN",
                   label: intl.formatMessage({ id: "users.admin" }),
                 },
                 {
-                  value: "reporter",
+                  value: "REPORTER",
                   label: intl.formatMessage({ id: "users.reporter" }),
                 },
               ]}

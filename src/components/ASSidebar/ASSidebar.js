@@ -20,20 +20,20 @@ function ASSidebar({
   const pathname = window.location.pathname;
 
   const SIDEBAR_TABS = {
-    home: [
-      {
-        path: "/overview",
-        label: intl.formatMessage({
-          id: "header.tabs_name.overview",
-        }),
-      },
-      {
-        path: "/analytics",
-        label: intl.formatMessage({
-          id: "header.tabs_name.analytics",
-        }),
-      },
-    ],
+    // home: [
+    //   {
+    //     path: "/overview",
+    //     label: intl.formatMessage({
+    //       id: "header.tabs_name.overview",
+    //     }),
+    //   },
+    //   {
+    //     path: "/analytics",
+    //     label: intl.formatMessage({
+    //       id: "header.tabs_name.analytics",
+    //     }),
+    //   },
+    // ],
     reports: [
       {
         path: "/reports",

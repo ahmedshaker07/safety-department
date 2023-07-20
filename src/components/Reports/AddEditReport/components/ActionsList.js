@@ -1,59 +1,53 @@
-import { Form, Input, Button } from "antd";
+import { Form, Button, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
+import { SAFE_ACTION, UNSAFE_ACTION } from "../../../../constants/actions";
+import { fmt } from "../../../IntlWrapper/IntlWrapper";
 
 const ActionsList = ({
   name,
-  arr,
   type,
   placeholder,
   ctaLabel,
   limit,
-  actions,
-  setActions,
-  form,
+  typeActions = [],
 }) => {
+  const formattedTypeActions = typeActions.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
+
   return (
-    <Form.List name={name}>
-      {() => (
+    <Form.List name={name} rules={[{ required: type === SAFE_ACTION }]}>
+      {(fields, { add, remove }) => (
         <>
-          {arr.map((field) => (
-            <Form.Item className="add-edit-report__action" key={field.key}>
-              <Form.Item {...field} noStyle>
-                <Input placeholder={placeholder} />
-              </Form.Item>
-              {arr.length > 1 && (
-                <MinusCircleOutlined
-                  onClick={() => {
-                    setActions((prevActions) => {
-                      return {
-                        ...prevActions,
-                        [type]: [...prevActions[type]].filter(
-                          (action) => action.key !== field.key
-                        ),
-                      };
-                    });
-                    form.resetFields([[name, field.name]]);
-                  }}
+          {fields.map(({ key, name, ...restField }) => (
+            <Form.Item className="add-edit-report__action" key={key}>
+              <Form.Item
+                name={[name, type]}
+                rules={[
+                  {
+                    required: type === SAFE_ACTION,
+                    message: fmt({ id: "common.required" }),
+                  },
+                ]}
+                {...restField}
+              >
+                <Select
+                  placeholder={placeholder}
+                  options={formattedTypeActions}
                 />
+              </Form.Item>
+              {(type === UNSAFE_ACTION || fields.length > 1) && (
+                <MinusCircleOutlined onClick={() => remove(name)} />
               )}
             </Form.Item>
           ))}
-          {arr.length < limit && (
+          {fields.length < limit && (
             <Form.Item>
               <Button
                 type="dashed"
-                onClick={() =>
-                  setActions({
-                    ...actions,
-                    [type]: [
-                      ...actions[type],
-                      {
-                        name: `${type}-${arr[arr.length - 1].key + 1}`,
-                        key: arr[arr.length - 1].key + 1,
-                      },
-                    ],
-                  })
-                }
+                onClick={() => add()}
                 icon={<PlusOutlined />}
               >
                 {ctaLabel}

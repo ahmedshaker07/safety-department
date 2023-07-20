@@ -40,7 +40,7 @@ function Reports({ intl }) {
         return { count: 200 };
       } catch (error) {
         openNotification({
-          title: error,
+          title: error.message,
           type: "error",
         });
       }

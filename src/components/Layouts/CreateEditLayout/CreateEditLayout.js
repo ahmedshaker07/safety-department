@@ -15,6 +15,7 @@ function CreateEditLayout({
   children,
   actions,
   initialFormValues = {},
+  isLoading,
 }) {
   return (
     <Form
@@ -31,10 +32,12 @@ function CreateEditLayout({
               type="destructive-basic"
               label={intl.formatMessage({ id: "common.cancel" })}
               onClick={onCancelClick}
+              disabled={isLoading}
             />
             <ASButton
               label={intl.formatMessage({ id: "common.save" })}
               htmlType="submit"
+              isLoading={isLoading}
             />
           </>
         )}

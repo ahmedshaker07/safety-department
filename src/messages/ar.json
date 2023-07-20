@@ -11,7 +11,8 @@
     "per_page": "بالصفحة",
     "deactivate": "إلغاء التنشيط",
     "delete": "حذف",
-    "name": "الاسم"
+    "name": "الاسم",
+    "required": "هذه الخانة مطلوبه."
   },
   "header": {
     "change_language": "تغيير اللغة",

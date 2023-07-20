@@ -11,7 +11,8 @@
     "per_page": "/ page",
     "deactivate": "Deactivate",
     "delete": "Delete",
-    "name": "Name"
+    "name": "Name",
+    "required": "This field is required."
   },
   "header": {
     "change_language": "Change Language",

@@ -74,7 +74,7 @@ function FilteredReports({ intl, pageType }) {
         return { count: 4 };
       } catch (error) {
         openNotification({
-          title: error,
+          title: error.message,
           type: "error",
         });
       }

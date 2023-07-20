@@ -129,3 +129,8 @@ body {
   border-radius: 8px;
   background-color: $blue-800
 }
+
+.ant-select-item-empty {
+  display: flex;
+  justify-content: center;
+}

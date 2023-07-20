@@ -1,31 +1,123 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { Form } from "antd";
 
-import { DEFAULT_ACTIONS } from "../../../constants/reports";
+import { getAllDepartments } from "../../../services/departments";
+import { ContextWrapper } from "../../../contexts/layout.context";
+import { getAllActions } from "../../../services/actions";
+import { SAFE_ACTION, UNSAFE_ACTION } from "../../../constants/actions";
+import { getAllUsers } from "../../../services/users";
+import { createReport } from "../../../services/reports";
 
 import CreateEditLayout from "../../Layouts/CreateEditLayout/CreateEditLayout";
 import ReportsCards from "./components/ReportsCard";
-import ReportsInfoCard from "./components/ReportsInfoCard";
 import ReportsFooter from "./components/ReportsFooter";
 import ReportsFirstSection from "./components/ReportsFirstSection";
 import ActionsList from "./components/ActionsList";
 import FollowupActionsList from "./components/FollowupActionsList";
-import ReportsImages from "./components/ReportsImages";
+// import ReportsImages from "./components/ReportsImages";
 
 import "./AddEditReport.scss";
 
 function AddEditReport({ intl }) {
-  const [actions, setActions] = useState(DEFAULT_ACTIONS);
+  const { openNotification } = useContext(ContextWrapper);
+
+  const [departments, setDepartments] = useState([]);
+  const [safeActions, setSafeActions] = useState([]);
+  const [unsafeActions, setUnsafeActions] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async ({
+    departmentId,
+    assistorName,
+    followUpActions,
+    safeactions,
+    unsafeactions,
+  }) => {
+    const getActionsIds = ({ actions = [], type }) => {
+      return actions.map((action) => action[type]);
+    };
+
+    const payload = {
+      departmentId,
+      assistorName,
+      areaId: 1,
+      followUpActions,
+      actions: [
+        ...getActionsIds({ actions: safeactions, type: SAFE_ACTION }),
+        ...getActionsIds({
+          actions: unsafeactions,
+          type: UNSAFE_ACTION,
+        }),
+      ],
+    };
+
+    try {
+      setIsSubmitting(true);
+      await createReport(payload);
+      openNotification({
+        title: "Report Created",
+      });
+      navigate("/reports");
+    } catch (error) {
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
+    }
+    setIsSubmitting(false);
   };
+
+  useEffect(() => {
+    const getDepartments = async () => {
+      try {
+        const { departments } = await getAllDepartments();
+        setDepartments(departments);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+    };
+
+    const getTypeActions = async (type) => {
+      try {
+        const { actions } = await getAllActions({ type });
+        type === SAFE_ACTION
+          ? setSafeActions(actions)
+          : setUnsafeActions(actions);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+    };
+
+    const getUsers = async () => {
+      try {
+        const { users: allUsers } = await getAllUsers();
+        setUsers(allUsers);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+    };
+
+    getDepartments();
+    getTypeActions(SAFE_ACTION);
+    getTypeActions(UNSAFE_ACTION);
+    getUsers();
+  }, [openNotification]);
 
   return (
     <CreateEditLayout
@@ -33,40 +125,40 @@ function AddEditReport({ intl }) {
       onFinish={onFinish}
       className="add-edit-report__form"
       onCancelClick={() => navigate("/reports")}
+      isLoading={isSubmitting}
+      initialFormValues={{
+        safeactions: [""],
+      }}
     >
-      <ReportsFirstSection />
+      <ReportsFirstSection departments={departments} />
 
       <ReportsCards title={intl.formatMessage({ id: "reports.safe_acts" })}>
         <ActionsList
           name="safeactions"
-          arr={actions.safe}
-          type="safe"
+          type={SAFE_ACTION}
           placeholder={intl.formatMessage({
             id: "reports.safe_action",
           })}
           ctaLabel={intl.formatMessage({ id: "reports.add_safe_action" })}
           limit={7}
-          form={form}
-          actions={actions}
-          setActions={setActions}
+          typeActions={safeActions}
         />
       </ReportsCards>
 
-      <ReportsInfoCard title={intl.formatMessage({ id: "reports.hsm" })} />
+      <div className="add-edit-report__alert caption">
+        {intl.formatMessage({ id: "reports.hsm" })}
+      </div>
 
       <ReportsCards title={intl.formatMessage({ id: "reports.unsafe_acts" })}>
         <ActionsList
           name="unsafeactions"
-          arr={actions.unsafe}
-          type="unsafe"
+          type={UNSAFE_ACTION}
           placeholder={intl.formatMessage({
             id: "reports.unsafe_action",
           })}
           ctaLabel={intl.formatMessage({ id: "reports.add_unsafe_action" })}
           limit={7}
-          form={form}
-          actions={actions}
-          setActions={setActions}
+          typeActions={unsafeActions}
         />
       </ReportsCards>
 
@@ -74,25 +166,23 @@ function AddEditReport({ intl }) {
         title={intl.formatMessage({ id: "reports.agreed_followups" })}
       >
         <FollowupActionsList
-          name="followupactions"
-          arr={actions.followup}
-          type="followup"
+          name="followUpActions"
           placeholder={intl.formatMessage({
             id: "reports.followup_action",
           })}
           ctaLabel={intl.formatMessage({ id: "reports.add_followup_action" })}
           limit={4}
-          form={form}
-          actions={actions}
-          setActions={setActions}
+          users={users}
         />
       </ReportsCards>
 
-      <ReportsInfoCard title={intl.formatMessage({ id: "reports.nmha" })} />
+      <div className="add-edit-report__alert caption">
+        {intl.formatMessage({ id: "reports.nmha" })}
+      </div>
 
-      <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
+      {/* <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
         <ReportsImages />
-      </ReportsCards>
+      </ReportsCards> */}
 
       <ReportsFooter />
     </CreateEditLayout>

@@ -11,7 +11,8 @@
     "per_page": "/ page",
     "deactivate": "Désactiver",
     "delete": "Effacer",
-    "name": "Nom"
+    "name": "Nom",
+    "required": "Ce champ est obligatoire."
   },
   "header": {
     "change_language": "Changer de langue",

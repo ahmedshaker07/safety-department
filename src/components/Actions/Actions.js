@@ -1,20 +1,18 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { Form, Modal, Select } from "antd";
 import { injectIntl } from "react-intl";
-import qs from "qs";
 
 import { ACTIONS_COLUMNS } from "../../constants/actions";
 import { ContextWrapper } from "../../contexts/layout.context";
+import {
+  createAction,
+  editAction,
+  getAllActions,
+} from "../../services/actions";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
-
-const getRandomuserParams = (params) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params,
-});
 
 function Actions({ intl }) {
   const [data, setData] = useState();
@@ -30,24 +28,16 @@ function Actions({ intl }) {
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, sorter, search }) => {
       try {
-        await fetch(
-          `https://randomuser.me/api?${qs.stringify(
-            getRandomuserParams({
-              pagination: {
-                current: pageNumber,
-                pageSize: pageSize,
-              },
-            })
-          )}`
-        )
-          .then((res) => res.json())
-          .then(({ results }) => {
-            setData(results);
-          });
-        return { count: 10 };
+        const { actions, count } = await getAllActions({
+          page: pageNumber,
+          limit: pageSize,
+        });
+        setData(actions);
+
+        return { count };
       } catch (error) {
         openNotification({
-          title: error,
+          title: error.message,
           type: "error",
         });
       }
@@ -69,14 +59,16 @@ function Actions({ intl }) {
     setIsModalOpen(false);
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     try {
-      console.log(values);
+      await (record
+        ? editAction(record.id, { set: values })
+        : createAction(values));
       tableRef.current.refreshTable();
       onCancel();
     } catch (error) {
       openNotification({
-        title: error,
+        title: error.message,
         type: "error",
       });
     }
@@ -104,17 +96,17 @@ function Actions({ intl }) {
               placeholder={intl.formatMessage({ id: "actions.type" })}
               options={[
                 {
-                  value: "safe",
+                  value: "SAFE_ACTION",
                   label: intl.formatMessage({ id: "reports.safe_action" }),
                 },
                 {
-                  value: "unsafe",
+                  value: "UN_SAFE_ACTION",
                   label: intl.formatMessage({ id: "reports.unsafe_action" }),
                 },
-                {
-                  value: "followup",
-                  label: intl.formatMessage({ id: "reports.followup_action" }),
-                },
+                // {
+                //   value: "followup",
+                //   label: intl.formatMessage({ id: "reports.followup_action" }),
+                // },
               ]}
             />
           </Form.Item>
@@ -143,7 +135,7 @@ function Actions({ intl }) {
         columns={ACTIONS_COLUMNS}
         dataSource={data}
         fetchData={fetchData}
-        rowKey={(record) => record.login.uuid}
+        rowKey={(record) => record.id}
         tableRef={tableRef}
         onClick={onOpenModal}
         onRowClick={onOpenModal}

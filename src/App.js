@@ -36,13 +36,13 @@ function App() {
       <Route path="/" element={token ? <DefaultLayout /> : <Root />}>
         <Route
           index
-          element={<Navigate to={token ? "/overview" : "/signin"} />}
+          element={<Navigate to={token ? "/reports" : "/signin"} />}
         />
         <Route
           path="/signin"
           element={
             token ? (
-              <Navigate to="/overview" />
+              <Navigate to="/reports" />
             ) : (
               <React.Suspense fallback={<Spin />}>
                 <Signin />

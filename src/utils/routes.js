@@ -1,16 +1,6 @@
 import { lazy } from "react";
 import { retry } from "./helpers";
 
-const Overview = lazy(
-  async () =>
-    await retry(async () => await import("../components/Overview/Overview"))
-);
-
-const Analytics = lazy(
-  async () =>
-    await retry(async () => await import("../components/Analytics/Analytics"))
-);
-
 const Reports = lazy(
   async () =>
     await retry(async () => await import("../components/Reports/Reports"))
@@ -53,16 +43,6 @@ const Settings = lazy(
 );
 
 const protectedRoutes = [
-  {
-    path: "/overview",
-    name: "Overview",
-    component: Overview,
-  },
-  {
-    path: "/analytics",
-    name: "Analytics",
-    component: Analytics,
-  },
   {
     path: "/reports",
     name: "Reports",
