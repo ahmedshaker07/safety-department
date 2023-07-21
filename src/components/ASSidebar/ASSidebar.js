@@ -2,9 +2,11 @@ import { Layout } from "antd";
 import { injectIntl } from "react-intl";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 import { mediaHook } from "../../utils/hooks";
 import { SIDEBAR_UPPER_SECTIONS } from "../../constants/helpers";
+import { ContextWrapper } from "../../contexts/user.context";
 
 import ASButton from "../ASButton/ASButton";
 
@@ -17,6 +19,8 @@ function ASSidebar({
   setIsSidebarHidden,
   mobileScreenSizes: { isLargeMobileScreen },
 }) {
+  const { userData } = useContext(ContextWrapper);
+
   const pathname = window.location.pathname;
 
   const SIDEBAR_TABS = {
@@ -91,6 +95,8 @@ function ASSidebar({
     navigate(path);
   }
 
+  console.log(userData);
+
   return (
     <Sider className="sidebar">
       <div className="sidebar__upper-section">
@@ -98,7 +104,10 @@ function ASSidebar({
           {intl.formatMessage(
             { id: "header.name" },
             {
-              name: "Sherif",
+              name: userData.fullName.substring(
+                0,
+                userData.fullName.indexOf(" ")
+              ),
             }
           )}
         </span>

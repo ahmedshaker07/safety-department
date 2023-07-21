@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import { DatePicker, Form } from "antd";
 
 import { getRangePickerLocale } from "../../utils/helpers";
-import { ContextWrapper } from "../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
 
 import FilteredReportsColumn from "./components/FilteredReportsColumn";
 import ASButton from "../ASButton/ASButton";
@@ -63,7 +63,7 @@ function FilteredReports({ intl, pageType }) {
     },
   ]);
 
-  const { openNotification } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
 
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, sorter, search }) => {

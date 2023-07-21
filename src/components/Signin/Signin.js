@@ -5,6 +5,7 @@ import { Animated } from "react-animated-css";
 
 import { login } from "../../services/auth";
 import { ContextWrapper } from "../../contexts/user.context";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
 
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
@@ -14,18 +15,23 @@ import "./Signin.scss";
 function Signin({ intl }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setToken } = useContext(ContextWrapper);
+  const { setToken, setUserData } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
 
   async function handleSignin(values) {
     try {
       setIsLoading(true);
-      const userData = await login(values);
-      localStorage.setItem("token", userData);
+      const { token, ...rest } = await login(values);
+      localStorage.setItem("token", token);
+      setToken(token);
+      setUserData(rest);
       setIsLoading(false);
-      setToken(userData);
     } catch (error) {
       setIsLoading(false);
-      alert(error);
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
     }
   }
 

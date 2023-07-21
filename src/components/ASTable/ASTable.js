@@ -27,6 +27,7 @@ const ASTable = forwardRef(
       hasExportFeatures = false,
       onRowClick = () => {},
       tableRef,
+      externalLoading,
     },
     _
   ) => {
@@ -76,6 +77,9 @@ const ASTable = forwardRef(
       refreshTable() {
         getData({});
       },
+      triggerLoading(value) {
+        setLoading(value);
+      },
     }));
 
     useEffect(() => {
@@ -100,7 +104,7 @@ const ASTable = forwardRef(
           },
           pageSizeOptions: TABLE_PAGE_SIZES,
         }}
-        loading={loading}
+        loading={loading || externalLoading}
         onChange={handleTableChange}
         title={() => (
           <>

@@ -11,3 +11,7 @@ export const getAllDepartments = (payload) => {
 export const editDepartment = (id, payload) => {
   return http.put(`/departments/${id}`, payload);
 };
+
+export const deleteDepartment = (id) => {
+  return http.delete(`/department/${id}`);
+};

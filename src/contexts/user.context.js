@@ -5,6 +5,7 @@ export const ContextWrapper = createContext({ name: "" });
 export const UserContext = ({ children }) => {
   const [isFetchingInitialData, setIsFetchingInitialData] = useState(true);
   const [token, setToken] = useState("");
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const storageToken = localStorage.getItem("token") || "";
@@ -18,6 +19,8 @@ export const UserContext = ({ children }) => {
         isFetchingInitialData,
         token,
         setToken,
+        userData,
+        setUserData,
       }}
     >
       {children}

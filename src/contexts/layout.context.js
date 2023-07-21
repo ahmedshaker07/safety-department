@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useMedia } from "use-media";
 import { notification } from "antd";
 
-export const ContextWrapper = createContext({ name: "" });
+export const LayoutContextWrapper = createContext({ name: "" });
 
 export const LayoutContext = ({ children }) => {
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
@@ -23,7 +23,7 @@ export const LayoutContext = ({ children }) => {
   }, [isLargeMobileScreen]);
 
   return (
-    <ContextWrapper.Provider
+    <LayoutContextWrapper.Provider
       value={{
         isSidebarHidden,
         setIsSidebarHidden,
@@ -32,6 +32,6 @@ export const LayoutContext = ({ children }) => {
     >
       {contextHolder}
       {children}
-    </ContextWrapper.Provider>
+    </LayoutContextWrapper.Provider>
   );
 };

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Spin } from "antd";
 
 import { getAllDepartments } from "../../../services/departments";
-import { ContextWrapper } from "../../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../../contexts/layout.context";
 import { getAllActions } from "../../../services/actions";
 import { SAFE_ACTION, UNSAFE_ACTION } from "../../../constants/actions";
 import { getAllUsers } from "../../../services/users";
@@ -25,7 +25,7 @@ import FollowupActionsList from "./components/FollowupActionsList";
 import "./AddEditReport.scss";
 
 function AddEditReport({ intl }) {
-  const { openNotification } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
 
   const [report, setReport] = useState(null);
   const [departments, setDepartments] = useState([]);
@@ -180,7 +180,7 @@ function AddEditReport({ intl }) {
   }, [id, openNotification, form]);
 
   return isLoading ? (
-    <Spin className="add-edit-report__spinner" />
+    <Spin className="all-page__spinner" />
   ) : (
     <CreateEditLayout
       form={form}

@@ -11,3 +11,7 @@ export const getAllUsers = (payload) => {
 export const editUser = (id, payload) => {
   return http.put(`/users/${id}`, payload);
 };
+
+export const deleteUser = (id) => {
+  return http.delete(`/users/${id}`);
+};

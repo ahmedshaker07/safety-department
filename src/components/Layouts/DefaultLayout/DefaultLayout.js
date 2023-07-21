@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import classNames from "classnames";
 
 import { mediaHook } from "../../../utils/hooks";
-import { ContextWrapper } from "../../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../../contexts/layout.context";
 
 import ASHeader from "../../ASHeader/ASHeader";
 import ASSidebar from "../../ASSidebar/ASSidebar";
@@ -12,7 +12,8 @@ import ASSidebar from "../../ASSidebar/ASSidebar";
 import "./DefaultLayout.scss";
 
 function DefaultLayout() {
-  const { isSidebarHidden, setIsSidebarHidden } = useContext(ContextWrapper);
+  const { isSidebarHidden, setIsSidebarHidden } =
+    useContext(LayoutContextWrapper);
 
   return (
     <Layout

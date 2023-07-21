@@ -8,7 +8,7 @@ import { injectIntl } from "react-intl";
 //   uploadImagesToServerAndGetLink,
 // } from "../../../../services/reports";
 // import { ACCEPTED_IMAGE_TYPES } from "../../../../constants/helpers";
-// import { ContextWrapper } from "../../../../contexts/layout.context";
+// import { LayoutContextWrapper } from "../../../../contexts/layout.context";
 
 const ReportsImages = ({ intl }) => {
   const cloudinaryRef = useRef();

@@ -11,3 +11,7 @@ export const getAllActions = (payload) => {
 export const editAction = (id, payload) => {
   return http.put(`/actions/${id}`, payload);
 };
+
+export const deleteAction = (id) => {
+  return http.delete(`/actions/${id}`);
+};

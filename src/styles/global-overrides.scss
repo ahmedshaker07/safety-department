@@ -152,6 +152,14 @@ body {
 }
 
 
+.all-page__spinner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 html[dir="rtl"] .ant-pagination-item-link {
   transform: scaleX(-1);
 }

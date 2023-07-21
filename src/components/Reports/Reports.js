@@ -7,7 +7,7 @@ import {
   FilePdfOutlined,
 } from "@ant-design/icons";
 
-import { ContextWrapper } from "../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
 import { deleteReport, getAllReports } from "../../services/reports";
 import { fmt } from "../IntlWrapper/IntlWrapper";
 import { checkSmartDate } from "../../utils/helpers";
@@ -19,7 +19,7 @@ import "./Reports.scss";
 function Reports({ intl }) {
   const [data, setData] = useState([]);
 
-  const { openNotification } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
 
   const navigate = useNavigate();
 

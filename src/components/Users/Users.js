@@ -1,25 +1,78 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form, Modal, Select } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
-import { USERS_COLUMNS } from "../../constants/users";
-import { ContextWrapper } from "../../contexts/layout.context";
-import { createUser, editUser, getAllUsers } from "../../services/users";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
+import {
+  createUser,
+  deleteUser,
+  editUser,
+  getAllUsers,
+} from "../../services/users";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
+import { fmt } from "../IntlWrapper/IntlWrapper";
 
 function Users({ intl }) {
   const [data, setData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tableRef = useRef();
 
   const [createUserForm] = Form.useForm();
 
-  const { openNotification } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
+
+  const USERS_COLUMNS = [
+    {
+      title: fmt({ id: "users.full_name" }),
+      dataIndex: "fullName",
+    },
+    {
+      title: fmt({ id: "signin.email" }),
+      dataIndex: "email",
+    },
+    {
+      title: fmt({ id: "users.phone" }),
+      dataIndex: "phoneNumber",
+    },
+    {
+      title: fmt({ id: "users.role" }),
+      dataIndex: "role",
+      render: (role) => role.toLowerCase(),
+    },
+    {
+      render: ({ id }) => (
+        <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
+          <DeleteOutlined
+            className="ant-icon-sm"
+            onClick={handleDeleteUser(id)}
+          />
+        </div>
+      ),
+      width: 50,
+    },
+  ];
+
+  function handleDeleteUser(id) {
+    return async () => {
+      try {
+        tableRef.current.triggerLoading(true);
+        await deleteUser(id);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+      tableRef.current.triggerLoading(false);
+    };
+  }
 
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, sorter, search }) => {
@@ -66,6 +119,7 @@ function Users({ intl }) {
     };
 
     try {
+      setIsSubmitting(true);
       await (record
         ? editUser(record.id, { set: payload })
         : createUser(payload));
@@ -77,6 +131,7 @@ function Users({ intl }) {
         type: "error",
       });
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -148,10 +203,12 @@ function Users({ intl }) {
               label={intl.formatMessage({ id: "common.cancel" })}
               type="destructive-basic"
               onClick={onCancel}
+              disabled={isSubmitting}
             />
             <ASButton
               label={intl.formatMessage({ id: "common.confirm" })}
               htmlType="submit"
+              loading={isSubmitting}
             />
           </div>
         </Form>

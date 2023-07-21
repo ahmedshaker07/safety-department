@@ -1,11 +1,12 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { Form, Modal, Select } from "antd";
 import { injectIntl } from "react-intl";
+import { DeleteOutlined } from "@ant-design/icons";
 
-import { ACTIONS_COLUMNS } from "../../constants/actions";
-import { ContextWrapper } from "../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
 import {
   createAction,
+  deleteAction,
   editAction,
   getAllActions,
 } from "../../services/actions";
@@ -18,12 +19,51 @@ function Actions({ intl }) {
   const [data, setData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState();
+  const [isCreatingAction, setIsCreatingAction] = useState(false);
 
-  const { openNotification } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
 
   const tableRef = useRef();
 
   const [createActionForm] = Form.useForm();
+
+  const ACTIONS_COLUMNS = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (name) => `${name}`,
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      render: ({ id }) => (
+        <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
+          <DeleteOutlined
+            className="ant-icon-sm"
+            onClick={handleDeleteAction(id)}
+          />
+        </div>
+      ),
+      width: 50,
+    },
+  ];
+
+  function handleDeleteAction(id) {
+    return async () => {
+      try {
+        tableRef.current.triggerLoading(true);
+        await deleteAction(id);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+      tableRef.current.triggerLoading(false);
+    };
+  }
 
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, sorter, search }) => {
@@ -62,6 +102,7 @@ function Actions({ intl }) {
 
   const onSubmit = async (values) => {
     try {
+      setIsCreatingAction(true);
       await (record
         ? editAction(record.id, { set: values })
         : createAction(values));
@@ -73,6 +114,7 @@ function Actions({ intl }) {
         type: "error",
       });
     }
+    setIsCreatingAction(false);
   };
 
   return (
@@ -123,10 +165,12 @@ function Actions({ intl }) {
               label={intl.formatMessage({ id: "common.cancel" })}
               type="destructive-basic"
               onClick={onCancel}
+              disabled={isCreatingAction}
             />
             <ASButton
               label={intl.formatMessage({ id: "common.confirm" })}
               htmlType="submit"
+              loading={isCreatingAction}
             />
           </div>
         </Form>

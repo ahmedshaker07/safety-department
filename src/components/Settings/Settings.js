@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form } from "antd";
+
+import { ContextWrapper } from "../../contexts/user.context";
+import { deleteUser, editUser } from "../../services/users";
+import { LayoutContextWrapper } from "../../contexts/layout.context";
 
 import CreateEditLayout from "../Layouts/CreateEditLayout/CreateEditLayout";
 import ASButton from "../ASButton/ASButton";
@@ -10,14 +14,28 @@ import ASConfirmationModal from "../ASConfirmationModal/ASConfirmationModal";
 import "./Settings.scss";
 
 function Settings({ intl }) {
+  const { userData } = useContext(ContextWrapper);
+  const { openNotification } = useContext(LayoutContextWrapper);
+
   const [inEditMode, setInEditMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log(values);
-    setInEditMode(false);
+  const onFinish = async (values) => {
+    try {
+      setIsLoading(true);
+      await editUser(userData.id, values);
+      //update form values
+      setInEditMode(false);
+    } catch (error) {
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
+    }
+    setIsLoading(false);
   };
 
   const handleEnableEditMode = () => {
@@ -27,6 +45,18 @@ function Settings({ intl }) {
   const handleDisableEditMode = () => {
     form.resetFields();
     setInEditMode(false);
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      setIsModalOpen(false);
+      await deleteUser(userData.id);
+    } catch (error) {
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -44,11 +74,12 @@ function Settings({ intl }) {
         )
       }
       initialFormValues={{
-        fullName: "Sherif Mohamed",
-        email: "ecpcadmin@ecpc.com",
+        fullName: userData.fullName,
+        email: userData.email,
         password: "12345",
-        phone: "01030220179",
+        phone: userData.phoneNumber,
       }}
+      isLoading={isLoading}
     >
       <div className="settings-page">
         <ASFormItem
@@ -100,7 +131,7 @@ function Settings({ intl }) {
           id: "settings.delete_account_description",
         })}
         cancelText={intl.formatMessage({
-          id: "common.deactivate",
+          id: "common.cancel",
         })}
         confirmText={intl.formatMessage({
           id: "common.delete",
@@ -108,9 +139,7 @@ function Settings({ intl }) {
         onCancel={() => {
           setIsModalOpen(false);
         }}
-        onConfirm={() => {
-          setIsModalOpen(false);
-        }}
+        onConfirm={handleDeleteAccount}
         hasCloseIcon
       />
     </CreateEditLayout>
