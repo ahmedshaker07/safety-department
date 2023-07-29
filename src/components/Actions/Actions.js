@@ -61,7 +61,7 @@ function Actions({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.triggerLoading(false);
+      tableRef.current.refreshTable();
     };
   }
 

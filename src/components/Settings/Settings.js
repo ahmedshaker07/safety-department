@@ -12,6 +12,8 @@ import ASFormItem from "../ASFormItem/ASFormItem";
 import ASConfirmationModal from "../ASConfirmationModal/ASConfirmationModal";
 
 import "./Settings.scss";
+import { difference } from "../../utils/helpers";
+import { isEmpty } from "lodash";
 
 function Settings({ intl }) {
   const { userData } = useContext(ContextWrapper);
@@ -22,21 +24,8 @@ function Settings({ intl }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [form] = Form.useForm();
-
-  const onFinish = async (values) => {
-    try {
-      setIsLoading(true);
-      await editUser(userData.id, values);
-      //update form values
-      setInEditMode(false);
-    } catch (error) {
-      openNotification({
-        title: error.message,
-        type: "error",
-      });
-    }
-    setIsLoading(false);
-  };
+  const oldPassword = Form.useWatch("oldPassword", form);
+  const newPassword = Form.useWatch("newPassword", form);
 
   const handleEnableEditMode = () => {
     setInEditMode(true);
@@ -45,6 +34,25 @@ function Settings({ intl }) {
   const handleDisableEditMode = () => {
     form.resetFields();
     setInEditMode(false);
+  };
+
+  const onFinish = async (values) => {
+    const payload = difference(userData, values);
+    if (isEmpty(payload)) {
+      handleDisableEditMode();
+    } else {
+      try {
+        setIsLoading(true);
+        await editUser(userData.id, { set: payload });
+        setInEditMode(false);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+      setIsLoading(false);
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -73,12 +81,7 @@ function Settings({ intl }) {
           />
         )
       }
-      initialFormValues={{
-        fullName: userData.fullName,
-        email: userData.email,
-        password: "12345",
-        phone: userData.phoneNumber,
-      }}
+      initialFormValues={userData}
       isLoading={isLoading}
     >
       <div className="settings-page">
@@ -90,7 +93,7 @@ function Settings({ intl }) {
           rules={[{ required: true, message: "" }]}
         />
         <ASFormItem
-          name="phone"
+          name="phoneNumber"
           disabled={!inEditMode}
           placeholder={intl.formatMessage({ id: "users.phone" })}
           label={intl.formatMessage({ id: "users.phone" })}
@@ -103,15 +106,28 @@ function Settings({ intl }) {
           label={intl.formatMessage({ id: "signin.email" })}
           rules={[{ required: true, message: "" }]}
         />
-        <ASFormItem
-          name="password"
-          isPassword
-          disabled={!inEditMode}
-          placeholder={intl.formatMessage({ id: "signin.password" })}
-          label={intl.formatMessage({ id: "signin.password" })}
-          rules={[{ required: true, message: "" }]}
-          autoComplete="new-password"
-        />
+        {inEditMode && (
+          <>
+            <ASFormItem
+              name="oldpassword"
+              isPassword
+              disabled={!inEditMode}
+              placeholder={intl.formatMessage({ id: "settings.old_password" })}
+              label={intl.formatMessage({ id: "settings.old_password" })}
+              rules={[{ required: !!newPassword, message: "" }]}
+              autoComplete="new-password"
+            />
+            <ASFormItem
+              name="newpassword"
+              isPassword
+              disabled={!inEditMode}
+              placeholder={intl.formatMessage({ id: "settings.new_password" })}
+              label={intl.formatMessage({ id: "settings.new_password" })}
+              rules={[{ required: !!oldPassword, message: "" }]}
+              autoComplete="new-password"
+            />
+          </>
+        )}
 
         {!inEditMode && (
           <ASButton

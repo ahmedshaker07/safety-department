@@ -10,6 +10,16 @@ export const UserContext = ({ children }) => {
   useEffect(() => {
     const storageToken = localStorage.getItem("token") || "";
     setToken(storageToken);
+    if (storageToken) {
+      //get user data using token
+      setUserData({
+        id: 3,
+        email: "shaker@gmail.com",
+        fullName: "Ahmed",
+        phoneNumber: "+1245874125",
+        role: "ADMIN",
+      });
+    }
     setIsFetchingInitialData(false);
   }, []);
 

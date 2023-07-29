@@ -1,22 +1,17 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FilePdfOutlined,
-} from "@ant-design/icons";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
-import { deleteReport, getAllReports } from "../../services/reports";
+import { getAllReports } from "../../services/reports";
 import { fmt } from "../IntlWrapper/IntlWrapper";
 import { checkSmartDate } from "../../utils/helpers";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 
-import "./Reports.scss";
+import "./Followup.scss";
 
-function Reports({ intl }) {
+function Followup({ intl }) {
   const [data, setData] = useState([]);
 
   const { openNotification } = useContext(LayoutContextWrapper);
@@ -27,25 +22,9 @@ function Reports({ intl }) {
 
   const REPORTS_COLUMNS = [
     {
-      title: "ID",
+      title: "Ref ID",
       dataIndex: "id",
-      width: 20,
-    },
-    {
-      title: fmt({ id: "reports.assessor" }),
-      dataIndex: "creator",
-      render: (creator) => `${creator.fullName}`,
-    },
-    {
-      title: fmt({ id: "reports.assited" }),
-      dataIndex: "assistorName",
-    },
-    {
-      title: fmt({
-        id: "header.tabs_name.departments",
-      }),
-      dataIndex: "Department",
-      render: (department) => department?.name,
+      width: 100,
     },
     {
       title: fmt({
@@ -55,37 +34,13 @@ function Reports({ intl }) {
       render: ({ createdAt }) => checkSmartDate(createdAt),
     },
     {
-      render: ({ id }) => (
-        <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <FilePdfOutlined className="ant-icon-sm" />
-          <EditOutlined
-            className="ant-icon-sm"
-            onClick={() => navigate(`/reports/${id}`)}
-          />
-          <DeleteOutlined
-            className="ant-icon-sm"
-            onClick={handleDeleteReport(id)}
-          />
-        </div>
-      ),
-      width: 50,
+      title: fmt({
+        id: "header.tabs_name.departments",
+      }),
+      dataIndex: "Department",
+      render: ({ name }) => name,
     },
   ];
-
-  function handleDeleteReport(id) {
-    return async () => {
-      try {
-        tableRef.current.triggerLoading(true);
-        await deleteReport(id);
-      } catch (error) {
-        openNotification({
-          title: error.message,
-          type: "error",
-        });
-      }
-      tableRef.current.refreshTable();
-    };
-  }
 
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, search }) => {
@@ -93,7 +48,6 @@ function Reports({ intl }) {
         const data = await getAllReports({
           page: pageNumber,
           limit: pageSize,
-          ...(search && { name: search }),
         });
         setData(data);
         return { count: 10 };
@@ -122,4 +76,4 @@ function Reports({ intl }) {
   );
 }
 
-export default injectIntl(Reports);
+export default injectIntl(Followup);

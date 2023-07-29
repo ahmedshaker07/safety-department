@@ -4,6 +4,7 @@ import DOMPurify from "dompurify";
 import PickerArabic from "antd/es/date-picker/locale/ar_EG";
 import PickerEnglish from "antd/es/date-picker/locale/en_US";
 import PickerFrench from "antd/es/date-picker/locale/fr_FR";
+import { isArray, isEqual, isObject, transform } from "lodash";
 
 import { END_DATES_KEYS } from "../constants/helpers";
 import { getLocale } from "./intl-provider";
@@ -124,8 +125,8 @@ export const getRangePickerLocale = () => {
 
 export const dates = (value, format) => {
   const date = format
-    ? dayjs(value).tz("Africa/Cairo").format(format)
-    : dayjs(value).tz("Africa/Cairo");
+    ? dayjs(value)?.tz("Africa/Cairo").format(format)
+    : dayjs(value)?.tz("Africa/Cairo");
   return date;
 };
 
@@ -148,4 +149,52 @@ export const checkSmartDate = (date, format = "ddd, DD MMM") => {
   } else {
     return dates(date, format);
   }
+};
+
+export function difference(origObj, newObj) {
+  function changes(newObj, origObj) {
+    let arrayIndexCounter = 0;
+    return transform(newObj, function (result, value, key) {
+      if (!isEqual(value, origObj[key])) {
+        let resultKey = isArray(origObj) ? arrayIndexCounter++ : key;
+        result[resultKey] =
+          isObject(value) && isObject(origObj[key])
+            ? changes(value, origObj[key])
+            : value;
+      }
+    });
+  }
+  return changes(newObj, origObj);
+}
+
+export const removeEmptyValues = (object) => {
+  const newObj = {};
+  for (const key in object) {
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
+      const value = object[key];
+      if (typeof value === "object" && !Array.isArray(value)) {
+        const innerObj = removeEmptyValues(value);
+        if (Object.keys(innerObj).length !== 0) {
+          newObj[key] = innerObj;
+        }
+      } else if (Array.isArray(value)) {
+        const innerArr = value
+          .filter((item) => {
+            if (typeof item === "object" && !Array.isArray(item)) {
+              return Object.keys(item).length !== 0;
+            }
+            return item !== "" && item !== null && item !== undefined;
+          })
+          .map((item) =>
+            typeof item === "object" ? removeEmptyValues(item) : item
+          );
+        if (innerArr.length > 0) {
+          newObj[key] = innerArr;
+        }
+      } else if (value !== "" && value !== null && value !== undefined) {
+        newObj[key] = value;
+      }
+    }
+  }
+  return newObj;
 };

@@ -13,6 +13,7 @@ import {
   editReport,
   getReportById,
 } from "../../../services/reports";
+import { removeEmptyValues } from "../../../utils/helpers";
 
 import CreateEditLayout from "../../Layouts/CreateEditLayout/CreateEditLayout";
 import ReportsCards from "./components/ReportsCard";
@@ -41,6 +42,69 @@ function AddEditReport({ intl }) {
 
   const [form] = Form.useForm();
 
+  const getEditPayload = (
+    report,
+    {
+      departmentId,
+      assistorName,
+      NumberOfObservers,
+      followUpActions,
+      actions: newReportActionsIds,
+    }
+  ) => {
+    const oldReportActionsIds = report.ReportActions.map(
+      (action) => action.Action.id
+    );
+    const removedReportActionIds = oldReportActionsIds.filter(
+      (id) => !newReportActionsIds.includes(id)
+    );
+    const removedReportActions = report.ReportActions.filter((action) =>
+      removedReportActionIds.includes(action.Action.id)
+    );
+    const getEditDiff = (key, value1, value2) =>
+      value1 !== value2 ? { [key]: value1 } : {};
+
+    return {
+      set: {
+        ...getEditDiff("assistorName", assistorName, report.assistorName),
+        ...getEditDiff("departmentId", departmentId, report.Department.id),
+        ...getEditDiff(
+          "NumberOfObservers",
+          NumberOfObservers,
+          report.NumberOfObservers
+        ),
+      },
+      unset: {
+        ...(!assistorName && { assistorName: 1 }),
+        ...(!NumberOfObservers && { NumberOfObservers: 1 }),
+      },
+      add: {
+        actions: newReportActionsIds.filter(
+          (id) => !oldReportActionsIds.includes(id)
+        ),
+        followUpActions: followUpActions.filter(
+          (newFollowup) =>
+            !report.ReportFollowUpActions.find(
+              (oldFollowup) =>
+                oldFollowup.User.id === newFollowup.userId &&
+                oldFollowup.actionName === newFollowup.actionName
+            )
+        ),
+      },
+      remove: {
+        actions: removedReportActions.map(({ id }) => id),
+        followUpActions: report.ReportFollowUpActions.filter(
+          (oldFollowup) =>
+            !followUpActions.find(
+              (newFollowup) =>
+                oldFollowup.User.id === newFollowup.userId &&
+                oldFollowup.actionName === newFollowup.actionName
+            )
+        ).map(({ id }) => id),
+      },
+    };
+  };
+
   //handling create/edit report
   const onFinish = async ({
     departmentId,
@@ -50,39 +114,38 @@ function AddEditReport({ intl }) {
     unsafeactions,
     NumberOfObservers,
   }) => {
-    const getActionsIds = ({ actions = [], type }) => {
-      return actions.map((action) => action[type]);
-    };
-
-    const payload = {
-      departmentId,
-      assistorName,
-      areaId: 1,
-      NumberOfObservers,
-      followUpActions,
-      actions: [
-        ...getActionsIds({ actions: safeactions, type: SAFE_ACTION }),
-        ...getActionsIds({
-          actions: unsafeactions,
-          type: UNSAFE_ACTION,
-        }),
-      ],
-    };
-
     try {
       setIsSubmitting(true);
-      await (report ? editReport(id, payload) : createReport(payload));
+      const newReportActionsIds = [...safeactions, ...unsafeactions].map(
+        ({ actionId }) => actionId
+      );
+
+      const payload = {
+        departmentId,
+        assistorName,
+        areaId: 1,
+        NumberOfObservers,
+        followUpActions,
+        actions: newReportActionsIds,
+      };
+      const editPayload = getEditPayload(report, payload);
+
+      Boolean(report)
+        ? await editReport(id, removeEmptyValues(editPayload))
+        : await createReport(payload);
+
       openNotification({
-        title: "Report Created",
+        title: "Report Created Successfully",
       });
-      navigate("/reports");
+      return navigate("/reports");
     } catch (error) {
       openNotification({
         title: error.message,
         type: "error",
       });
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   // get all required data for report creation
@@ -140,7 +203,12 @@ function AddEditReport({ intl }) {
 
         const getInitialActions = (type) =>
           reportData.ReportActions.reduce((actions, { Action }) => {
-            Action.type === type && actions.push(Action);
+            Action.type === type &&
+              actions.push({
+                actionId: Action.id,
+                name: Action.name,
+                type: Action.type,
+              });
             return actions;
           }, []);
 

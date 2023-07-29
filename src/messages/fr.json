@@ -29,17 +29,19 @@
       "overview": "Aperçu",
       "analytics": "Analytique",
       "reports": "Rapports",
-      "reports_by_day": "Rapports par jour",
+      "reports_by_time": "Rapports par heure",
       "reports_by_reporter": "Rapports par reporter",
+      "reports_by_department": "Rapports par département",
+      "followup_actions": "Actions de suivi",
       "users": "Utilisateurs",
       "departments": "Départements",
       "actions": "Actions",
       "settings": "Paramètres"
     },
     "tabs_sections": {
-      "home": "Rubrique Accueil",
       "reports": "Section des rapports",
-      "entities": "Rubrique Entités"
+      "analytics": "partie analytique",
+      "followup": "Section de suivi"
     }
   },
   "signin": {
@@ -104,5 +106,11 @@
   "departments": {
     "create_department": "Créer un département",
     "edit_department": "Modifier le département"
+  },
+  "settings": {
+    "delete_account": "Supprimer le compte",
+    "delete_account_description": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+    "old_password": "ancien mot de passe",
+    "new_password": "nouveau mot de passe"
   }
 }

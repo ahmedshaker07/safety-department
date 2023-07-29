@@ -6,6 +6,11 @@ const Reports = lazy(
     await retry(async () => await import("../components/Reports/Reports"))
 );
 
+const Followup = lazy(
+  async () =>
+    await retry(async () => await import("../components/Followup/Followup"))
+);
+
 const Users = lazy(
   async () => await retry(async () => await import("../components/Users/Users"))
 );
@@ -59,16 +64,27 @@ const protectedRoutes = [
     component: AddEditReports,
   },
   {
-    path: "/reports/day",
-    name: "Reports by day",
+    path: "/reports/time",
+    name: "Reports by time",
     component: FilteredReports,
-    props: { pageType: "day" },
+    props: { pageType: "time" },
   },
   {
     path: "/reports/reporter",
     name: "Reports by reporter",
     component: FilteredReports,
     props: { pageType: "reporter" },
+  },
+  {
+    path: "/reports/department",
+    name: "Reports by department",
+    component: FilteredReports,
+    props: { pageType: "department" },
+  },
+  {
+    path: "/followup",
+    name: "Followup Actions",
+    component: Followup,
   },
   {
     path: "/users",

@@ -29,17 +29,19 @@
       "overview": "نظرة عامة",
       "analytics": "تحليلات",
       "reports": "التقارير",
-      "reports_by_day": "تقارير حسب اليوم",
+      "reports_by_time": "تقارير حسب الوقت",
       "reports_by_reporter": "تقارير حسب المقيم",
+      "reports_by_department": "تقارير حسب الإدارة",
+      "followup_actions": "متابعة الإجراءات",
       "users": "المستخدمون",
       "departments": "الإدارات",
       "actions": "الأحداث",
       "settings": "إعدادات"
     },
     "tabs_sections": {
-      "home": "الصفحة الرئيسية",
       "reports": "قسم التقارير",
-      "entities": "قسم الكيانات"
+      "analytics": "قسم التحليلات",
+      "followup": "قسم المتابعة"
     }
   },
   "signin": {
@@ -104,5 +106,11 @@
   "departments": {
     "create_department": "إنشاء قسم",
     "edit_department": "تعديل قسم"
+  },
+  "settings": {
+    "delete_account": "حذف الحساب",
+    "delete_account_description": "هل انت متأكد انك تريد حذف حسابك؟ لا يمكن عكس هذا الإجراء.",
+    "old_password": "كلمة المرور القديمة",
+    "new_password": "كلمة المرور الجديدة"
   }
 }

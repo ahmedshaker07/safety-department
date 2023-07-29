@@ -57,7 +57,7 @@ function Departments({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.triggerLoading(false);
+      tableRef.current.refreshTable();
     };
   }
 

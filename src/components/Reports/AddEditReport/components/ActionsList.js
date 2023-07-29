@@ -24,7 +24,7 @@ const ActionsList = ({
           {fields.map(({ key, name, ...restField }) => (
             <Form.Item className="add-edit-report__action" key={key}>
               <Form.Item
-                name={[name, type]}
+                name={[name, "actionId"]}
                 rules={[
                   {
                     required: type === SAFE_ACTION,

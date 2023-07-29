@@ -70,7 +70,7 @@ function Users({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.triggerLoading(false);
+      tableRef.current.refreshTable();
     };
   }
 

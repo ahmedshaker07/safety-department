@@ -37,7 +37,7 @@ const FollowupActionsList = ({
                           })}
                         />
                       </Form.Item>
-                      <Form.Item name={[name, "bywhen"]} {...restField}>
+                      {/* <Form.Item name={[name, "bywhen"]} {...restField}>
                         <Input
                           placeholder={intl.formatMessage({
                             id: "reports.by_when",
@@ -50,7 +50,7 @@ const FollowupActionsList = ({
                             id: "reports.nmha_card",
                           })}
                         />
-                      </Form.Item>
+                      </Form.Item> */}
                     </div>
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />

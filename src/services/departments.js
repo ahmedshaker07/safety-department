@@ -13,5 +13,5 @@ export const editDepartment = (id, payload) => {
 };
 
 export const deleteDepartment = (id) => {
-  return http.delete(`/department/${id}`);
+  return http.delete(`/departments/${id}`);
 };

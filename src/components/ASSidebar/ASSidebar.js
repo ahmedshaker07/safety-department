@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
 import { mediaHook } from "../../utils/hooks";
-import { SIDEBAR_UPPER_SECTIONS } from "../../constants/helpers";
 import { ContextWrapper } from "../../contexts/user.context";
 
 import ASButton from "../ASButton/ASButton";
@@ -23,21 +22,7 @@ function ASSidebar({
 
   const pathname = window.location.pathname;
 
-  const SIDEBAR_TABS = {
-    // home: [
-    //   {
-    //     path: "/overview",
-    //     label: intl.formatMessage({
-    //       id: "header.tabs_name.overview",
-    //     }),
-    //   },
-    //   {
-    //     path: "/analytics",
-    //     label: intl.formatMessage({
-    //       id: "header.tabs_name.analytics",
-    //     }),
-    //   },
-    // ],
+  const SIDEBAR_UPPER_SECTIONS = {
     reports: [
       {
         path: "/reports",
@@ -45,10 +30,12 @@ function ASSidebar({
           id: "header.tabs_name.reports",
         }),
       },
+    ],
+    analytics: [
       {
-        path: "/reports/day",
+        path: "/reports/time",
         label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_day",
+          id: "header.tabs_name.reports_by_time",
         }),
       },
       {
@@ -57,36 +44,49 @@ function ASSidebar({
           id: "header.tabs_name.reports_by_reporter",
         }),
       },
-    ],
-    entities: [
       {
-        path: "/users",
+        path: "/reports/department",
         label: intl.formatMessage({
-          id: "header.tabs_name.users",
-        }),
-      },
-      {
-        path: "/actions",
-        label: intl.formatMessage({
-          id: "header.tabs_name.actions",
-        }),
-      },
-      {
-        path: "/departments",
-        label: intl.formatMessage({
-          id: "header.tabs_name.departments",
+          id: "header.tabs_name.reports_by_department",
         }),
       },
     ],
-    bottom: [
+    followup: [
       {
-        path: "/settings",
+        path: "/followup",
         label: intl.formatMessage({
-          id: "header.tabs_name.settings",
+          id: "header.tabs_name.followup_actions",
         }),
       },
     ],
   };
+
+  const SIDEBAR_BOTTOM_SECTIONS = [
+    {
+      path: "/users",
+      label: intl.formatMessage({
+        id: "header.tabs_name.users",
+      }),
+    },
+    {
+      path: "/actions",
+      label: intl.formatMessage({
+        id: "header.tabs_name.actions",
+      }),
+    },
+    {
+      path: "/departments",
+      label: intl.formatMessage({
+        id: "header.tabs_name.departments",
+      }),
+    },
+    {
+      path: "/settings",
+      label: intl.formatMessage({
+        id: "header.tabs_name.settings",
+      }),
+    },
+  ];
 
   const navigate = useNavigate();
 
@@ -95,8 +95,6 @@ function ASSidebar({
     navigate(path);
   }
 
-  console.log(userData);
-
   return (
     <Sider className="sidebar">
       <div className="sidebar__upper-section">
@@ -104,46 +102,44 @@ function ASSidebar({
           {intl.formatMessage(
             { id: "header.name" },
             {
-              name: userData.fullName.substring(
-                0,
-                userData.fullName.indexOf(" ")
-              ),
+              name:
+                userData.fullName.substring(
+                  0,
+                  userData.fullName.indexOf(" ")
+                ) || userData.fullName,
             }
           )}
         </span>
         <div>
-          {Object.keys(SIDEBAR_TABS).map(
-            (section, idx) =>
-              SIDEBAR_UPPER_SECTIONS.includes(section) && (
-                <div className="sidebar__section" key={idx}>
-                  <span className="subheading">
-                    {intl.formatMessage({
-                      id: `header.tabs_sections.${section}`,
+          {Object.keys(SIDEBAR_UPPER_SECTIONS).map((section, idx) => (
+            <div className="sidebar__section" key={idx}>
+              <span className="subheading">
+                {intl.formatMessage({
+                  id: `header.tabs_sections.${section}`,
+                })}
+              </span>
+              <div className="sidebar__section-buttons">
+                {SIDEBAR_UPPER_SECTIONS[section].map(({ path, label }, idx) => (
+                  <ASButton
+                    key={idx}
+                    type="text"
+                    label={label}
+                    className={classNames("button as-sider-button", {
+                      "as-sider-button-active": pathname === path,
                     })}
-                  </span>
-                  <div className="sidebar__section-buttons">
-                    {SIDEBAR_TABS[section].map(({ path, label }, idx) => (
-                      <ASButton
-                        key={idx}
-                        type="text"
-                        label={label}
-                        className={classNames("button as-sider-button", {
-                          "as-sider-button-active": pathname === path,
-                        })}
-                        onClick={() => {
-                          onTabClick(path);
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )
-          )}
+                    onClick={() => {
+                      onTabClick(path);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <div className="sidebar__section">
         <div className="sidebar__section-buttons">
-          {SIDEBAR_TABS.bottom.map(({ path, label }, idx) => (
+          {SIDEBAR_BOTTOM_SECTIONS.map(({ path, label }, idx) => (
             <ASButton
               key={idx}
               type="text"
