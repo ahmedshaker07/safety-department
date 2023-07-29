@@ -57,7 +57,7 @@ function Reports({ intl }) {
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <FilePdfOutlined className="ant-icon-sm" />
+          {/* <FilePdfOutlined className="ant-icon-sm" /> */}
           <EditOutlined
             className="ant-icon-sm"
             onClick={() => navigate(`/reports/${id}`)}

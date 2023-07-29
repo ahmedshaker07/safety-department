@@ -2,6 +2,7 @@ import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form, Modal, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import { isEmpty } from "lodash";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
 import {
@@ -10,6 +11,7 @@ import {
   editUser,
   getAllUsers,
 } from "../../services/users";
+import { difference } from "../../utils/helpers";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASFormItem from "../ASFormItem/ASFormItem";
@@ -120,9 +122,16 @@ function Users({ intl }) {
 
     try {
       setIsSubmitting(true);
-      await (record
-        ? editUser(record.id, { set: payload })
-        : createUser(payload));
+      if (record) {
+        const editPayload = difference(record, payload);
+        if (isEmpty(editPayload)) {
+          setIsSubmitting(false);
+          return onCancel();
+        }
+        await editUser(record.id, { set: editPayload });
+      } else {
+        await createUser(payload);
+      }
       tableRef.current.refreshTable();
       onCancel();
     } catch (error) {
