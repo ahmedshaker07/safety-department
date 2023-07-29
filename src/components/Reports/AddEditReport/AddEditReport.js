@@ -75,8 +75,8 @@ function AddEditReport({ intl }) {
         ),
       },
       unset: {
-        ...(!assistorName && { assistorName: 1 }),
-        ...(!NumberOfObservers && { NumberOfObservers: 1 }),
+        ...(!assistorName && { assistorName: true }),
+        ...(!NumberOfObservers && { NumberOfObservers: true }),
       },
       add: {
         actions: newReportActionsIds.filter(
