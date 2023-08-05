@@ -110,8 +110,8 @@ function AddEditReport({ intl }) {
     departmentId,
     assistorName,
     followUpActions,
-    safeactions,
-    unsafeactions,
+    safeactions = [],
+    unsafeactions = [],
     NumberOfObservers,
   }) => {
     try {
@@ -128,14 +128,17 @@ function AddEditReport({ intl }) {
         followUpActions,
         actions: newReportActionsIds,
       };
-      const editPayload = getEditPayload(report, payload);
+      const editPayload = report ? getEditPayload(report, payload) : {};
 
       Boolean(report)
         ? await editReport(id, removeEmptyValues(editPayload))
         : await createReport(payload);
 
       openNotification({
-        title: "Report Created Successfully",
+        title: report
+          ? "Report Updated Successfully"
+          : "Report Created Successfully",
+        type: "success",
       });
       return navigate("/reports");
     } catch (error) {

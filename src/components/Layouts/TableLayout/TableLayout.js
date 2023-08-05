@@ -15,9 +15,11 @@ const TableLayout = ({
 }) => {
   return (
     <div className="table-layout">
-      <div className="table-layout__add-report">
-        <ASButton label={btnLabel} onClick={onClick} />
-      </div>
+      {btnLabel && (
+        <div className="table-layout__add-report">
+          <ASButton label={btnLabel} onClick={onClick} />
+        </div>
+      )}
       <ASTable
         columns={columns}
         dataSource={dataSource}

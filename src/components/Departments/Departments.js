@@ -67,6 +67,7 @@ function Departments({ intl }) {
         const { departments, count } = await getAllDepartments({
           page: pageNumber,
           limit: pageSize,
+          ...(search && { name: search }),
         });
         setData(departments);
 
