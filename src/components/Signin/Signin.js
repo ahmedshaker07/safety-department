@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Form } from "antd";
 import { injectIntl } from "react-intl";
-// import { Animated } from "react-animated-css";
+import { Animated } from "react-animated-css";
 
 import { login } from "../../services/auth";
 import { ContextWrapper } from "../../contexts/user.context";
@@ -37,7 +37,7 @@ function Signin({ intl }) {
 
   return (
     <div className="signin-page">
-      <div className="signin-page__modal">
+      <Animated animationIn="fadeInLeft" className="signin-page__modal">
         <div className="signin-page__modal-title">
           <span className="display-md">
             {intl.formatMessage({ id: "signin.title" })}
@@ -78,7 +78,7 @@ function Signin({ intl }) {
             loading={isLoading}
           />
         </Form>
-      </div>
+      </Animated>
     </div>
   );
 }
