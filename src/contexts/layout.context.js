@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useMedia } from "use-media";
+import { useMediaQuery } from "react-responsive";
 import { notification } from "antd";
 
 export const LayoutContextWrapper = createContext({ name: "" });
@@ -9,7 +9,7 @@ export const LayoutContext = ({ children }) => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const isLargeMobileScreen = useMedia({ maxWidth: "992px" });
+  const isLargeMobileScreen = useMediaQuery({ maxWidth: "992px" });
 
   const openNotification = ({ title, placement = "top", type = "info" }) => {
     api[type]({
