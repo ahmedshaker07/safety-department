@@ -57,13 +57,13 @@ function Reports({ intl }) {
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          {/* <FilePdfOutlined className="ant-icon-sm" /> */}
+          {/* <FilePdfOutlined className="ant-icon-md" /> */}
           <EditOutlined
-            className="ant-icon-sm"
+            className="ant-icon-md"
             onClick={() => navigate(`/reports/${id}`)}
           />
           <DeleteOutlined
-            className="ant-icon-sm"
+            className="ant-icon-md"
             onClick={handleDeleteReport(id)}
           />
         </div>

@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Select, Form, DatePicker, Collapse } from "antd";
 import ArabicLocale from "antd/es/date-picker/locale/ar_EG";
 import FrenchLocale from "antd/es/date-picker/locale/fr_FR";
-import { Column } from "@ant-design/plots";
+import { Pie } from "@ant-design/plots";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
 import { getAllReports } from "../../services/reports";
@@ -33,34 +33,28 @@ function Followup() {
   };
 
   const data = [
-    {
-      type: "Done",
-      count: 38,
-    },
-    {
-      type: "Suspended",
-      count: 52,
-    },
+    { type: "Done", value: 27 },
+    { type: "Suspended", value: 25 },
   ];
 
   const config = {
     data,
-    xField: "type",
-    yField: "count",
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
+    angleField: "value",
+    colorField: "type",
+    label: {
+      type: "spider",
+      labelHeight: 28,
+      content: "{name}\n{percentage}",
     },
-    meta: {
-      type: {
-        alias: "type",
+    legend: false,
+    interactions: [
+      {
+        type: "element-selected",
       },
-      count: {
-        alias: "Number of actions",
+      {
+        type: "element-active",
       },
-    },
+    ],
   };
 
   const FOLLOWUP_COLUMNS = [
@@ -240,7 +234,7 @@ function Followup() {
         tableRef={tableRef}
       />
 
-      <Column {...config} />
+      <Pie {...config} />
     </div>
   );
 }
