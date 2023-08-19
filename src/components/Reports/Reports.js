@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   DeleteOutlined,
   EditOutlined,
-  // FilePdfOutlined,
+  FilePdfOutlined,
 } from "@ant-design/icons";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
@@ -57,7 +57,7 @@ function Reports({ intl }) {
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          {/* <FilePdfOutlined className="ant-icon-md" /> */}
+          <FilePdfOutlined className="ant-icon-md" />
           <EditOutlined
             className="ant-icon-md"
             onClick={() => navigate(`/reports/${id}`)}

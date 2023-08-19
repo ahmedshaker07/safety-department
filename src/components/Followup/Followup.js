@@ -135,7 +135,7 @@ function Followup() {
             allowClear={false}
             inputReadOnly
             disabledDate={(current) => disabledDate(current, new Date())}
-            defaultValue={deadLine}
+            defaultValue={deadLine ? dayjs(deadLine) : null}
           />
         </div>
       ),
