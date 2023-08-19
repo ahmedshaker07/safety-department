@@ -1,19 +1,26 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Select, Form, DatePicker, Collapse } from "antd";
+import { Select, Form, DatePicker } from "antd";
 import ArabicLocale from "antd/es/date-picker/locale/ar_EG";
 import FrenchLocale from "antd/es/date-picker/locale/fr_FR";
 import { Pie } from "@ant-design/plots";
+import dayjs from "dayjs";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
-import { getAllReports } from "../../services/reports";
 import { fmt } from "../IntlWrapper/IntlWrapper";
-import { checkSmartDate, getRangePickerLocale } from "../../utils/helpers";
+import {
+  checkSmartDate,
+  disabledDate,
+  getRangePickerLocale,
+} from "../../utils/helpers";
 import { getLocale } from "../../utils/intl-provider";
 import { getAllDepartments } from "../../services/departments";
 import { getAllUsers } from "../../services/users";
+import { editFollowupAction, getFollowupActions } from "../../services/actions";
+import { FOLLOWUP_STATES } from "../../constants/actions";
 
 import ASButton from "../ASButton/ASButton";
 import TableLayout from "../Layouts/TableLayout/TableLayout";
+import ASCollapse from "../ASCollapse/ASCollapse";
 
 import "./Followup.scss";
 
@@ -26,6 +33,41 @@ function Followup() {
 
   const tableRef = useRef();
 
+  const onStatusClick = (id, state) => {
+    return async () => {
+      try {
+        await editFollowupAction(id, {
+          set: {
+            state:
+              state === FOLLOWUP_STATES.DONE
+                ? FOLLOWUP_STATES.IN_PROGRESS
+                : FOLLOWUP_STATES.DONE,
+          },
+        });
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+    };
+  };
+
+  const onDateChange = async (id, date) => {
+    try {
+      await editFollowupAction(id, {
+        set: {
+          deadLine: dayjs(date).toISOString(),
+        },
+      });
+    } catch (error) {
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
+    }
+  };
+
   const datePickerLocale = {
     ar: ArabicLocale,
     fr: FrenchLocale,
@@ -33,8 +75,8 @@ function Followup() {
   };
 
   const data = [
-    { type: "Done", value: 27 },
-    { type: "Suspended", value: 25 },
+    { type: FOLLOWUP_STATES.DONE, value: 27 },
+    { type: FOLLOWUP_STATES.IN_PROGRESS, value: 25 },
   ];
 
   const config = {
@@ -74,23 +116,26 @@ function Followup() {
       title: fmt({
         id: "header.tabs_name.departments",
       }),
-      dataIndex: "Department",
-      render: ({ name }) => name,
+      dataIndex: "Report",
+      render: ({ Department }) => Department?.name,
     },
     {
       title: "By Whom",
-      render: () => <span>Ahmed Sayed</span>,
+      dataIndex: "User",
+      render: ({ fullName }) => fullName,
     },
     {
       title: "Deadline",
-      render: () => (
+      render: ({ id, deadLine }) => (
         <div onClick={(event) => event.stopPropagation()}>
           <DatePicker
             locale={datePickerLocale[getLocale()]}
-            onChange={(date) => {
-              console.log(date);
-            }}
+            onChange={(date) => onDateChange(id, date)}
             getPopupContainer={() => document.body}
+            allowClear={false}
+            inputReadOnly
+            disabledDate={(current) => disabledDate(current, new Date())}
+            defaultValue={deadLine}
           />
         </div>
       ),
@@ -98,21 +143,22 @@ function Followup() {
     },
     {
       title: "Status",
-      render: () => (
+      render: ({ id, state }) => (
         <div
           className="checkbox-wrapper-10"
           onClick={(event) => event.stopPropagation()}
         >
           <input
-            defaultChecked={true}
+            defaultChecked={state === FOLLOWUP_STATES.DONE}
             type="checkbox"
-            id="cb5"
+            id={`cb${id}`}
             className="tgl tgl-flip"
+            onClick={onStatusClick(id, state)}
           />
           <label
-            htmlFor="cb5"
+            htmlFor={`cb${id}`}
             data-tg-on="Done"
-            data-tg-off="Suspended"
+            data-tg-off="In Progress"
             className="tgl-btn"
           />
         </div>
@@ -124,7 +170,7 @@ function Followup() {
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, search }) => {
       try {
-        const data = await getAllReports({
+        const data = await getFollowupActions({
           page: pageNumber,
           limit: pageSize,
         });
@@ -181,50 +227,48 @@ function Followup() {
 
   return (
     <div className="followups">
-      <Collapse className="followups__filters">
-        <Collapse.Panel header="Filters">
-          <Form layout="vertical">
-            <div className="followups__date-filters">
-              <Form.Item name="reportDate" label="Report Date">
-                <DatePicker.RangePicker locale={getRangePickerLocale()} />
-              </Form.Item>
-              <Form.Item name="deadline" label="Deadline">
-                <DatePicker.RangePicker locale={getRangePickerLocale()} />
-              </Form.Item>
-            </div>
-            <Form.Item name="departmentId" label={fmt({ id: "reports.area" })}>
-              <Select
-                placeholder={fmt({ id: "reports.area" })}
-                options={departments}
-                virtual={false}
-              />
+      <ASCollapse panelHeader="Filters">
+        <Form layout="vertical">
+          <div className="followups__date-filters">
+            <Form.Item name="reportDate" label="Report Date">
+              <DatePicker.RangePicker locale={getRangePickerLocale()} />
             </Form.Item>
-            <Form.Item
-              name="name"
-              label={fmt({
+            <Form.Item name="deadline" label="Deadline">
+              <DatePicker.RangePicker locale={getRangePickerLocale()} />
+            </Form.Item>
+          </div>
+          <Form.Item name="departmentId" label={fmt({ id: "reports.area" })}>
+            <Select
+              placeholder={fmt({ id: "reports.area" })}
+              options={departments}
+              virtual={false}
+            />
+          </Form.Item>
+          <Form.Item
+            name="name"
+            label={fmt({
+              id: "reports.by_whom",
+            })}
+          >
+            <Select
+              options={users}
+              placeholder={fmt({
                 id: "reports.by_whom",
               })}
-            >
-              <Select
-                options={users}
-                placeholder={fmt({
-                  id: "reports.by_whom",
-                })}
-              />
-            </Form.Item>
-            <Form.Item name="status" label="Status">
-              <Select
-                options={[
-                  { value: "done", label: "Done" },
-                  { value: "suspended", label: "Suspended" },
-                ]}
-                placeholder="Status"
-              />
-            </Form.Item>
-            <ASButton label={fmt({ id: "common.filter" })} />
-          </Form>
-        </Collapse.Panel>
-      </Collapse>
+            />
+          </Form.Item>
+          <Form.Item name="status" label="Status">
+            <Select
+              options={[
+                { value: "done", label: "Done" },
+                { value: "inProgress", label: "In Progress" },
+              ]}
+              placeholder="Status"
+            />
+          </Form.Item>
+          <ASButton label={fmt({ id: "common.filter" })} />
+        </Form>
+      </ASCollapse>
 
       <TableLayout
         columns={FOLLOWUP_COLUMNS}

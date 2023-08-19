@@ -36,6 +36,7 @@ function FilteredReportsColumn() {
       sales: 38,
     },
   ];
+
   const config = {
     data,
     xField: "type",

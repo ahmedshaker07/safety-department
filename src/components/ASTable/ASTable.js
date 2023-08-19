@@ -28,6 +28,7 @@ const ASTable = forwardRef(
       onRowClick = () => {},
       tableRef,
       externalLoading,
+      hasSearch = true,
     },
     _
   ) => {
@@ -108,18 +109,20 @@ const ASTable = forwardRef(
         onChange={handleTableChange}
         title={() => (
           <>
-            <div className="filtered-reports-page__table-search">
-              <Input
-                placeholder={intl.formatMessage({ id: "common.search" })}
-                value={searchText}
-                onChange={onSearchTextChange}
-              />
-              <ASButton
-                disabled={!searchText}
-                label={intl.formatMessage({ id: "common.search" })}
-                onClick={onSearchClick}
-              />
-            </div>
+            {hasSearch && (
+              <div className="filtered-reports-page__table-search">
+                <Input
+                  placeholder={intl.formatMessage({ id: "common.search" })}
+                  value={searchText}
+                  onChange={onSearchTextChange}
+                />
+                <ASButton
+                  disabled={!searchText}
+                  label={intl.formatMessage({ id: "common.search" })}
+                  onClick={onSearchClick}
+                />
+              </div>
+            )}
             {hasExportFeatures && (
               <div className="filtered-reports-page__table-actions">
                 <ASButton label="PDF" />

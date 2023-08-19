@@ -198,3 +198,7 @@ export const removeEmptyValues = (object) => {
   }
   return newObj;
 };
+
+export const disabledDate = (current, date) => {
+  return current && current.valueOf() < date.setDate(date.getDate() - 1);
+};

@@ -4,11 +4,6 @@ export const login = (data) => {
   return http.post("/users/login", data);
 };
 
-export const register = () => {
-  return http.post("/users/register", {
-    email: "ecpcadmin@yopmail.com",
-    password: "12345",
-    firstName: "Ahmed",
-    lastName: "Shaker",
-  });
+export const getUserLoginDetails = () => {
+  return http.get("/users/userInfo");
 };

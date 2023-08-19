@@ -1,5 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 
+import { getUserLoginDetails } from "../services/auth";
+
 export const ContextWrapper = createContext({ name: "" });
 
 export const UserContext = ({ children }) => {
@@ -8,19 +10,17 @@ export const UserContext = ({ children }) => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    const storageToken = localStorage.getItem("token") || "";
-    setToken(storageToken);
-    if (storageToken) {
-      //get user data using token
-      setUserData({
-        id: 3,
-        email: "shaker@gmail.com",
-        fullName: "Ahmed",
-        phoneNumber: "+1245874125",
-        role: "ADMIN",
-      });
-    }
-    setIsFetchingInitialData(false);
+    const initializeApp = async () => {
+      const storageToken = localStorage.getItem("token") || "";
+      setToken(storageToken);
+      if (storageToken) {
+        const userLoginDetails = await getUserLoginDetails();
+        setUserData(userLoginDetails);
+      }
+      setIsFetchingInitialData(false);
+    };
+
+    initializeApp();
   }, []);
 
   return (

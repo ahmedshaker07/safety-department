@@ -1,6 +1,5 @@
 import { useCallback, useContext, useState } from "react";
-import { injectIntl } from "react-intl";
-import { DatePicker, Form } from "antd";
+import { DatePicker, Form, Tabs } from "antd";
 
 import { getRangePickerLocale } from "../../utils/helpers";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
@@ -8,26 +7,32 @@ import { LayoutContextWrapper } from "../../contexts/layout.context";
 import FilteredReportsColumn from "./components/FilteredReportsColumn";
 import ASButton from "../ASButton/ASButton";
 import ASTable from "../ASTable/ASTable";
+import { fmt } from "../IntlWrapper/IntlWrapper";
+import ASCollapse from "../ASCollapse/ASCollapse";
 
 import "./FilteredReports.scss";
+import { REPORT_PAGE_TYPES } from "../../constants/actions";
 
-const { RangePicker } = DatePicker;
-
-function FilteredReports({ intl, pageType }) {
+function FilteredReports({ pageType }) {
   const columns = [
     {
-      title: pageType === "reporter" ? "Employee" : "Date",
-      dataIndex: pageType === "reporter" ? "name" : "date",
-      sorter: true,
+      title: {
+        time: "Date",
+        reporter: "Employee",
+        department: "Department",
+      }[pageType],
+      dataIndex: {
+        time: "date",
+        reporter: "name",
+        department: "name",
+      }[pageType],
     },
     {
       title: "Number of reports",
       dataIndex: "numberOfReports",
-      sorter: true,
     },
     {
       title: "People observed",
-      sorter: true,
       dataIndex: "peopleObserved",
     },
   ];
@@ -82,28 +87,67 @@ function FilteredReports({ intl, pageType }) {
     [openNotification]
   );
 
-  return (
-    <div className="filtered-reports-page">
-      <div className="filtered-reports__filters">
-        <div>
-          <Form.Item>
-            <RangePicker locale={getRangePickerLocale()} />
-          </Form.Item>
-        </div>
-        <ASButton label={intl.formatMessage({ id: "common.filter" })} />
+  const ReportsPerPeriod = () => {
+    return (
+      <div className="filtered-reports-page">
+        <ASCollapse panelHeader="Filters">
+          <Form layout="vertical">
+            <Form.Item name="reportDate" label="Date Period">
+              <DatePicker.RangePicker locale={getRangePickerLocale()} />
+            </Form.Item>
+
+            <ASButton label={fmt({ id: "common.filter" })} />
+          </Form>
+        </ASCollapse>
+
+        <ASTable
+          columns={columns}
+          dataSource={data}
+          fetchData={fetchData}
+          rowKey={({ id }) => id}
+          hasExportFeatures
+          hasSearch={[
+            REPORT_PAGE_TYPES.REPORTER,
+            REPORT_PAGE_TYPES.DEPARTMENT,
+          ].includes(pageType)}
+        />
+
+        <FilteredReportsColumn />
       </div>
+    );
+  };
 
-      <ASTable
-        columns={columns}
-        dataSource={data}
-        fetchData={fetchData}
-        rowKey={(record) => record.id}
-        hasExportFeatures
-      />
-
-      <FilteredReportsColumn />
-    </div>
+  return (
+    <Tabs
+      defaultActiveKey="Per Day"
+      type="card"
+      animated
+      items={[
+        {
+          name: "Per Day",
+          component: ReportsPerPeriod,
+        },
+        {
+          name: "Per Week",
+          component: ReportsPerPeriod,
+        },
+        {
+          name: "Per Month",
+          component: ReportsPerPeriod,
+        },
+        {
+          name: "Per Year",
+          component: ReportsPerPeriod,
+        },
+      ].map(({ name, component: Component }, idx) => {
+        return {
+          label: name,
+          key: idx,
+          children: <Component />,
+        };
+      })}
+    />
   );
 }
 
-export default injectIntl(FilteredReports);
+export default FilteredReports;

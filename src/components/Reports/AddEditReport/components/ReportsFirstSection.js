@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { Form, Input, Select, InputNumber } from "antd";
 
 import { fmt } from "../../../IntlWrapper/IntlWrapper";
+import { ContextWrapper } from "../../../../contexts/user.context";
 
 const ReportsFirstSection = ({ departments }) => {
+  const { userData } = useContext(ContextWrapper);
+
   const formattedDepartments = departments.map(({ id, name }) => ({
     value: id,
     label: name,
@@ -25,7 +29,7 @@ const ReportsFirstSection = ({ departments }) => {
       <Form.Item
         label={fmt({ id: "reports.assessor" })}
         name="assessor"
-        initialValue="Ahmed Shaker"
+        initialValue={userData?.fullName}
       >
         <Input placeholder={fmt({ id: "reports.assessor" })} disabled />
       </Form.Item>

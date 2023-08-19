@@ -163,3 +163,9 @@ body {
 html[dir="rtl"] .ant-pagination-item-link {
   transform: scaleX(-1);
 }
+
+.no-text-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

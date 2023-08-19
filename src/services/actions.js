@@ -15,3 +15,11 @@ export const editAction = (id, payload) => {
 export const deleteAction = (id) => {
   return http.delete(`/actions/${id}`);
 };
+
+export const getFollowupActions = (payload) => {
+  return http.get("/reportFollowUpActions", payload);
+};
+
+export const editFollowupAction = (id, payload) => {
+  return http.put(`/reportFollowUpActions/${id}`, payload);
+};
