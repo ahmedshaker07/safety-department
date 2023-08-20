@@ -6,6 +6,7 @@ import { Animated } from "react-animated-css";
 import { login } from "../../services/auth";
 import { ContextWrapper } from "../../contexts/user.context";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
+import { USER_PERMISSIONS } from "../../constants/permissions";
 
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
@@ -15,7 +16,7 @@ import "./Signin.scss";
 function Signin({ intl }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setToken, setUserData } = useContext(ContextWrapper);
+  const { setToken, setUserData, setPermissions } = useContext(ContextWrapper);
   const { openNotification } = useContext(LayoutContextWrapper);
 
   async function handleSignin(values) {
@@ -25,6 +26,7 @@ function Signin({ intl }) {
       localStorage.setItem("token", token);
       setToken(token);
       setUserData(rest);
+      setPermissions(USER_PERMISSIONS[rest.role]);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

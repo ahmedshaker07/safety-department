@@ -17,6 +17,7 @@ import { getAllDepartments } from "../../services/departments";
 import { getAllUsers } from "../../services/users";
 import { editFollowupAction, getFollowupActions } from "../../services/actions";
 import { FOLLOWUP_STATES } from "../../constants/actions";
+import { ContextWrapper } from "../../contexts/user.context";
 
 import ASButton from "../ASButton/ASButton";
 import TableLayout from "../Layouts/TableLayout/TableLayout";
@@ -30,6 +31,7 @@ function Followup() {
   const [users, setUsers] = useState([]);
 
   const { openNotification } = useContext(LayoutContextWrapper);
+  const { userData, permissions } = useContext(ContextWrapper);
 
   const tableRef = useRef();
 
@@ -126,7 +128,7 @@ function Followup() {
     },
     {
       title: "Deadline",
-      render: ({ id, deadLine }) => (
+      render: ({ id, deadLine, userId }) => (
         <div onClick={(event) => event.stopPropagation()}>
           <DatePicker
             locale={datePickerLocale[getLocale()]}
@@ -136,35 +138,40 @@ function Followup() {
             inputReadOnly
             disabledDate={(current) => disabledDate(current, new Date())}
             defaultValue={deadLine ? dayjs(deadLine) : null}
+            disabled={userData.id !== userId}
           />
         </div>
       ),
       width: 200,
     },
-    {
-      title: "Status",
-      render: ({ id, state }) => (
-        <div
-          className="checkbox-wrapper-10"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <input
-            defaultChecked={state === FOLLOWUP_STATES.DONE}
-            type="checkbox"
-            id={`cb${id}`}
-            className="tgl tgl-flip"
-            onClick={onStatusClick(id, state)}
-          />
-          <label
-            htmlFor={`cb${id}`}
-            data-tg-on="Done"
-            data-tg-off="In Progress"
-            className="tgl-btn"
-          />
-        </div>
-      ),
-      width: 130,
-    },
+    ...(permissions.UPDATE_FOLLOWUP_STATUS
+      ? [
+          {
+            title: "Status",
+            render: ({ id, state }) => (
+              <div
+                className="checkbox-wrapper-10"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <input
+                  defaultChecked={state === FOLLOWUP_STATES.DONE}
+                  type="checkbox"
+                  id={`cb${id}`}
+                  className="tgl tgl-flip"
+                  onClick={onStatusClick(id, state)}
+                />
+                <label
+                  htmlFor={`cb${id}`}
+                  data-tg-on="Done"
+                  data-tg-off="In Progress"
+                  className="tgl-btn"
+                />
+              </div>
+            ),
+            width: 130,
+          },
+        ]
+      : []),
   ];
 
   const fetchData = useCallback(
