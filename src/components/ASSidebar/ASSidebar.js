@@ -18,7 +18,7 @@ function ASSidebar({
   setIsSidebarHidden,
   mobileScreenSizes: { isLargeMobileScreen },
 }) {
-  const { userData } = useContext(ContextWrapper);
+  const { userData, permissions } = useContext(ContextWrapper);
 
   const pathname = window.location.pathname;
 
@@ -31,26 +31,30 @@ function ASSidebar({
         }),
       },
     ],
-    analytics: [
-      {
-        path: "/reports/time",
-        label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_time",
-        }),
-      },
-      {
-        path: "/reports/reporter",
-        label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_reporter",
-        }),
-      },
-      {
-        path: "/reports/department",
-        label: intl.formatMessage({
-          id: "header.tabs_name.reports_by_department",
-        }),
-      },
-    ],
+    ...(permissions.VIEW_ANALYTICS
+      ? {
+          analytics: [
+            {
+              path: "/reports/time",
+              label: intl.formatMessage({
+                id: "header.tabs_name.reports_by_time",
+              }),
+            },
+            {
+              path: "/reports/reporter",
+              label: intl.formatMessage({
+                id: "header.tabs_name.reports_by_reporter",
+              }),
+            },
+            {
+              path: "/reports/department",
+              label: intl.formatMessage({
+                id: "header.tabs_name.reports_by_department",
+              }),
+            },
+          ],
+        }
+      : {}),
     followup: [
       {
         path: "/followup",
@@ -62,24 +66,28 @@ function ASSidebar({
   };
 
   const SIDEBAR_BOTTOM_SECTIONS = [
-    {
-      path: "/users",
-      label: intl.formatMessage({
-        id: "header.tabs_name.users",
-      }),
-    },
-    {
-      path: "/actions",
-      label: intl.formatMessage({
-        id: "header.tabs_name.actions",
-      }),
-    },
-    {
-      path: "/departments",
-      label: intl.formatMessage({
-        id: "header.tabs_name.departments",
-      }),
-    },
+    ...(permissions.DASHBOARD_DATA_MANAGEMENT
+      ? [
+          {
+            path: "/users",
+            label: intl.formatMessage({
+              id: "header.tabs_name.users",
+            }),
+          },
+          {
+            path: "/actions",
+            label: intl.formatMessage({
+              id: "header.tabs_name.actions",
+            }),
+          },
+          {
+            path: "/departments",
+            label: intl.formatMessage({
+              id: "header.tabs_name.departments",
+            }),
+          },
+        ]
+      : []),
     {
       path: "/settings",
       label: intl.formatMessage({

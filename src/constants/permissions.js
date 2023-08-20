@@ -1,8 +1,12 @@
 export const USER_PERMISSIONS = {
   ADMIN: {
     UPDATE_FOLLOWUP_STATUS: true,
+    DASHBOARD_DATA_MANAGEMENT: true,
+    VIEW_ANALYTICS: true,
   },
   REPORTER: {
     UPDATE_FOLLOWUP_STATUS: false,
+    DASHBOARD_DATA_MANAGEMENT: false,
+    VIEW_ANALYTICS: false,
   },
 };
