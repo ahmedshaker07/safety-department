@@ -90,13 +90,13 @@ function Reports({ intl }) {
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, search }) => {
       try {
-        const data = await getAllReports({
+        const { reports, count } = await getAllReports({
           page: pageNumber,
           limit: pageSize,
           ...(search && { name: search }),
         });
-        setData(data);
-        return { count: 10 };
+        setData(reports);
+        return { count };
       } catch (error) {
         openNotification({
           title: error.message,

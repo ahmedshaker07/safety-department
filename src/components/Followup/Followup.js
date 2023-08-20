@@ -170,12 +170,12 @@ function Followup() {
   const fetchData = useCallback(
     async ({ pageSize, pageNumber, search }) => {
       try {
-        const data = await getFollowupActions({
+        const { actions, count } = await getFollowupActions({
           page: pageNumber,
           limit: pageSize,
         });
-        setActions(data);
-        return { count: 10 };
+        setActions(actions);
+        return { count };
       } catch (error) {
         openNotification({
           title: error.message,
