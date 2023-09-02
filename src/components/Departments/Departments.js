@@ -57,7 +57,9 @@ function Departments({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({
+        pageNumber: tableRef.current.getPageNumber(),
+      });
     };
   }
 
@@ -103,7 +105,7 @@ function Departments({ intl }) {
       await (record
         ? editDepartment(record.id, { set: values })
         : createDepartment(values));
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({});
       onCancel();
     } catch (error) {
       openNotification({

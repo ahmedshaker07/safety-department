@@ -61,7 +61,9 @@ function Actions({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({
+        pageNumber: tableRef.current.getPageNumber(),
+      });
     };
   }
 
@@ -106,7 +108,7 @@ function Actions({ intl }) {
       await (record
         ? editAction(record.id, { set: values })
         : createAction(values));
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({});
       onCancel();
     } catch (error) {
       openNotification({

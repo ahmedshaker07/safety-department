@@ -75,11 +75,14 @@ const ASTable = forwardRef(
     };
 
     useImperativeHandle(tableRef, () => ({
-      refreshTable() {
-        getData({});
+      refreshTable({ pageNumber = 1 }) {
+        getData({ pageNumber });
       },
       triggerLoading(value) {
         setLoading(value);
+      },
+      getPageNumber() {
+        return pageNumber;
       },
     }));
 

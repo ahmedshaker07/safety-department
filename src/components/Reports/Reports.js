@@ -84,7 +84,9 @@ function Reports({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({
+        pageNumber: tableRef.current.getPageNumber(),
+      });
     };
   }
 

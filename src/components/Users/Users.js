@@ -72,7 +72,9 @@ function Users({ intl }) {
           type: "error",
         });
       }
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({
+        pageNumber: tableRef.current.getPageNumber(),
+      });
     };
   }
 
@@ -132,7 +134,7 @@ function Users({ intl }) {
       } else {
         await createUser(payload);
       }
-      tableRef.current.refreshTable();
+      tableRef.current.refreshTable({});
       onCancel();
     } catch (error) {
       openNotification({
