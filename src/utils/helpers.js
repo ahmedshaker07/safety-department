@@ -123,12 +123,8 @@ export const getRangePickerLocale = () => {
   return pickerLocal[locale];
 };
 
-export const dates = (value, format) => {
-  const date = format
-    ? dayjs(value)?.tz("Africa/Cairo").format(format)
-    : dayjs(value)?.tz("Africa/Cairo");
-  return date;
-};
+export const dates = (value, format = "ddd, DD MMM") =>
+  dayjs(value)?.format(format);
 
 export const checkDate = (date) => {
   if (dayjs(date).isToday()) {

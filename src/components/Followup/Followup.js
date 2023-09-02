@@ -112,7 +112,7 @@ function Followup() {
         id: "reports.date",
       }),
       dataIndex: "createdAt",
-      render: ({ createdAt }) => checkSmartDate(createdAt),
+      render: (createdAt) => checkSmartDate(createdAt),
     },
     {
       title: fmt({

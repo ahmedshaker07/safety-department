@@ -39,6 +39,7 @@ function Reports({ intl }) {
     {
       title: fmt({ id: "reports.assited" }),
       dataIndex: "assistorName",
+      render: (assistorName) => assistorName || "_",
     },
     {
       title: fmt({
@@ -52,7 +53,7 @@ function Reports({ intl }) {
         id: "reports.date",
       }),
       dataIndex: "createdAt",
-      render: ({ createdAt }) => checkSmartDate(createdAt),
+      render: (createdAt) => checkSmartDate(createdAt),
     },
     {
       render: ({ id }) => (
