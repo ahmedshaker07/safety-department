@@ -1,45 +1,83 @@
-import { useState, useEffect, useRef } from "react";
-// import { Modal, Upload } from "antd";
-// import { PlusOutlined } from "@ant-design/icons";
+import { useContext, useEffect, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
+import { Upload } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
-// import {
-//   uploadImages,
-//   uploadImagesToServerAndGetLink,
-// } from "../../../../services/reports";
-// import { ACCEPTED_IMAGE_TYPES } from "../../../../constants/helpers";
-// import { LayoutContextWrapper } from "../../../../contexts/layout.context";
+import { LayoutContextWrapper } from "../../../../contexts/layout.context";
+import { uploadImages } from "../../../../services/reports";
 
-const ReportsImages = ({ intl }) => {
-  const cloudinaryRef = useRef();
-  const widgetRef = useRef();
+const ReportsImages = ({ intl, images, setImages, report }) => {
+  const { openNotification } = useContext(LayoutContextWrapper);
 
-  const [uploadedImages, setUploadedImages] = useState([]);
+  const [fileList, setFileList] = useState([]);
+
+  const uploadRef = useRef();
+
+  const handleChange = (info) => {
+    setFileList(info.fileList.filter((file) => !!file.status));
+  };
+
+  const customRequest = async ({ onSuccess, onError, file }) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      const response = await uploadImages({ formData });
+      onSuccess();
+      setImages((oldImages) => [
+        ...oldImages,
+        { id: file.uid, url: response, isNew: true },
+      ]);
+    } catch (error) {
+      openNotification({
+        title: error.message,
+        type: "error",
+      });
+      onError({ error });
+    }
+  };
+
+  const beforeUpload = (file) => {
+    const isLt10M = file.size / 1024 / 1024 <= 10;
+    if (!isLt10M) {
+      openNotification({
+        title: intl.formatMessage({
+          id: "international_shipping_in.upload_modal.size_error",
+        }),
+      });
+    }
+    return isLt10M;
+  };
+
+  const onRemoveImage = (deletedImage) => {
+    setImages(images.filter((image) => image.id !== deletedImage.uid));
+  };
 
   useEffect(() => {
-    cloudinaryRef.current = window.cloudinary;
-    widgetRef.current = cloudinaryRef.current.createUploadWidget(
-      {
-        cloudName: "dayzz4std",
-        uploadPreset: "w7vi2u6u",
-      },
-      (error, result) => {
-        if (result.event === "success") {
-          setUploadedImages([...uploadedImages, result.info.secure_url]);
-        }
-      }
-    );
-  }, [uploadedImages]);
+    report?.ReportImages &&
+      setFileList(
+        report.ReportImages.map((report) => ({
+          uid: report.id,
+          url: report.imageLink,
+          status: "done",
+        }))
+      );
+  }, [report?.ReportImages]);
 
   return (
-    <>
-      <button onClick={() => widgetRef.current.open()}>
-        Upload Via Widget
-      </button>
-      {uploadedImages.map((image, index) => (
-        <img key={index} src={image} alt="" />
-      ))}
-    </>
+    <Upload
+      ref={uploadRef}
+      listType="picture-card"
+      accept=".png, .jpg, .jpeg"
+      maxCount={10}
+      fileList={fileList}
+      onChange={handleChange}
+      beforeUpload={beforeUpload}
+      customRequest={customRequest}
+      onRemove={onRemoveImage}
+      multiple
+    >
+      <PlusOutlined />
+    </Upload>
   );
 };
 export default injectIntl(ReportsImages);

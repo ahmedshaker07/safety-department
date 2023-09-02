@@ -21,7 +21,7 @@ import ReportsFooter from "./components/ReportsFooter";
 import ReportsFirstSection from "./components/ReportsFirstSection";
 import ActionsList from "./components/ActionsList";
 import FollowupActionsList from "./components/FollowupActionsList";
-// import ReportsImages from "./components/ReportsImages";
+import ReportsImages from "./components/ReportsImages";
 
 import "./AddEditReport.scss";
 
@@ -35,6 +35,7 @@ function AddEditReport({ intl }) {
   const [users, setUsers] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [images, setImages] = useState([]);
 
   const navigate = useNavigate();
 
@@ -64,6 +65,11 @@ function AddEditReport({ intl }) {
     const getEditDiff = (key, value1, value2) =>
       value1 !== value2 ? { [key]: value1 } : {};
 
+    const oldImagesIds = report?.ReportImages?.map((image) => image.id);
+    const removedImagesIds = oldImagesIds?.filter(
+      (id) => !images.map((image) => image.id).includes(id)
+    );
+
     return {
       set: {
         ...getEditDiff("assistorName", assistorName, report.assistorName),
@@ -90,6 +96,9 @@ function AddEditReport({ intl }) {
                 oldFollowup.actionName === newFollowup.actionName
             )
         ),
+        images: images
+          .filter((image) => image?.isNew)
+          .map((image) => image.url),
       },
       remove: {
         actions: removedReportActions.map(({ id }) => id),
@@ -101,6 +110,7 @@ function AddEditReport({ intl }) {
                 oldFollowup.actionName === newFollowup.actionName
             )
         ).map(({ id }) => id),
+        images: removedImagesIds,
       },
     };
   };
@@ -127,7 +137,9 @@ function AddEditReport({ intl }) {
         NumberOfObservers,
         followUpActions,
         actions: newReportActionsIds,
+        images: images.length ? images.map((image) => image.url) : undefined,
       };
+
       const editPayload = report ? getEditPayload(report, payload) : {};
 
       Boolean(report)
@@ -140,6 +152,7 @@ function AddEditReport({ intl }) {
           : "Report Created Successfully",
         type: "success",
       });
+
       return navigate("/reports");
     } catch (error) {
       openNotification({
@@ -202,6 +215,7 @@ function AddEditReport({ intl }) {
     const getReportData = async () => {
       try {
         const reportData = await getReportById(id);
+        setImages(reportData.ReportImages);
         setReport(reportData);
 
         const getInitialActions = (type) =>
@@ -223,7 +237,6 @@ function AddEditReport({ intl }) {
             };
           }
         );
-
         form.setFieldsValue({
           assessor: reportData.creator.fullName,
           assistorName: reportData.assistorName,
@@ -310,9 +323,9 @@ function AddEditReport({ intl }) {
         {intl.formatMessage({ id: "reports.nmha" })}
       </div>
 
-      {/* <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
-        <ReportsImages />
-      </ReportsCards> */}
+      <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
+        <ReportsImages images={images} setImages={setImages} report={report} />
+      </ReportsCards>
 
       <ReportsFooter />
     </CreateEditLayout>
