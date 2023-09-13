@@ -15,7 +15,8 @@
     "required": "Ce champ est obligatoire.",
     "yesterday": "Hier",
     "today": "Aujourd'hui",
-    "tomorrow": "Demain"
+    "tomorrow": "Demain",
+    "clear": "Clair"
   },
   "header": {
     "change_language": "Changer de langue",

@@ -15,7 +15,8 @@
     "required": "هذه الخانة مطلوبه.",
     "yesterday": "أمس",
     "today": "اليوم",
-    "tomorrow": "غداً"
+    "tomorrow": "غداً",
+    "clear": "إلغاء"
   },
   "header": {
     "change_language": "تغيير اللغة",

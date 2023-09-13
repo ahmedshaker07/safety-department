@@ -15,7 +15,8 @@
     "required": "This field is required.",
     "yesterday": "Yesterday",
     "today": "Today",
-    "tomorrow": "Tomorrow"
+    "tomorrow": "Tomorrow",
+    "clear": "Clear"
   },
   "header": {
     "change_language": "Change Language",

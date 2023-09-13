@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Select, Form, DatePicker } from "antd";
+import { Select, Form, DatePicker, Tooltip, Input } from "antd";
 import ArabicLocale from "antd/es/date-picker/locale/ar_EG";
 import FrenchLocale from "antd/es/date-picker/locale/fr_FR";
 import { Pie } from "@ant-design/plots";
@@ -15,7 +15,11 @@ import {
 import { getLocale } from "../../utils/intl-provider";
 import { getAllDepartments } from "../../services/departments";
 import { getAllUsers } from "../../services/users";
-import { editFollowupAction, getFollowupActions } from "../../services/actions";
+import {
+  editFollowupAction,
+  getFollowupActions,
+  getFollowupAnalytics,
+} from "../../services/actions";
 import { FOLLOWUP_STATES } from "../../constants/actions";
 import { ContextWrapper } from "../../contexts/user.context";
 
@@ -29,11 +33,14 @@ function Followup() {
   const [actions, setActions] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [users, setUsers] = useState([]);
+  const [analyticsData, setAnalyticsData] = useState({});
 
   const { openNotification } = useContext(LayoutContextWrapper);
   const { userData, permissions } = useContext(ContextWrapper);
 
   const tableRef = useRef();
+
+  const [form] = Form.useForm();
 
   const onStatusClick = (id, state) => {
     return async () => {
@@ -77,35 +84,69 @@ function Followup() {
   };
 
   const data = [
-    { type: FOLLOWUP_STATES.DONE, value: 27 },
-    { type: FOLLOWUP_STATES.IN_PROGRESS, value: 25 },
+    { type: "Done", value: analyticsData?.doneTasks },
+    {
+      type: "In Progress",
+      value: analyticsData?.totalTasks - analyticsData?.doneTasks,
+    },
   ];
 
   const config = {
     data,
+    appendPadding: 10,
     angleField: "value",
     colorField: "type",
+    radius: 0.9,
     label: {
-      type: "spider",
-      labelHeight: 28,
-      content: "{name}\n{percentage}",
-    },
-    legend: false,
-    interactions: [
-      {
-        type: "element-selected",
+      type: "inner",
+      offset: "-30%",
+      content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+      style: {
+        fontSize: 14,
+        textAlign: "center",
       },
+    },
+    interactions: [
       {
         type: "element-active",
       },
     ],
+    legend: false,
+    pieStyle: ({ type }) => {
+      if (type === "Done") {
+        return {
+          fill: "#7FC6A6",
+        };
+      }
+
+      return {
+        fill: "#FF3A19",
+      };
+    },
   };
 
   const FOLLOWUP_COLUMNS = [
     {
-      title: "Ref ID",
-      dataIndex: "id",
+      title: "Action ID",
       width: 100,
+      dataIndex: "id",
+      render: (id) => id,
+    },
+    {
+      title: "Report ID",
+      dataIndex: "Report",
+      width: 100,
+      render: ({ id }) => id,
+    },
+    {
+      title: "Action Name",
+      width: 140,
+      dataIndex: "actionName",
+      render: (actionName) => (
+        <Tooltip title={actionName} className="followup__action-name-tooltip">
+          {actionName}
+        </Tooltip>
+      ),
     },
     {
       title: fmt({
@@ -175,11 +216,15 @@ function Followup() {
   ];
 
   const fetchData = useCallback(
-    async ({ pageSize, pageNumber, search }) => {
+    async ({ pageSize, pageNumber, search, filters }) => {
       try {
         const { actions, count } = await getFollowupActions({
           page: pageNumber,
           limit: pageSize,
+          ...(search && {
+            reportId: search,
+          }),
+          ...filters,
         });
         setActions(actions);
         return { count };
@@ -193,6 +238,44 @@ function Followup() {
     },
     [openNotification]
   );
+
+  const getAnalytics = useCallback(
+    async (payload = {}) => {
+      try {
+        const data = await getFollowupAnalytics(payload);
+        setAnalyticsData(data);
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+      }
+    },
+    [openNotification]
+  );
+
+  const handleFilterSubmit = ({
+    status,
+    departmentId,
+    reportDate,
+    deadline,
+    reportId,
+    actionId,
+  }) => {
+    const payload = {
+      state: status,
+      departmentId,
+      createdFrom: reportDate?.[0],
+      createdTo: reportDate?.[1],
+      deadLineFrom: deadline?.[0],
+      deadLineTo: deadline?.[1],
+      reportId,
+      referenceId: actionId,
+    };
+
+    tableRef.current.refreshTable({ filters: payload });
+    getAnalytics(payload);
+  };
 
   useEffect(() => {
     const getDepartments = async () => {
@@ -211,6 +294,7 @@ function Followup() {
         });
       }
     };
+
     const getUsers = async () => {
       try {
         const { users: allUsers } = await getAllUsers();
@@ -232,10 +316,14 @@ function Followup() {
     getUsers();
   }, [openNotification]);
 
+  useEffect(() => {
+    getAnalytics();
+  }, [getAnalytics]);
+
   return (
     <div className="followups">
       <ASCollapse panelHeader="Filters">
-        <Form layout="vertical">
+        <Form form={form} layout="vertical" onFinish={handleFilterSubmit}>
           <div className="followups__date-filters">
             <Form.Item name="reportDate" label="Report Date">
               <DatePicker.RangePicker locale={getRangePickerLocale()} />
@@ -267,13 +355,32 @@ function Followup() {
           <Form.Item name="status" label="Status">
             <Select
               options={[
-                { value: "done", label: "Done" },
+                { value: "DONE", label: "Done" },
                 { value: "inProgress", label: "In Progress" },
               ]}
               placeholder="Status"
             />
           </Form.Item>
-          <ASButton label={fmt({ id: "common.filter" })} />
+          <div className="followups__date-filters">
+            <Form.Item name="reportId" label="Report ID">
+              <Input placeholder="Report ID" />
+            </Form.Item>
+            <Form.Item name="actionId" label="Action ID">
+              <Input placeholder="Action ID" />
+            </Form.Item>
+          </div>
+          <div className="followup__filter-actions">
+            <ASButton label={fmt({ id: "common.filter" })} htmlType="submit" />
+            <ASButton
+              label={fmt({ id: "common.clear" })}
+              onClick={() => {
+                form.resetFields();
+                tableRef.current.refreshTable({});
+                getAnalytics();
+              }}
+              type="destructive-basic"
+            />
+          </div>
         </Form>
       </ASCollapse>
 

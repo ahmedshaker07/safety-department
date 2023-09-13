@@ -129,3 +129,17 @@
 .checkbox-wrapper-10 .tgl-flip:checked+.tgl-btn:active:after {
     transform: rotateY(20deg);
 }
+
+
+.followup__action-name-tooltip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    display: block;
+}
+
+.followup__filter-actions {
+    display: flex;
+    gap: 16px;
+}

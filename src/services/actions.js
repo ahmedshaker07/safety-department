@@ -23,3 +23,7 @@ export const getFollowupActions = (payload) => {
 export const editFollowupAction = (id, payload) => {
   return http.put(`/reportFollowUpActions/${id}`, payload);
 };
+
+export const getFollowupAnalytics = (payload) => {
+  return http.get(`/reportFollowUpActions/analytics/donePercentage`, payload);
+};

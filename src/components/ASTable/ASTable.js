@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { injectIntl } from "react-intl";
-import { Table, Input } from "antd";
+import { Table } from "antd";
 
 import { TABLE_PAGE_SIZES } from "../../constants/helpers";
 
@@ -28,38 +28,32 @@ const ASTable = forwardRef(
       onRowClick = () => {},
       tableRef,
       externalLoading,
-      hasSearch = true,
     },
     _
   ) => {
     const [pageSize, setPageSize] = useState(pageLimit);
     const [pageNumber, setPageNumber] = useState(initialPageNumber);
     const [loading, setLoading] = useState(false);
-    const [searchText, setSearchText] = useState("");
     const [total, setTotal] = useState(0);
 
-    const onSearchTextChange = ({ target }) => {
-      setSearchText(target.value);
-    };
-
     const getData = useCallback(
-      async ({ pageNumber = 1, pageSize = 10, sorter = {}, search = "" }) => {
+      async ({ pageNumber = 1, pageSize = 10, sorter = {}, filters = {} }) => {
         setLoading(true);
         const { count } = await fetchData({
           pageNumber,
           pageSize,
           sorter,
-          search,
+          filters,
         });
         setTotal(count);
+        setPageSize(pageSize);
+        setPageNumber(pageNumber);
         setLoading(false);
       },
       [fetchData]
     );
 
     const handleTableChange = ({ current, pageSize }, _, { field, order }) => {
-      setPageSize(pageSize);
-      setPageNumber(current);
       getData({
         pageNumber: current,
         pageSize,
@@ -67,16 +61,9 @@ const ASTable = forwardRef(
       });
     };
 
-    const onSearchClick = () => {
-      if (searchText) {
-        getData({ pageSize, search: searchText });
-        setSearchText("");
-      }
-    };
-
     useImperativeHandle(tableRef, () => ({
-      refreshTable({ pageNumber = 1 }) {
-        getData({ pageNumber });
+      refreshTable({ pageNumber = 1, filters = {} }) {
+        getData({ pageNumber, filters });
       },
       triggerLoading(value) {
         setLoading(value);
@@ -110,30 +97,14 @@ const ASTable = forwardRef(
         }}
         loading={loading || externalLoading}
         onChange={handleTableChange}
-        title={() => (
-          <>
-            {hasSearch && (
-              <div className="filtered-reports-page__table-search">
-                <Input
-                  placeholder={intl.formatMessage({ id: "common.search" })}
-                  value={searchText}
-                  onChange={onSearchTextChange}
-                />
-                <ASButton
-                  disabled={!searchText}
-                  label={intl.formatMessage({ id: "common.search" })}
-                  onClick={onSearchClick}
-                />
-              </div>
-            )}
-            {hasExportFeatures && (
-              <div className="filtered-reports-page__table-actions">
-                <ASButton label="PDF" />
-                <ASButton label="Excel" />
-              </div>
-            )}
-          </>
-        )}
+        title={() =>
+          hasExportFeatures && (
+            <div className="filtered-reports-page__table-actions">
+              <ASButton label="PDF" />
+              <ASButton label="Excel" />
+            </div>
+          )
+        }
         onRow={(record) => {
           return {
             onClick: () => {
