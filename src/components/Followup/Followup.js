@@ -41,6 +41,8 @@ function Followup() {
   const tableRef = useRef();
 
   const [form] = Form.useForm();
+  const actionId = Form.useWatch("actionId", form);
+  const status = Form.useWatch("status", form);
 
   const onStatusClick = (id, state) => {
     return async () => {
@@ -261,20 +263,30 @@ function Followup() {
     deadline,
     reportId,
     actionId,
+    byWhomId,
   }) => {
-    const payload = {
-      state: status,
+    tableRef.current.refreshTable({
+      filters: {
+        state: status,
+        departmentId,
+        createdFrom: reportDate?.[0],
+        createdTo: reportDate?.[1],
+        deadLineFrom: deadline?.[0],
+        deadLineTo: deadline?.[1],
+        ...(reportId && { reportId }),
+        ...(actionId && { referenceId: actionId }),
+        byWhomId,
+      },
+    });
+    getAnalytics({
       departmentId,
       createdFrom: reportDate?.[0],
       createdTo: reportDate?.[1],
       deadLineFrom: deadline?.[0],
       deadLineTo: deadline?.[1],
-      reportId,
-      referenceId: actionId,
-    };
-
-    tableRef.current.refreshTable({ filters: payload });
-    getAnalytics(payload);
+      ...(reportId && { reportId }),
+      byWhomId,
+    });
   };
 
   useEffect(() => {
@@ -340,7 +352,7 @@ function Followup() {
             />
           </Form.Item>
           <Form.Item
-            name="name"
+            name="byWhomId"
             label={fmt({
               id: "reports.by_whom",
             })}
@@ -391,8 +403,7 @@ function Followup() {
         rowKey={({ id }) => id}
         tableRef={tableRef}
       />
-
-      <Pie {...config} />
+      {!actionId && !status && <Pie {...config} />}
     </div>
   );
 }
