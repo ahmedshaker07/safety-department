@@ -23,3 +23,11 @@ export const editReport = (id, payload) => {
 export const deleteReport = (id) => {
   return http.delete(`/reports/${id}`);
 };
+
+export const getReportsByReporter = (payload) => {
+  return http.get(`/reports/analytics/usersAnalytics`, payload);
+};
+
+export const getReportsByDepartment = (payload) => {
+  return http.get(`/reports/analytics/departmentAnalytics`, payload);
+};

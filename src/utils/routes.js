@@ -42,6 +42,14 @@ const FilteredReports = lazy(
     )
 );
 
+const ReportsPerEntity = lazy(
+  async () =>
+    await retry(
+      async () =>
+        await import("../components/ReportsPerEntity/ReportsPerEntity")
+    )
+);
+
 const Settings = lazy(
   async () =>
     await retry(async () => await import("../components/Settings/Settings"))
@@ -72,13 +80,13 @@ const protectedRoutes = [
   {
     path: "/reports/reporter",
     name: "Reports by reporter",
-    component: FilteredReports,
+    component: ReportsPerEntity,
     props: { pageType: "reporter" },
   },
   {
     path: "/reports/department",
     name: "Reports by department",
-    component: FilteredReports,
+    component: ReportsPerEntity,
     props: { pageType: "department" },
   },
   {
