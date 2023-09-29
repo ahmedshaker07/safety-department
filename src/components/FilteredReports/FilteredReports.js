@@ -4,7 +4,6 @@ import { DatePicker, Form, Tabs } from "antd";
 import { getRangePickerLocale } from "../../utils/helpers";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
 
-import FilteredReportsColumn from "./components/FilteredReportsColumn";
 import ASButton from "../ASButton/ASButton";
 import ASTable from "../ASTable/ASTable";
 import { fmt } from "../IntlWrapper/IntlWrapper";
@@ -111,8 +110,6 @@ function FilteredReports({ pageType }) {
             REPORT_PAGE_TYPES.DEPARTMENT,
           ].includes(pageType)}
         />
-
-        <FilteredReportsColumn />
       </div>
     );
   };

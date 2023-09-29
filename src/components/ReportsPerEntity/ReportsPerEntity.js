@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { DatePicker, Form, Select } from "antd";
+import { Column } from "@ant-design/plots";
 import dayjs from "dayjs";
 
 import { getRangePickerLocale } from "../../utils/helpers";
@@ -16,7 +17,6 @@ import ASTable from "../ASTable/ASTable";
 import ASButton from "../ASButton/ASButton";
 import { fmt } from "../IntlWrapper/IntlWrapper";
 import ASCollapse from "../ASCollapse/ASCollapse";
-import FilteredReportsColumn from "../FilteredReports/components/FilteredReportsColumn";
 
 function ReportsPerReporter({ pageType }) {
   const [users, setUsers] = useState([]);
@@ -25,6 +25,9 @@ function ReportsPerReporter({ pageType }) {
   const tableRef = useRef();
 
   const [form] = Form.useForm();
+
+  const [data, setData] = useState([]);
+  const [analytics, setAnalytics] = useState([]);
 
   const columns = [
     {
@@ -41,7 +44,29 @@ function ReportsPerReporter({ pageType }) {
     { title: "People observed", dataIndex: "NumberOfObservers" },
   ];
 
-  const [data, setData] = useState([]);
+  const config = {
+    data: analytics,
+    xField: {
+      reporter: "creatorName",
+      department: "departmentName",
+    }[pageType],
+    yField: {
+      reporter: "reportCount",
+      department: "reportCount",
+    }[pageType],
+    label: { position: "middle" },
+    xAxis: {
+      label: {
+        autoHide: true,
+        autoRotate: true,
+      },
+    },
+    meta: {
+      reportCount: {
+        alias: "Reports Count",
+      },
+    },
+  };
 
   const { openNotification } = useContext(LayoutContextWrapper);
 
@@ -66,13 +91,17 @@ function ReportsPerReporter({ pageType }) {
       };
 
       try {
-        const data = await dataApi[pageType]({
-          //   page: pageNumber,
-          //   limit: pageSize,
+        const {
+          paginatedData: { data, count },
+          analyticsData,
+        } = await dataApi[pageType]({
+          page: pageNumber,
+          limit: pageSize,
           ...filters,
         });
         setData(data);
-        return { count: 4 };
+        setAnalytics(analyticsData);
+        return { count };
       } catch (error) {
         openNotification({
           title: error.message,
@@ -171,7 +200,7 @@ function ReportsPerReporter({ pageType }) {
         tableRef={tableRef}
       />
 
-      {/* <FilteredReportsColumn /> */}
+      <Column {...config} />
     </div>
   );
 }
