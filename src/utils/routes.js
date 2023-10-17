@@ -35,10 +35,10 @@ const AddEditReports = lazy(
     )
 );
 
-const FilteredReports = lazy(
+const ReportsPerTime = lazy(
   async () =>
     await retry(
-      async () => await import("../components/FilteredReports/FilteredReports")
+      async () => await import("../components/ReportsPerTime/ReportsPerTime")
     )
 );
 
@@ -74,7 +74,7 @@ const protectedRoutes = [
   {
     path: "/reports/time",
     name: "Reports by time",
-    component: FilteredReports,
+    component: ReportsPerTime,
     props: { pageType: "time" },
   },
   {

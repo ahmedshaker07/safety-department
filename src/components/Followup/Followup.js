@@ -67,9 +67,7 @@ function Followup() {
   const onDateChange = async (id, date) => {
     try {
       await editFollowupAction(id, {
-        set: {
-          deadLine: dayjs(date).toISOString(),
-        },
+        set: { deadLine: dayjs(date).toISOString() },
       });
     } catch (error) {
       openNotification({
@@ -86,10 +84,10 @@ function Followup() {
   };
 
   const data = [
-    { type: "Done", value: analyticsData?.doneTasks },
+    { type: "Done", value: analyticsData?.doneTasks || 0 },
     {
       type: "In Progress",
-      value: analyticsData?.totalTasks - analyticsData?.doneTasks,
+      value: analyticsData?.totalTasks - analyticsData?.doneTasks || 0,
     },
   ];
 

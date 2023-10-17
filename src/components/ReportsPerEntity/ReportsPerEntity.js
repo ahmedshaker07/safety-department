@@ -195,8 +195,9 @@ function ReportsPerReporter({ pageType }) {
         columns={columns}
         dataSource={data}
         fetchData={fetchData}
-        rowKey={({ id }) => id}
-        // hasExportFeatures
+        rowKey={({ creatorName, departmentName }) =>
+          creatorName || departmentName
+        }
         tableRef={tableRef}
       />
 
