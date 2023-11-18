@@ -126,8 +126,10 @@ function AddEditReport({ intl }) {
   }) => {
     try {
       setIsSubmitting(true);
-      const newReportActionsIds = [...safeactions, ...unsafeactions].map(
-        ({ actionId }) => actionId
+      const newReportActions = [...safeactions, ...unsafeactions].map(
+        ({ actionId, comment }) => {
+          return { actionId, comment };
+        }
       );
 
       const payload = {
@@ -136,7 +138,7 @@ function AddEditReport({ intl }) {
         areaId: 1,
         NumberOfObservers,
         followUpActions,
-        actions: newReportActionsIds,
+        actions: newReportActions,
         images: images.length ? images.map((image) => image.url) : undefined,
       };
 
@@ -219,12 +221,13 @@ function AddEditReport({ intl }) {
         setReport(reportData);
 
         const getInitialActions = (type) =>
-          reportData.ReportActions.reduce((actions, { Action }) => {
+          reportData.ReportActions.reduce((actions, { Action, comment }) => {
             Action.type === type &&
               actions.push({
                 actionId: Action.id,
                 name: Action.name,
                 type: Action.type,
+                comment,
               });
             return actions;
           }, []);
@@ -285,6 +288,7 @@ function AddEditReport({ intl }) {
           ctaLabel={intl.formatMessage({ id: "reports.add_safe_action" })}
           limit={7}
           typeActions={safeActions}
+          form={form}
         />
       </ReportsCards>
 
@@ -302,6 +306,7 @@ function AddEditReport({ intl }) {
           ctaLabel={intl.formatMessage({ id: "reports.add_unsafe_action" })}
           limit={7}
           typeActions={unsafeActions}
+          form={form}
         />
       </ReportsCards>
 

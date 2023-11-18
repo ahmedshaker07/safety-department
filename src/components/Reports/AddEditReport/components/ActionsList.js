@@ -1,8 +1,9 @@
-import { Form, Button, Select } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Form, Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { injectIntl } from "react-intl";
 
-import { SAFE_ACTION, UNSAFE_ACTION } from "../../../../constants/actions";
-import { fmt } from "../../../IntlWrapper/IntlWrapper";
+import { SAFE_ACTION } from "../../../../constants/actions";
+import ReportAction from "./ReportAction";
 
 const ActionsList = ({
   name,
@@ -11,6 +12,7 @@ const ActionsList = ({
   ctaLabel,
   limit,
   typeActions = [],
+  form,
 }) => {
   const formattedTypeActions = typeActions.map(({ id, name }) => ({
     value: id,
@@ -22,26 +24,17 @@ const ActionsList = ({
       {(fields, { add, remove }) => (
         <>
           {fields.map(({ key, name, ...restField }) => (
-            <Form.Item className="add-edit-report__action" key={key}>
-              <Form.Item
-                name={[name, "actionId"]}
-                rules={[
-                  {
-                    required: type === SAFE_ACTION,
-                    message: fmt({ id: "common.required" }),
-                  },
-                ]}
-                {...restField}
-              >
-                <Select
-                  placeholder={placeholder}
-                  options={formattedTypeActions}
-                />
-              </Form.Item>
-              {(type === UNSAFE_ACTION || fields.length > 1) && (
-                <MinusCircleOutlined onClick={() => remove(name)} />
-              )}
-            </Form.Item>
+            <ReportAction
+              id={key}
+              name={name}
+              type={type}
+              restField={restField}
+              formattedTypeActions={formattedTypeActions}
+              fields={fields}
+              remove={remove}
+              form={form}
+              placeholder={placeholder}
+            />
           ))}
           {fields.length < limit && (
             <Form.Item>
@@ -60,4 +53,4 @@ const ActionsList = ({
   );
 };
 
-export default ActionsList;
+export default injectIntl(ActionsList);

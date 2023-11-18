@@ -87,7 +87,8 @@
     "finish_time": "Heure de fin",
     "duration": "Durée",
     "images": "Ajouter images",
-    "image_error": "Accepte uniquement JPG, PNG - Max (10 Mo)"
+    "image_error": "Accepte uniquement JPG, PNG - Max (10 Mo)",
+    "comment": "Commentaire"
   },
   "users": {
     "create_user": "Créer un utilisateur",

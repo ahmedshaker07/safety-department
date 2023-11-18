@@ -87,7 +87,8 @@
     "finish_time": "وقت الانتهاء",
     "duration": "المدة",
     "images": "إضافة صور",
-    "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)"
+    "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)",
+    "comment": "وصف"
   },
   "users": {
     "create_user": "إنشاء مستخدم",
