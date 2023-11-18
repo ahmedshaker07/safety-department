@@ -15,3 +15,7 @@ export const editUser = (id, payload) => {
 export const deleteUser = (id) => {
   return http.delete(`/users/${id}`);
 };
+
+export const changePassword = (payload) => {
+  return http.post(`/users/changePassword`, payload);
+};

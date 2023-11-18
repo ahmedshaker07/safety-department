@@ -16,6 +16,8 @@ function CreateEditLayout({
   actions,
   initialFormValues = {},
   isLoading,
+  hideCancel = false,
+  isSaveDisabled = false,
 }) {
   return (
     <Form
@@ -28,16 +30,19 @@ function CreateEditLayout({
       <div className="add-edit-report__actions">
         {actions || (
           <>
-            <ASButton
-              type="destructive-basic"
-              label={intl.formatMessage({ id: "common.cancel" })}
-              onClick={onCancelClick}
-              disabled={isLoading}
-            />
+            {!hideCancel && (
+              <ASButton
+                type="destructive-basic"
+                label={intl.formatMessage({ id: "common.cancel" })}
+                onClick={onCancelClick}
+                disabled={isLoading}
+              />
+            )}
             <ASButton
               label={intl.formatMessage({ id: "common.save" })}
               htmlType="submit"
               isLoading={isLoading}
+              disabled={isSaveDisabled}
             />
           </>
         )}

@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form } from "antd";
+import { isEmpty } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 import { ContextWrapper } from "../../contexts/user.context";
 import { deleteUser, editUser } from "../../services/users";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
+import { difference } from "../../utils/helpers";
 
 import CreateEditLayout from "../Layouts/CreateEditLayout/CreateEditLayout";
 import ASButton from "../ASButton/ASButton";
@@ -12,20 +15,18 @@ import ASFormItem from "../ASFormItem/ASFormItem";
 import ASConfirmationModal from "../ASConfirmationModal/ASConfirmationModal";
 
 import "./Settings.scss";
-import { difference } from "../../utils/helpers";
-import { isEmpty } from "lodash";
 
 function Settings({ intl }) {
   const { userData } = useContext(ContextWrapper);
   const { openNotification } = useContext(LayoutContextWrapper);
+
+  const navigate = useNavigate();
 
   const [inEditMode, setInEditMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [form] = Form.useForm();
-  const oldPassword = Form.useWatch("oldPassword", form);
-  const newPassword = Form.useWatch("newPassword", form);
 
   const handleEnableEditMode = () => {
     setInEditMode(true);
@@ -106,30 +107,15 @@ function Settings({ intl }) {
           label={intl.formatMessage({ id: "signin.email" })}
           rules={[{ required: true, message: "" }]}
         />
-        {inEditMode && (
-          <>
-            <ASFormItem
-              name="oldpassword"
-              isPassword
-              disabled={!inEditMode}
-              placeholder={intl.formatMessage({ id: "settings.old_password" })}
-              label={intl.formatMessage({ id: "settings.old_password" })}
-              rules={[{ required: !!newPassword, message: "" }]}
-              autoComplete="new-password"
-            />
-            <ASFormItem
-              name="newpassword"
-              isPassword
-              disabled={!inEditMode}
-              placeholder={intl.formatMessage({ id: "settings.new_password" })}
-              label={intl.formatMessage({ id: "settings.new_password" })}
-              rules={[{ required: !!oldPassword, message: "" }]}
-              autoComplete="new-password"
-            />
-          </>
-        )}
 
-        {!inEditMode && (
+        {inEditMode ? (
+          <ASButton
+            label="Change Password"
+            onClick={() => {
+              navigate("/change-password");
+            }}
+          />
+        ) : (
           <ASButton
             label="Delete Account"
             type="destructive-basic"

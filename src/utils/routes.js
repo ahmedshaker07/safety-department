@@ -55,6 +55,13 @@ const Settings = lazy(
     await retry(async () => await import("../components/Settings/Settings"))
 );
 
+const ChangePassword = lazy(
+  async () =>
+    await retry(
+      async () => await import("../components/ChangePassword/ChangePassword")
+    )
+);
+
 const protectedRoutes = [
   {
     path: "/reports",
@@ -113,6 +120,11 @@ const protectedRoutes = [
     path: "/settings",
     name: "Settings",
     component: Settings,
+  },
+  {
+    path: "/change-password",
+    name: "ChangePassword",
+    component: ChangePassword,
   },
 ];
 

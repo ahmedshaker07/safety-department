@@ -38,14 +38,15 @@ function Actions({ intl }) {
       dataIndex: "type",
     },
     {
-      render: ({ id }) => (
-        <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <DeleteOutlined
-            className="ant-icon-sm"
-            onClick={handleDeleteAction(id)}
-          />
-        </div>
-      ),
+      render: ({ id }) =>
+        ![37, 36].includes(id) && (
+          <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
+            <DeleteOutlined
+              className="ant-icon-sm"
+              onClick={handleDeleteAction(id)}
+            />
+          </div>
+        ),
       width: 50,
     },
   ];
@@ -90,10 +91,14 @@ function Actions({ intl }) {
 
   const onOpenModal = ({ data }) => {
     if (data) {
-      setRecord(data);
-      createActionForm.setFieldsValue(data);
+      if (![37, 36].includes(data.id)) {
+        setRecord(data);
+        createActionForm.setFieldsValue(data);
+        setIsModalOpen(true);
+      }
+    } else {
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const onCancel = () => {
