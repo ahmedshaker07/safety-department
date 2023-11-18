@@ -50,18 +50,27 @@ function AddEditReport({ intl }) {
       assistorName,
       NumberOfObservers,
       followUpActions,
-      actions: newReportActionsIds,
+      actions: newReportActions,
     }
   ) => {
-    const oldReportActionsIds = report.ReportActions.map(
-      (action) => action.Action.id
-    );
-    const removedReportActionIds = oldReportActionsIds.filter(
-      (id) => !newReportActionsIds.includes(id)
-    );
+    const oldReportActions = report.ReportActions.map((action) => {
+      return { actionId: action.Action.id, comment: action.comment };
+    });
+
+    const removedReportActionIds = oldReportActions
+      .filter(
+        (oldReportAction) =>
+          !newReportActions.find(
+            (newReportAction) =>
+              newReportAction.actionId === oldReportAction.actionId
+          )
+      )
+      .map((removedAction) => removedAction.actionId);
+
     const removedReportActions = report.ReportActions.filter((action) =>
       removedReportActionIds.includes(action.Action.id)
     );
+
     const getEditDiff = (key, value1, value2) =>
       value1 !== value2 ? { [key]: value1 } : {};
 
@@ -85,8 +94,13 @@ function AddEditReport({ intl }) {
         ...(!NumberOfObservers && { NumberOfObservers: true }),
       },
       add: {
-        actions: newReportActionsIds.filter(
-          (id) => !oldReportActionsIds.includes(id)
+        actions: newReportActions.filter(
+          (newAction) =>
+            !oldReportActions.find(
+              (oldAction) =>
+                oldAction.actionId === newAction.actionId &&
+                oldAction?.comment === newAction?.comment
+            )
         ),
         followUpActions: followUpActions.filter(
           (newFollowup) =>

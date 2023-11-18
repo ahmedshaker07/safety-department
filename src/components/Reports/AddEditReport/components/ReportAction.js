@@ -1,4 +1,4 @@
-import { Form, Select, Input } from "antd";
+import { Form, Select, Input, Divider } from "antd";
 import { MinusCircleOutlined } from "@ant-design/icons";
 
 import { SAFE_ACTION, UNSAFE_ACTION } from "../../../../constants/actions";
@@ -31,34 +31,18 @@ const ReportAction = ({
   };
 
   return (
-    <Form.Item className="add-edit-report__action" key={id}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          gap: "12px",
-        }}
-      >
-        <Form.Item
-          name={[name, "actionId"]}
-          rules={[
-            {
-              required: type === SAFE_ACTION,
-              message: fmt({ id: "common.required" }),
-            },
-          ]}
-          {...restField}
+    <div>
+      <Form.Item className="add-edit-report__action" key={id}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: "12px",
+          }}
         >
-          <Select
-            placeholder={placeholder}
-            options={formattedTypeActions}
-            virtual={false}
-          />
-        </Form.Item>
-        {actionId === showCommentActionId[type] && (
           <Form.Item
-            name={[name, "comment"]}
+            name={[name, "actionId"]}
             rules={[
               {
                 required: type === SAFE_ACTION,
@@ -67,14 +51,35 @@ const ReportAction = ({
             ]}
             {...restField}
           >
-            <Input placeholder={fmt({ id: "reports.comment" })} />
+            <Select
+              placeholder={placeholder}
+              options={formattedTypeActions}
+              virtual={false}
+            />
           </Form.Item>
+          {actionId === showCommentActionId[type] && (
+            <Form.Item
+              name={[name, "comment"]}
+              rules={[
+                {
+                  required: true,
+                  message: fmt({ id: "common.required" }),
+                },
+              ]}
+              {...restField}
+            >
+              <Input placeholder={fmt({ id: "reports.comment" })} />
+            </Form.Item>
+          )}
+        </div>
+        {(type === UNSAFE_ACTION || fields.length > 1) && (
+          <MinusCircleOutlined onClick={() => remove(name)} />
         )}
-      </div>
-      {(type === UNSAFE_ACTION || fields.length > 1) && (
-        <MinusCircleOutlined onClick={() => remove(name)} />
+      </Form.Item>
+      {id < fields.length - 1 && fields.length > 1 && (
+        <Divider style={{ margin: "24px 0 12px" }} />
       )}
-    </Form.Item>
+    </div>
   );
 };
 
