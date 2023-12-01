@@ -40,8 +40,11 @@ function AddEditReport({ intl }) {
   const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState([]);
 
-  const canUserEditReport = !report || userData?.id === report?.creator?.id;
-  console.log(canUserEditReport);
+  const canUserEditReport =
+    !report ||
+    userData?.id === report?.creator?.id ||
+    userData?.role === "ADMIN";
+
   const navigate = useNavigate();
 
   const { id } = useParams();
