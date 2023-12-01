@@ -4,6 +4,7 @@ import ArabicLocale from "antd/es/date-picker/locale/ar_EG";
 import FrenchLocale from "antd/es/date-picker/locale/fr_FR";
 import { Pie } from "@ant-design/plots";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
 import { fmt } from "../IntlWrapper/IntlWrapper";
@@ -37,6 +38,8 @@ function Followup() {
 
   const { openNotification } = useContext(LayoutContextWrapper);
   const { userData, permissions } = useContext(ContextWrapper);
+
+  const navigate = useNavigate();
 
   const tableRef = useRef();
 
@@ -327,8 +330,8 @@ function Followup() {
   }, [openNotification]);
 
   useEffect(() => {
-    getAnalytics();
-  }, [getAnalytics]);
+    userData?.role === "ADMIN" && getAnalytics();
+  }, [userData?.role, getAnalytics]);
 
   return (
     <div className="followups">
@@ -400,8 +403,9 @@ function Followup() {
         fetchData={fetchData}
         rowKey={({ id }) => id}
         tableRef={tableRef}
+        onRowClick={({ data: { id } }) => navigate(`/reports/${id}`)}
       />
-      {!actionId && !status && <Pie {...config} />}
+      {!actionId && !status && userData.role === "ADMIN" && <Pie {...config} />}
     </div>
   );
 }

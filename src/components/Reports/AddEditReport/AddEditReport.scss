@@ -82,3 +82,11 @@
     margin-bottom: 0;
   }
 }
+
+.add-edit-report__form-disabled{
+  opacity: .85;
+
+  .add-edit-report__actions{
+    pointer-events: none;
+  }
+}

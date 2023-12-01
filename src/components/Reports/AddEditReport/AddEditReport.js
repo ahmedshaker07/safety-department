@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, Spin } from "antd";
+import classNames from "classnames";
 
 import { getAllDepartments } from "../../../services/departments";
 import { LayoutContextWrapper } from "../../../contexts/layout.context";
@@ -14,6 +15,7 @@ import {
   getReportById,
 } from "../../../services/reports";
 import { removeEmptyValues } from "../../../utils/helpers";
+import { ContextWrapper } from "../../../contexts/user.context";
 
 import CreateEditLayout from "../../Layouts/CreateEditLayout/CreateEditLayout";
 import ReportsCards from "./components/ReportsCard";
@@ -27,6 +29,7 @@ import "./AddEditReport.scss";
 
 function AddEditReport({ intl }) {
   const { openNotification } = useContext(LayoutContextWrapper);
+  const { userData } = useContext(ContextWrapper);
 
   const [report, setReport] = useState(null);
   const [departments, setDepartments] = useState([]);
@@ -37,6 +40,8 @@ function AddEditReport({ intl }) {
   const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState([]);
 
+  const canUserEditReport = !report || userData?.id === report?.creator?.id;
+  console.log(canUserEditReport);
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -286,7 +291,9 @@ function AddEditReport({ intl }) {
     <CreateEditLayout
       form={form}
       onFinish={onFinish}
-      className="add-edit-report__form"
+      className={classNames("add-edit-report__form", {
+        "add-edit-report__form-disabled": !canUserEditReport,
+      })}
       onCancelClick={() => navigate("/reports")}
       isLoading={isSubmitting}
     >
