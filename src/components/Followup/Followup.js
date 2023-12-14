@@ -403,7 +403,9 @@ function Followup() {
         fetchData={fetchData}
         rowKey={({ id }) => id}
         tableRef={tableRef}
-        onRowClick={({ data: { id } }) => navigate(`/reports/${id}`)}
+        onRowClick={({ data: { reportId } }) => {
+          navigate(`/reports/${reportId}`);
+        }}
       />
       {!actionId && !status && userData.role === "ADMIN" && <Pie {...config} />}
     </div>
