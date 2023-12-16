@@ -26,8 +26,8 @@
     "in_progress": "قيد التنفيذ"
   },
   "confirmation_modal": {
-    "delete_report": "حذف التقرير",
-    "delete_report_confirm": "هل أنت متأكد أنك تريد حذف هذا التقرير؟"
+    "delete_report": "هل انت متأكد؟",
+    "delete_report_confirm": "هل أنت متأكد أنك تريد الحذف؟"
   },
   "header": {
     "change_language": "تغيير اللغة",
@@ -113,7 +113,7 @@
     "create_user": "إنشاء مستخدم",
     "full_name": "الاسم الكامل",
     "admin": "مسؤل",
-    "reporter": "المدون",
+    "reporter": "مدون",
     "role": "وظيفة",
     "create_new_user": "إنشاء مستخدم جديد",
     "phone": "رقم التليفون",
@@ -123,6 +123,8 @@
     "create_action": "إنشاء حدث",
     "edit_action": "تعديل الحدث",
     "type": "النوع",
+    "safe_action": "حدث أمن",
+    "un_safe_action": "حدث غير أمن",
     "followups": {
       "action_id": "رقم الأكشن",
       "report_id": "رقم الريبورت",
@@ -140,6 +142,7 @@
     "delete_account": "حذف الحساب",
     "delete_account_description": "هل انت متأكد انك تريد حذف حسابك؟ لا يمكن عكس هذا الإجراء.",
     "old_password": "كلمة المرور القديمة",
-    "new_password": "كلمة المرور الجديدة"
+    "new_password": "كلمة المرور الجديدة",
+    "change_password": "تغيير كلمة المرور"
   }
 }

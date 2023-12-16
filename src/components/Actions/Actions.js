@@ -1,5 +1,5 @@
 import { useCallback, useContext, useRef, useState } from "react";
-import { Form, Modal, Select } from "antd";
+import { Form, Modal, Select, Tooltip } from "antd";
 import { injectIntl } from "react-intl";
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -14,12 +14,15 @@ import {
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
+import { getLocale } from "../../utils/intl-provider";
 
 function Actions({ intl }) {
   const [data, setData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState();
   const [isCreatingAction, setIsCreatingAction] = useState(false);
+  const [actionToDelete, setActionToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { openNotification } = useContext(LayoutContextWrapper);
 
@@ -29,22 +32,26 @@ function Actions({ intl }) {
 
   const ACTIONS_COLUMNS = [
     {
-      title: "Name",
-      dataIndex: "name",
-      render: (name) => `${name}`,
+      title: intl.formatMessage({ id: "common.name" }),
+      render: ({ name, nameAr }) =>
+        `${getLocale() === "en" ? name || nameAr : nameAr || name}`,
     },
     {
-      title: "Type",
+      title: intl.formatMessage({ id: "actions.type" }),
       dataIndex: "type",
+      render: (type) =>
+        intl.formatMessage({ id: `actions.${type?.toLowerCase()}` }),
     },
     {
       render: ({ id }) =>
         ![37, 36].includes(id) && (
           <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-            <DeleteOutlined
-              className="ant-icon-sm"
-              onClick={handleDeleteAction(id)}
-            />
+            <Tooltip title={intl.formatMessage({ id: "common.delete" })}>
+              <DeleteOutlined
+                className="ant-icon-sm"
+                onClick={openDeleteModal(id)}
+              />
+            </Tooltip>
           </div>
         ),
       width: 50,
@@ -107,6 +114,18 @@ function Actions({ intl }) {
     setIsModalOpen(false);
   };
 
+  function openDeleteModal(id) {
+    return () => {
+      setIsDeleteModalOpen(true);
+      setActionToDelete(id);
+    };
+  }
+
+  function onCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+    setActionToDelete(null);
+  }
+
   const onSubmit = async (values) => {
     try {
       setIsCreatingAction(true);
@@ -153,10 +172,6 @@ function Actions({ intl }) {
                   value: "UN_SAFE_ACTION",
                   label: intl.formatMessage({ id: "reports.unsafe_action" }),
                 },
-                // {
-                //   value: "followup",
-                //   label: intl.formatMessage({ id: "reports.followup_action" }),
-                // },
               ]}
             />
           </Form.Item>
@@ -181,6 +196,33 @@ function Actions({ intl }) {
             />
           </div>
         </Form>
+      </Modal>
+      <Modal
+        open={isDeleteModalOpen}
+        centered
+        footer={null}
+        title={intl.formatMessage({
+          id: "confirmation_modal.delete_report",
+        })}
+        onCancel={onCloseDeleteModal}
+        className="confirmation-modal"
+      >
+        <span>
+          {intl.formatMessage({
+            id: "confirmation_modal.delete_report_confirm",
+          })}
+        </span>
+        <div className="confirmation-modal-actions">
+          <ASButton
+            label={intl.formatMessage({ id: "common.delete" })}
+            type="destructive-basic"
+            onClick={handleDeleteAction(actionToDelete)}
+          />
+          <ASButton
+            label={intl.formatMessage({ id: "common.cancel" })}
+            onClick={onCloseDeleteModal}
+          />
+        </div>
       </Modal>
       <TableLayout
         btnLabel={intl.formatMessage({ id: "actions.create_action" })}

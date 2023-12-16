@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
-import { Form, Modal, Select } from "antd";
+import { Form, Modal, Select, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { isEmpty } from "lodash";
 
@@ -23,6 +23,8 @@ function Users({ intl }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const tableRef = useRef();
 
@@ -46,20 +48,34 @@ function Users({ intl }) {
     {
       title: fmt({ id: "users.role" }),
       dataIndex: "role",
-      render: (role) => role.toLowerCase(),
+      render: (role) => fmt({ id: `users.${role?.toLowerCase()}` }),
     },
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <DeleteOutlined
-            className="ant-icon-sm"
-            onClick={handleDeleteUser(id)}
-          />
+          <Tooltip title={intl.formatMessage({ id: "common.delete" })}>
+            <DeleteOutlined
+              className="ant-icon-sm"
+              onClick={openDeleteModal(id)}
+            />
+          </Tooltip>
         </div>
       ),
       width: 50,
     },
   ];
+
+  function openDeleteModal(id) {
+    return () => {
+      setIsDeleteModalOpen(true);
+      setUserToDelete(id);
+    };
+  }
+
+  function onCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
+  }
 
   function handleDeleteUser(id) {
     return async () => {
@@ -223,6 +239,33 @@ function Users({ intl }) {
             />
           </div>
         </Form>
+      </Modal>
+      <Modal
+        open={isDeleteModalOpen}
+        centered
+        footer={null}
+        title={intl.formatMessage({
+          id: "confirmation_modal.delete_report",
+        })}
+        onCancel={onCloseDeleteModal}
+        className="confirmation-modal"
+      >
+        <span>
+          {intl.formatMessage({
+            id: "confirmation_modal.delete_report_confirm",
+          })}
+        </span>
+        <div className="confirmation-modal-actions">
+          <ASButton
+            label={intl.formatMessage({ id: "common.delete" })}
+            type="destructive-basic"
+            onClick={handleDeleteUser(userToDelete)}
+          />
+          <ASButton
+            label={intl.formatMessage({ id: "common.cancel" })}
+            onClick={onCloseDeleteModal}
+          />
+        </div>
       </Modal>
       <TableLayout
         btnLabel={intl.formatMessage({ id: "users.create_user" })}

@@ -169,3 +169,23 @@ html[dir="rtl"] .ant-pagination-item-link {
   -ms-user-select: none;
   user-select: none;
 }
+
+.confirmation-modal{
+    .ant-modal-body{
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+
+        >span{
+            padding: 16px;
+        }
+    
+        .confirmation-modal-actions{
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 16px;
+            border-top: 1px solid $gray-300;
+            padding: 16px;
+        }
+    }
+}

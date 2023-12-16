@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
-import { Form, Modal } from "antd";
+import { Form, Modal, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
@@ -10,6 +10,7 @@ import {
   editDepartment,
   getAllDepartments,
 } from "../../services/departments";
+import { getLocale } from "../../utils/intl-provider";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASButton from "../ASButton/ASButton";
@@ -20,6 +21,8 @@ function Departments({ intl }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState();
   const [isCreatingDepartment, setIsCreatingDepartment] = useState(false);
+  const [departmentToDelete, setDepartmentToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { openNotification } = useContext(LayoutContextWrapper);
 
@@ -29,17 +32,19 @@ function Departments({ intl }) {
 
   const DEPARTMENTS_COLUMNS = [
     {
-      title: "Name",
-      dataIndex: "name",
-      render: (name) => `${name}`,
+      title: intl.formatMessage({ id: "common.name" }),
+      render: ({ name, nameAr }) =>
+        `${getLocale() === "en" ? name || nameAr : nameAr || name}`,
     },
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <DeleteOutlined
-            className="ant-icon-sm"
-            onClick={handleDeleteDepartment(id)}
-          />
+          <Tooltip title={intl.formatMessage({ id: "common.delete" })}>
+            <DeleteOutlined
+              className="ant-icon-sm"
+              onClick={openDeleteModal(id)}
+            />
+          </Tooltip>
         </div>
       ),
       width: 50,
@@ -99,6 +104,18 @@ function Departments({ intl }) {
     setIsModalOpen(false);
   };
 
+  function openDeleteModal(id) {
+    return () => {
+      setIsDeleteModalOpen(true);
+      setDepartmentToDelete(id);
+    };
+  }
+
+  function onCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+    setDepartmentToDelete(null);
+  }
+
   const onSubmit = async (values) => {
     try {
       setIsCreatingDepartment(true);
@@ -149,6 +166,33 @@ function Departments({ intl }) {
             />
           </div>
         </Form>
+      </Modal>
+      <Modal
+        open={isDeleteModalOpen}
+        centered
+        footer={null}
+        title={intl.formatMessage({
+          id: "confirmation_modal.delete_report",
+        })}
+        onCancel={onCloseDeleteModal}
+        className="confirmation-modal"
+      >
+        <span>
+          {intl.formatMessage({
+            id: "confirmation_modal.delete_report_confirm",
+          })}
+        </span>
+        <div className="confirmation-modal-actions">
+          <ASButton
+            label={intl.formatMessage({ id: "common.delete" })}
+            type="destructive-basic"
+            onClick={handleDeleteDepartment(departmentToDelete)}
+          />
+          <ASButton
+            label={intl.formatMessage({ id: "common.cancel" })}
+            onClick={onCloseDeleteModal}
+          />
+        </div>
       </Modal>
       <TableLayout
         btnLabel={intl.formatMessage({ id: "departments.create_department" })}

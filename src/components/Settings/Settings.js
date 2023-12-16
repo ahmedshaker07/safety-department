@@ -110,14 +110,14 @@ function Settings({ intl }) {
 
         {inEditMode ? (
           <ASButton
-            label="Change Password"
+            label={intl.formatMessage({ id: "settings.change_password" })}
             onClick={() => {
               navigate("/change-password");
             }}
           />
         ) : (
           <ASButton
-            label="Delete Account"
+            label={intl.formatMessage({ id: "settings.delete_account" })}
             type="destructive-basic"
             onClick={() => {
               setIsModalOpen(true);
