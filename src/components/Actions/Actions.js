@@ -63,6 +63,8 @@ function Actions({ intl }) {
       try {
         tableRef.current.triggerLoading(true);
         await deleteAction(id);
+        setActionToDelete(null);
+        setIsDeleteModalOpen(false);
       } catch (error) {
         openNotification({
           title: error.message,
@@ -177,8 +179,15 @@ function Actions({ intl }) {
           </Form.Item>
           <ASFormItem
             name="name"
-            label={intl.formatMessage({ id: "common.name" })}
-            placeholder={intl.formatMessage({ id: "common.name" })}
+            label={intl.formatMessage({ id: "common.name_en" })}
+            placeholder={intl.formatMessage({ id: "common.name_en" })}
+            rules={[{ required: true, message: "" }]}
+            hasFeedback
+          />
+          <ASFormItem
+            name="nameAr"
+            label={intl.formatMessage({ id: "common.name_ar" })}
+            placeholder={intl.formatMessage({ id: "common.name_ar" })}
             rules={[{ required: true, message: "" }]}
             hasFeedback
           />

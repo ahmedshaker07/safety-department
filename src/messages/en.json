@@ -23,7 +23,9 @@
     "per_month": "Per Month",
     "per_year": "Per Year",
     "done": "Done",
-    "in_progress": "In Progress"
+    "in_progress": "In Progress",
+    "name_en": "Name (English)",
+    "name_ar": "Name (Arabic)"
   },
   "confirmation_modal": {
     "delete_report": "Are you sure?",

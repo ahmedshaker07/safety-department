@@ -56,6 +56,8 @@ function Departments({ intl }) {
       try {
         tableRef.current.triggerLoading(true);
         await deleteDepartment(id);
+        setDepartmentToDelete(null);
+        setIsDeleteModalOpen(false);
       } catch (error) {
         openNotification({
           title: error.message,
@@ -147,8 +149,15 @@ function Departments({ intl }) {
         <Form layout="vertical" form={createDepartmentForm} onFinish={onSubmit}>
           <ASFormItem
             name="name"
-            label={intl.formatMessage({ id: "common.name" })}
-            placeholder={intl.formatMessage({ id: "common.name" })}
+            label={intl.formatMessage({ id: "common.name_en" })}
+            placeholder={intl.formatMessage({ id: "common.name_en" })}
+            rules={[{ required: true, message: "" }]}
+            hasFeedback
+          />
+          <ASFormItem
+            name="nameAr"
+            label={intl.formatMessage({ id: "common.name_ar" })}
+            placeholder={intl.formatMessage({ id: "common.name_ar" })}
             rules={[{ required: true, message: "" }]}
             hasFeedback
           />

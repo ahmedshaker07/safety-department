@@ -82,6 +82,8 @@ function Users({ intl }) {
       try {
         tableRef.current.triggerLoading(true);
         await deleteUser(id);
+        setIsDeleteModalOpen(false);
+        setUserToDelete(null);
       } catch (error) {
         openNotification({
           title: error.message,

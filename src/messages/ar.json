@@ -23,7 +23,9 @@
     "per_month": "حسب الشهر",
     "per_year": "حسب السنة",
     "done": "تمت",
-    "in_progress": "قيد التنفيذ"
+    "in_progress": "قيد التنفيذ",
+    "name_en": "الاسم (إنجليزي)",
+    "name_ar": "الاسم (عربي)"
   },
   "confirmation_modal": {
     "delete_report": "هل انت متأكد؟",
