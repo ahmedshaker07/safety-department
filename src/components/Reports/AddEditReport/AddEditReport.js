@@ -172,8 +172,8 @@ function AddEditReport({ intl }) {
 
       openNotification({
         title: report
-          ? "Report Updated Successfully"
-          : "Report Created Successfully",
+          ? intl.formatMessage({ id: "reports.updated_successfully" })
+          : intl.formatMessage({ id: "reports.created_successfully" }),
         type: "success",
       });
 

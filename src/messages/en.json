@@ -109,7 +109,9 @@
     "employee": "Employee",
     "reports_count": "Reports Count",
     "department": "Department",
-    "reporters": "Reporters"
+    "reporters": "Reporters",
+    "updated_successfully": "Report Updated Successfully",
+    "created_successfully": "Report Created Successfully"
   },
   "users": {
     "create_user": "Create User",

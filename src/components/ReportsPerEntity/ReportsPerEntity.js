@@ -17,6 +17,7 @@ import ASTable from "../ASTable/ASTable";
 import ASButton from "../ASButton/ASButton";
 import { fmt } from "../IntlWrapper/IntlWrapper";
 import ASCollapse from "../ASCollapse/ASCollapse";
+import { getLocale } from "../../utils/intl-provider";
 
 function ReportsPerReporter({ pageType }) {
   const [users, setUsers] = useState([]);
@@ -39,10 +40,12 @@ function ReportsPerReporter({ pageType }) {
           id: "reports.department",
         }),
       }[pageType],
-      dataIndex: {
-        reporter: "creatorName",
-        department: "departmentName",
-      }[pageType],
+      render: ({ departmentName, departmentNameAr, creatorName }) =>
+        pageType === "department"
+          ? getLocale() === "en"
+            ? departmentName || departmentNameAr
+            : departmentNameAr || departmentName
+          : creatorName,
     },
     {
       title: fmt({
@@ -133,9 +136,9 @@ function ReportsPerReporter({ pageType }) {
       try {
         const { departments } = await getAllDepartments();
         setDepartments(
-          departments.map(({ id, name }) => ({
+          departments.map(({ id, name = "", nameAr = "" }) => ({
             value: id,
-            label: name,
+            label: getLocale() === "en" ? name || nameAr : nameAr || name,
           }))
         );
       } catch (error) {
@@ -191,6 +194,7 @@ function ReportsPerReporter({ pageType }) {
                 options={users}
                 placeholder={fmt({ id: "reports.reporters" })}
                 mode="multiple"
+                virtual={false}
               />
             </Form.Item>
           )}
@@ -207,6 +211,7 @@ function ReportsPerReporter({ pageType }) {
                   id: "header.tabs_name.departments",
                 })}
                 mode="multiple"
+                virtual={false}
               />
             </Form.Item>
           )}
@@ -223,7 +228,7 @@ function ReportsPerReporter({ pageType }) {
           </div>
         </Form>
       </ASCollapse>
-
+      {console.log(pageType)}
       <ASTable
         columns={columns}
         dataSource={data}

@@ -163,7 +163,10 @@ function Followup() {
         id: "header.tabs_name.departments",
       }),
       dataIndex: "Report",
-      render: ({ Department }) => Department?.name,
+      render: ({ Department }) =>
+        getLocale() === "en"
+          ? Department?.name || Department?.nameAr
+          : Department?.nameAr || Department?.name,
     },
     {
       title: fmt({

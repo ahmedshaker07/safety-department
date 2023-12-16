@@ -109,7 +109,9 @@
     "employee": "الموظف",
     "reports_count": "عدد التقارير",
     "department": "القسم",
-    "reporters": "المدونين"
+    "reporters": "المدونين",
+    "updated_successfully": "تم تعديل الريبورت بنجاح",
+    "created_successfully": "تم عمل الريبورت بنجاح"
   },
   "users": {
     "create_user": "إنشاء مستخدم",
