@@ -16,7 +16,18 @@
     "yesterday": "أمس",
     "today": "اليوم",
     "tomorrow": "غداً",
-    "clear": "إلغاء"
+    "clear": "إلغاء",
+    "export": "اكسبورت",
+    "per_day": "حسب اليوم",
+    "per_week": "حسب الاسبوع",
+    "per_month": "حسب الشهر",
+    "per_year": "حسب السنة",
+    "done": "تمت",
+    "in_progress": "قيد التنفيذ"
+  },
+  "confirmation_modal": {
+    "delete_report": "حذف التقرير",
+    "delete_report_confirm": "هل أنت متأكد أنك تريد حذف هذا التقرير؟"
   },
   "header": {
     "change_language": "تغيير اللغة",
@@ -88,13 +99,21 @@
     "duration": "المدة",
     "images": "إضافة صور",
     "image_error": "يقبل فقط JPG و PNG - بحد أقصى (10 ميغابايت)",
-    "comment": "وصف"
+    "comment": "وصف",
+    "number_of_reports": "عدد التقارير",
+    "people_observed": "عدد الأشخاص الذين تمت ملاحظتهم",
+    "filters": "عوامل التصفية",
+    "date_period": "المده",
+    "employee": "الموظف",
+    "reports_count": "عدد التقارير",
+    "department": "القسم",
+    "reporters": "المدونين"
   },
   "users": {
     "create_user": "إنشاء مستخدم",
     "full_name": "الاسم الكامل",
     "admin": "مسؤل",
-    "reporter": "ريبورتر",
+    "reporter": "المدون",
     "role": "وظيفة",
     "create_new_user": "إنشاء مستخدم جديد",
     "phone": "رقم التليفون",
@@ -103,7 +122,15 @@
   "actions": {
     "create_action": "إنشاء حدث",
     "edit_action": "تعديل الحدث",
-    "type": "النوع"
+    "type": "النوع",
+    "followups": {
+      "action_id": "رقم الأكشن",
+      "report_id": "رقم الريبورت",
+      "action_name": "أسم الأكشن",
+      "deadline": "تاريخ الإنتهاء",
+      "status": "الحاله",
+      "report_date": "تاريخ الريبورت"
+    }
   },
   "departments": {
     "create_department": "إنشاء قسم",

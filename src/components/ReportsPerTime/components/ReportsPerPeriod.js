@@ -23,7 +23,9 @@ const ReportsPerPeriod = ({ groupBy }) => {
 
   const columns = [
     {
-      title: "Date",
+      title: fmt({
+        id: "reports.date",
+      }),
       dataIndex: "timeUnit",
       render: (date) =>
         checkSmartDate(
@@ -37,11 +39,15 @@ const ReportsPerPeriod = ({ groupBy }) => {
         ),
     },
     {
-      title: "Number of reports",
+      title: fmt({
+        id: "reports.number_of_reports",
+      }),
       dataIndex: "totalReports",
     },
     {
-      title: "People observed",
+      title: fmt({
+        id: "reports.people_observed",
+      }),
       dataIndex: "totalPeopleObserved",
       render: (totalPeopleObserved) => totalPeopleObserved || "_",
     },
@@ -54,6 +60,13 @@ const ReportsPerPeriod = ({ groupBy }) => {
     slider: {
       start: 0.25,
       end: 1,
+    },
+    meta: {
+      totalReports: {
+        alias: fmt({
+          id: "reports.reports_count",
+        }),
+      },
     },
   };
 
@@ -94,9 +107,12 @@ const ReportsPerPeriod = ({ groupBy }) => {
 
   return (
     <div className="filtered-reports-page">
-      <ASCollapse panelHeader="Filters">
+      <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
         <Form form={form} layout="vertical" onFinish={handleApplyFilter}>
-          <Form.Item name="reportDate" label="Date Period">
+          <Form.Item
+            name="reportDate"
+            label={fmt({ id: "reports.date_period" })}
+          >
             <DatePicker.RangePicker locale={getRangePickerLocale()} />
           </Form.Item>
 

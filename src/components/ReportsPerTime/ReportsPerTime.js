@@ -1,33 +1,33 @@
 import { Tabs } from "antd";
+import { injectIntl } from "react-intl";
 
 import ReportsPerPeriod from "./components/ReportsPerPeriod";
 
 import "./ReportsPerTime.scss";
 
-function ReportsPerTime() {
+function ReportsPerTime({ intl }) {
   return (
     <Tabs
-      defaultActiveKey="Per Day"
       type="card"
       animated
       items={[
         {
-          name: "Per Day",
+          name: intl.formatMessage({ id: "common.per_day" }),
           groupBy: "day",
           component: ReportsPerPeriod,
         },
         {
-          name: "Per Week",
+          name: intl.formatMessage({ id: "common.per_week" }),
           groupBy: "week",
           component: ReportsPerPeriod,
         },
         {
-          name: "Per Month",
+          name: intl.formatMessage({ id: "common.per_month" }),
           groupBy: "month",
           component: ReportsPerPeriod,
         },
         {
-          name: "Per Year",
+          name: intl.formatMessage({ id: "common.per_year" }),
           groupBy: "year",
           component: ReportsPerPeriod,
         },
@@ -42,4 +42,4 @@ function ReportsPerTime() {
   );
 }
 
-export default ReportsPerTime;
+export default injectIntl(ReportsPerTime);

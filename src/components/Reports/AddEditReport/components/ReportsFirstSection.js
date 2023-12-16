@@ -3,14 +3,17 @@ import { Form, Input, Select, InputNumber } from "antd";
 
 import { fmt } from "../../../IntlWrapper/IntlWrapper";
 import { ContextWrapper } from "../../../../contexts/user.context";
+import { getLocale } from "../../../../utils/intl-provider";
 
 const ReportsFirstSection = ({ departments }) => {
   const { userData } = useContext(ContextWrapper);
 
-  const formattedDepartments = departments.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+  const formattedDepartments = departments.map(
+    ({ id, name = "", nameAr = "" }) => ({
+      value: id,
+      label: getLocale() === "en" ? name || nameAr : nameAr || name,
+    })
+  );
 
   return (
     <div className="add-edit-report__card">

@@ -4,6 +4,7 @@ import { injectIntl } from "react-intl";
 
 import { SAFE_ACTION } from "../../../../constants/actions";
 import ReportAction from "./ReportAction";
+import { getLocale } from "../../../../utils/intl-provider";
 
 const ActionsList = ({
   name,
@@ -14,10 +15,12 @@ const ActionsList = ({
   typeActions = [],
   form,
 }) => {
-  const formattedTypeActions = typeActions.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+  const formattedTypeActions = typeActions.map(
+    ({ id, name = "", nameAr = "" }) => ({
+      value: id,
+      label: getLocale() === "en" ? name || nameAr : nameAr || name,
+    })
+  );
 
   return (
     <Form.List name={name} rules={[{ required: type === SAFE_ACTION }]}>

@@ -130,19 +130,19 @@ function Followup() {
 
   const FOLLOWUP_COLUMNS = [
     {
-      title: "Action ID",
+      title: fmt({ id: "actions.followups.action_id" }),
       width: 100,
       dataIndex: "id",
       render: (id) => id,
     },
     {
-      title: "Report ID",
+      title: fmt({ id: "actions.followups.report_id" }),
       dataIndex: "Report",
       width: 100,
       render: ({ id }) => id,
     },
     {
-      title: "Action Name",
+      title: fmt({ id: "actions.followups.action_name" }),
       width: 140,
       dataIndex: "actionName",
       render: (actionName) => (
@@ -166,12 +166,14 @@ function Followup() {
       render: ({ Department }) => Department?.name,
     },
     {
-      title: "By Whom",
+      title: fmt({
+        id: "reports.by_whom",
+      }),
       dataIndex: "User",
       render: ({ fullName }) => fullName,
     },
     {
-      title: "Deadline",
+      title: fmt({ id: "actions.followups.deadline" }),
       render: ({ id, deadLine, userId }) => (
         <div onClick={(event) => event.stopPropagation()}>
           <DatePicker
@@ -191,7 +193,7 @@ function Followup() {
     ...(permissions.UPDATE_FOLLOWUP_STATUS
       ? [
           {
-            title: "Status",
+            title: fmt({ id: "actions.followups.status" }),
             render: ({ id, state }) => (
               <div
                 className="checkbox-wrapper-10"
@@ -206,8 +208,8 @@ function Followup() {
                 />
                 <label
                   htmlFor={`cb${id}`}
-                  data-tg-on="Done"
-                  data-tg-off="In Progress"
+                  data-tg-on={fmt({ id: "common.done" })}
+                  data-tg-off={fmt({ id: "common.in_progress" })}
                   className="tgl-btn"
                 />
               </div>
@@ -295,9 +297,9 @@ function Followup() {
       try {
         const { departments } = await getAllDepartments();
         setDepartments(
-          departments.map(({ id, name }) => ({
+          departments.map(({ id, name, nameAr }) => ({
             value: id,
-            label: name,
+            label: getLocale() === "en" ? name || nameAr : nameAr || name,
           }))
         );
       } catch (error) {
@@ -335,13 +337,19 @@ function Followup() {
 
   return (
     <div className="followups">
-      <ASCollapse panelHeader="Filters">
+      <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
         <Form form={form} layout="vertical" onFinish={handleFilterSubmit}>
           <div className="followups__date-filters">
-            <Form.Item name="reportDate" label="Report Date">
+            <Form.Item
+              name="reportDate"
+              label={fmt({ id: "actions.followups.report_date" })}
+            >
               <DatePicker.RangePicker locale={getRangePickerLocale()} />
             </Form.Item>
-            <Form.Item name="deadline" label="Deadline">
+            <Form.Item
+              name="deadline"
+              label={fmt({ id: "actions.followups.deadline" })}
+            >
               <DatePicker.RangePicker locale={getRangePickerLocale()} />
             </Form.Item>
           </div>
@@ -365,21 +373,33 @@ function Followup() {
               })}
             />
           </Form.Item>
-          <Form.Item name="status" label="Status">
+          <Form.Item
+            name="status"
+            label={fmt({ id: "actions.followups.status" })}
+          >
             <Select
               options={[
-                { value: "DONE", label: "Done" },
-                { value: "inProgress", label: "In Progress" },
+                { value: "DONE", label: fmt({ id: "common.done" }) },
+                {
+                  value: "inProgress",
+                  label: fmt({ id: "common.in_progress" }),
+                },
               ]}
-              placeholder="Status"
+              placeholder={fmt({ id: "actions.followups.status" })}
             />
           </Form.Item>
           <div className="followups__date-filters">
-            <Form.Item name="reportId" label="Report ID">
-              <Input placeholder="Report ID" />
+            <Form.Item
+              name="reportId"
+              label={fmt({ id: "actions.followups.report_id" })}
+            >
+              <Input placeholder={fmt({ id: "actions.followups.report_id" })} />
             </Form.Item>
-            <Form.Item name="actionId" label="Action ID">
-              <Input placeholder="Action ID" />
+            <Form.Item
+              name="actionId"
+              label={fmt({ id: "actions.followups.action_id" })}
+            >
+              <Input placeholder={fmt({ id: "actions.followups.action_id" })} />
             </Form.Item>
           </div>
           <div className="followup__filter-actions">

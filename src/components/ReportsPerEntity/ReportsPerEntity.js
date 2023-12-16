@@ -32,16 +32,30 @@ function ReportsPerReporter({ pageType }) {
   const columns = [
     {
       title: {
-        reporter: "Employee",
-        department: "Department",
+        reporter: fmt({
+          id: "reports.employee",
+        }),
+        department: fmt({
+          id: "reports.department",
+        }),
       }[pageType],
       dataIndex: {
         reporter: "creatorName",
         department: "departmentName",
       }[pageType],
     },
-    { title: "Number of reports", dataIndex: "reportCount" },
-    { title: "People observed", dataIndex: "NumberOfObservers" },
+    {
+      title: fmt({
+        id: "reports.number_of_reports",
+      }),
+      dataIndex: "reportCount",
+    },
+    {
+      title: fmt({
+        id: "reports.people_observed",
+      }),
+      dataIndex: "NumberOfObservers",
+    },
   ];
 
   const config = {
@@ -63,7 +77,9 @@ function ReportsPerReporter({ pageType }) {
     },
     meta: {
       reportCount: {
-        alias: "Reports Count",
+        alias: fmt({
+          id: "reports.reports_count",
+        }),
       },
     },
   };
@@ -153,9 +169,12 @@ function ReportsPerReporter({ pageType }) {
 
   return (
     <div className="filtered-reports-page">
-      <ASCollapse panelHeader="Filters">
+      <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
         <Form form={form} layout="vertical" onFinish={handleApplyFilter}>
-          <Form.Item name="reportDate" label="Date Period">
+          <Form.Item
+            name="reportDate"
+            label={fmt({ id: "reports.date_period" })}
+          >
             <DatePicker.RangePicker
               locale={getRangePickerLocale()}
               disabledDate={(current) => {
@@ -164,15 +183,29 @@ function ReportsPerReporter({ pageType }) {
             />
           </Form.Item>
           {pageType === REPORT_PAGE_TYPES.REPORTER && (
-            <Form.Item name="creatorsIds" label="Reporters">
-              <Select options={users} placeholder="Reporters" mode="multiple" />
+            <Form.Item
+              name="creatorsIds"
+              label={fmt({ id: "reports.reporters" })}
+            >
+              <Select
+                options={users}
+                placeholder={fmt({ id: "reports.reporters" })}
+                mode="multiple"
+              />
             </Form.Item>
           )}
           {pageType === REPORT_PAGE_TYPES.DEPARTMENT && (
-            <Form.Item name="departmentsIds" label="Departments">
+            <Form.Item
+              name="departmentsIds"
+              label={fmt({
+                id: "header.tabs_name.departments",
+              })}
+            >
               <Select
                 options={departments}
-                placeholder="Departments"
+                placeholder={fmt({
+                  id: "header.tabs_name.departments",
+                })}
                 mode="multiple"
               />
             </Form.Item>

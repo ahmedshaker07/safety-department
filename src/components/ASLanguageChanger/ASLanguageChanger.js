@@ -16,16 +16,12 @@ function ASLanguageChanger({ intl }) {
       options={[
         {
           value: LOCALE.EN,
-          label: intl.formatMessage({ id: "header.languages.english" })
+          label: intl.formatMessage({ id: "header.languages.english" }),
         },
         {
           value: LOCALE.AR,
-          label: intl.formatMessage({ id: "header.languages.arabic" })
+          label: intl.formatMessage({ id: "header.languages.arabic" }),
         },
-        {
-          value: LOCALE.FR,
-          label: intl.formatMessage({ id: "header.languages.french" })
-        }
       ]}
       suffixIcon={<GlobalOutlined />}
     />
