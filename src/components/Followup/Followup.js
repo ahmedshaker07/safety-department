@@ -187,7 +187,6 @@ function Followup() {
             inputReadOnly
             disabledDate={(current) => disabledDate(current, new Date())}
             defaultValue={deadLine ? dayjs(deadLine) : null}
-            disabled={userData.id !== userId}
           />
         </div>
       ),
