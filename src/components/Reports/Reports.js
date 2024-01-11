@@ -1,11 +1,7 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FilePdfOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Tooltip, Modal } from "antd";
 
 import { LayoutContextWrapper } from "../../contexts/layout.context";
