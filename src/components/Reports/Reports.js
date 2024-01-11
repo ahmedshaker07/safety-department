@@ -66,9 +66,6 @@ function Reports({ intl }) {
     {
       render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
-          <Tooltip title={intl.formatMessage({ id: "common.export" })}>
-            <FilePdfOutlined className="ant-icon-md" />
-          </Tooltip>
           <Tooltip title={intl.formatMessage({ id: "common.edit" })}>
             <EditOutlined
               className="ant-icon-md"
