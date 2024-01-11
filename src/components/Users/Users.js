@@ -131,13 +131,21 @@ function Users({ intl }) {
     setIsModalOpen(false);
   };
 
-  const onSubmit = async ({ email, password, fullName, phoneNumber, role }) => {
+  const onSubmit = async ({
+    email,
+    password,
+    fullName,
+    phoneNumber,
+    role,
+    reportsTarget,
+  }) => {
     const payload = {
       email,
       password,
       fullName,
       phoneNumber,
       role,
+      reportsTarget,
     };
 
     try {
@@ -206,6 +214,11 @@ function Users({ intl }) {
             label={intl.formatMessage({ id: "users.phone" })}
             rules={[{ required: true, message: "" }]}
             hasFeedback
+          />
+          <ASFormItem
+            name="reportsTarget"
+            placeholder={intl.formatMessage({ id: "users.target" })}
+            label={intl.formatMessage({ id: "users.target" })}
           />
           <Form.Item
             name="role"

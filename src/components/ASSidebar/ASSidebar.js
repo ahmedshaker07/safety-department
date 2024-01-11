@@ -2,10 +2,11 @@ import { Layout } from "antd";
 import { injectIntl } from "react-intl";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { mediaHook } from "../../utils/hooks";
 import { ContextWrapper } from "../../contexts/user.context";
+import { getUserReportStats } from "../../services/reports";
 
 import ASButton from "../ASButton/ASButton";
 
@@ -19,6 +20,7 @@ function ASSidebar({
   mobileScreenSizes: { isLargeMobileScreen },
 }) {
   const { userData, permissions } = useContext(ContextWrapper);
+  const [reportsCount, setReportsCount] = useState();
 
   const pathname = window.location.pathname;
 
@@ -103,21 +105,45 @@ function ASSidebar({
     navigate(path);
   }
 
+  async function getUserStats() {
+    try {
+      const { reportCount } = await getUserReportStats();
+      setReportsCount(reportCount);
+    } catch (e) {
+      //
+    }
+  }
+
+  useEffect(() => {
+    getUserStats();
+  }, []);
+
   return (
     <Sider className="sidebar">
       <div className="sidebar__upper-section">
-        <span className="sidebar-header display-xs">
-          {intl.formatMessage(
-            { id: "header.name" },
-            {
-              name:
-                userData.fullName.substring(
-                  0,
-                  userData.fullName.indexOf(" ")
-                ) || userData.fullName,
-            }
+        <div className="sidebar-header">
+          <span className="display-xs">
+            {intl.formatMessage(
+              { id: "header.name" },
+              {
+                name:
+                  userData.fullName.substring(
+                    0,
+                    userData.fullName.indexOf(" ")
+                  ) || userData.fullName,
+              }
+            )}
+          </span>
+          {!isNaN(reportsCount) && userData?.reportsTarget && (
+            <span>
+              {intl.formatMessage(
+                { id: "header.reports_count" },
+                { reports: reportsCount, target: userData?.reportsTarget }
+              )}
+            </span>
           )}
-        </span>
+        </div>
+
         <div>
           {Object.keys(SIDEBAR_UPPER_SECTIONS).map((section, idx) => (
             <div className="sidebar__section" key={idx}>

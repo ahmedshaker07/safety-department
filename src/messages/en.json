@@ -34,6 +34,7 @@
   "header": {
     "change_language": "Change Language",
     "name": "Hello, {name}!",
+    "reports_count": "You created {reports} report out of {target} this year",
     "languages": {
       "arabic": "AR",
       "english": "EN",
@@ -121,7 +122,8 @@
     "role": "Role",
     "create_new_user": "Create New User",
     "phone": "Phone number",
-    "edit_user": "Edit User"
+    "edit_user": "Edit User",
+    "target": "Target"
   },
   "actions": {
     "create_action": "Create Action",

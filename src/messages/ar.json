@@ -34,6 +34,7 @@
   "header": {
     "change_language": "تغيير اللغة",
     "name": "مرحبًا {name}!",
+    "reports_count": "انت لديك {reports} تقرير من اصل {target} هذا العام",
     "languages": {
       "arabic": "AR",
       "english": "EN",
@@ -121,7 +122,8 @@
     "role": "وظيفة",
     "create_new_user": "إنشاء مستخدم جديد",
     "phone": "رقم التليفون",
-    "edit_user": "تعديل المستخدم"
+    "edit_user": "تعديل المستخدم",
+    "target": "التارجت"
   },
   "actions": {
     "create_action": "إنشاء حدث",

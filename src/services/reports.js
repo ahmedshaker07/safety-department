@@ -35,3 +35,7 @@ export const getReportsByDepartment = (payload) => {
 export const getReportsByTime = (payload) => {
   return http.get(`/reports/analytics/ReportDailyAnalytics`, payload);
 };
+
+export const getUserReportStats = () => {
+  return http.get(`/reports/analytics/userReportsCount`);
+};

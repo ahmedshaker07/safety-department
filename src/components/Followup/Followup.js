@@ -177,7 +177,7 @@ function Followup() {
     },
     {
       title: fmt({ id: "actions.followups.deadline" }),
-      render: ({ id, deadLine, userId }) => (
+      render: ({ id, deadLine }) => (
         <div onClick={(event) => event.stopPropagation()}>
           <DatePicker
             locale={datePickerLocale[getLocale()]}
