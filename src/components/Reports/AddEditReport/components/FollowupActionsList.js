@@ -16,6 +16,9 @@ const FollowupActionsList = ({
     label: fullName,
   }));
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <Form.List name={name}>
       {(fields, { add, remove }) => {
@@ -31,26 +34,15 @@ const FollowupActionsList = ({
                     <div>
                       <Form.Item name={[name, "userId"]} {...restField}>
                         <Select
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={filterOption}
                           options={formattedUsers}
                           placeholder={intl.formatMessage({
                             id: "reports.by_whom",
                           })}
                         />
                       </Form.Item>
-                      {/* <Form.Item name={[name, "bywhen"]} {...restField}>
-                        <Input
-                          placeholder={intl.formatMessage({
-                            id: "reports.by_when",
-                          })}
-                        />
-                      </Form.Item>
-                      <Form.Item name={[name, "nmha"]} {...restField}>
-                        <Input
-                          placeholder={intl.formatMessage({
-                            id: "reports.nmha_card",
-                          })}
-                        />
-                      </Form.Item> */}
                     </div>
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />

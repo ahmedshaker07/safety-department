@@ -5,14 +5,13 @@ import { isEmpty } from "lodash";
 import { useNavigate } from "react-router-dom";
 
 import { ContextWrapper } from "../../contexts/user.context";
-import { deleteUser, editUser } from "../../services/users";
+import { editUser } from "../../services/users";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
 import { difference } from "../../utils/helpers";
 
 import CreateEditLayout from "../Layouts/CreateEditLayout/CreateEditLayout";
 import ASButton from "../ASButton/ASButton";
 import ASFormItem from "../ASFormItem/ASFormItem";
-import ASConfirmationModal from "../ASConfirmationModal/ASConfirmationModal";
 
 import "./Settings.scss";
 
@@ -23,7 +22,6 @@ function Settings({ intl }) {
   const navigate = useNavigate();
 
   const [inEditMode, setInEditMode] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [form] = Form.useForm();
@@ -53,18 +51,6 @@ function Settings({ intl }) {
         });
       }
       setIsLoading(false);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    try {
-      setIsModalOpen(false);
-      await deleteUser(userData.id);
-    } catch (error) {
-      openNotification({
-        title: error.message,
-        type: "error",
-      });
     }
   };
 
@@ -108,42 +94,15 @@ function Settings({ intl }) {
           rules={[{ required: true, message: "" }]}
         />
 
-        {inEditMode ? (
+        {inEditMode && (
           <ASButton
             label={intl.formatMessage({ id: "settings.change_password" })}
             onClick={() => {
               navigate("/change-password");
             }}
           />
-        ) : (
-          <ASButton
-            label={intl.formatMessage({ id: "settings.delete_account" })}
-            type="destructive-basic"
-            onClick={() => {
-              setIsModalOpen(true);
-            }}
-          />
         )}
       </div>
-      <ASConfirmationModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        title={intl.formatMessage({ id: "settings.delete_account" })}
-        description={intl.formatMessage({
-          id: "settings.delete_account_description",
-        })}
-        cancelText={intl.formatMessage({
-          id: "common.cancel",
-        })}
-        confirmText={intl.formatMessage({
-          id: "common.delete",
-        })}
-        onCancel={() => {
-          setIsModalOpen(false);
-        }}
-        onConfirm={handleDeleteAccount}
-        hasCloseIcon
-      />
     </CreateEditLayout>
   );
 }
