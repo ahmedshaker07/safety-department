@@ -134,7 +134,7 @@ function ASSidebar({
               }
             )}
           </span>
-          {!isNaN(reportsCount) && userData?.reportsTarget && (
+          {!isNaN(reportsCount) && !!userData?.reportsTarget && (
             <span>
               {intl.formatMessage(
                 { id: "header.reports_count" },
