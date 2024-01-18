@@ -9,7 +9,6 @@ import { deleteReport, getAllReports } from "../../services/reports";
 import { fmt } from "../IntlWrapper/IntlWrapper";
 import { checkSmartDate } from "../../utils/helpers";
 import { getLocale } from "../../utils/intl-provider";
-import { ContextWrapper } from "../../contexts/user.context";
 
 import TableLayout from "../Layouts/TableLayout/TableLayout";
 import ASButton from "../ASButton/ASButton";
@@ -22,7 +21,6 @@ function Reports({ intl }) {
   const [reportToDelete, setReportToDelete] = useState(null);
 
   const { openNotification } = useContext(LayoutContextWrapper);
-  const { userData } = useContext(ContextWrapper);
 
   const navigate = useNavigate();
 
@@ -62,7 +60,7 @@ function Reports({ intl }) {
       render: (createdAt) => checkSmartDate(createdAt),
     },
     {
-      render: ({ id, creator }) => (
+      render: ({ id }) => (
         <div className="reports-actions" onClick={(e) => e.stopPropagation()}>
           <Tooltip title={intl.formatMessage({ id: "common.edit" })}>
             <EditOutlined
@@ -70,11 +68,9 @@ function Reports({ intl }) {
               onClick={() => navigate(`/reports/${id}`)}
             />
           </Tooltip>
-          {creator?.fullName === userData?.fullName && (
-            <Tooltip title={intl.formatMessage({ id: "common.delete" })}>
-              <DeleteOutlined className="ant-icon-md" onClick={openModal(id)} />
-            </Tooltip>
-          )}
+          <Tooltip title={intl.formatMessage({ id: "common.delete" })}>
+            <DeleteOutlined className="ant-icon-md" onClick={openModal(id)} />
+          </Tooltip>
         </div>
       ),
       width: 50,
