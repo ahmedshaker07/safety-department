@@ -28,6 +28,7 @@ const ASTable = forwardRef(
       onRowClick = () => {},
       tableRef,
       externalLoading,
+      rememberOptions = false,
     },
     _
   ) => {
@@ -37,7 +38,16 @@ const ASTable = forwardRef(
     const [total, setTotal] = useState(0);
 
     const getData = useCallback(
-      async ({ pageNumber = 1, pageSize = 10, sorter = {}, filters = {} }) => {
+      async ({
+        pageNumber = rememberOptions
+          ? parseInt(localStorage.getItem("pageNumber") || 1)
+          : 1,
+        pageSize = rememberOptions
+          ? parseInt(localStorage.getItem("pageLimit") || 10)
+          : 10,
+        sorter = {},
+        filters = {},
+      }) => {
         setLoading(true);
         const { count } = await fetchData({
           pageNumber,
@@ -48,9 +58,13 @@ const ASTable = forwardRef(
         setTotal(count);
         setPageSize(pageSize);
         setPageNumber(pageNumber);
+        if (rememberOptions) {
+          localStorage.setItem("pageLimit", pageSize);
+          localStorage.setItem("pageNumber", pageNumber);
+        }
         setLoading(false);
       },
-      [fetchData]
+      [fetchData, rememberOptions]
     );
 
     const handleTableChange = ({ current, pageSize }, _, { field, order }) => {
@@ -94,6 +108,10 @@ const ASTable = forwardRef(
             }),
           },
           pageSizeOptions: TABLE_PAGE_SIZES,
+        }}
+        scroll={{
+          x: 1100,
+          y: 500,
         }}
         loading={loading || externalLoading}
         onChange={handleTableChange}

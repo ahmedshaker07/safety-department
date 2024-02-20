@@ -30,17 +30,19 @@ function Reports({ intl }) {
     {
       title: "ID",
       dataIndex: "id",
-      width: 20,
+      width: 50,
     },
     {
       title: fmt({ id: "reports.assessor" }),
       dataIndex: "creator",
       render: (creator) => `${creator.fullName}`,
+      width: 200,
     },
     {
       title: fmt({ id: "reports.assited" }),
       dataIndex: "assistorName",
       render: (assistorName) => assistorName || "_",
+      width: 200,
     },
     {
       title: fmt({
@@ -51,6 +53,7 @@ function Reports({ intl }) {
         getLocale() === "en"
           ? department?.name || department?.nameAr
           : department?.nameAr || department?.name,
+      width: 200,
     },
     {
       title: fmt({
@@ -58,6 +61,7 @@ function Reports({ intl }) {
       }),
       dataIndex: "createdAt",
       render: (createdAt) => checkSmartDate(createdAt),
+      width: 200,
     },
     {
       render: ({ id }) => (
@@ -140,6 +144,7 @@ function Reports({ intl }) {
         rowKey={(record) => record.id}
         tableRef={tableRef}
         onRowClick={({ data: { id } }) => navigate(`/reports/${id}`)}
+        rememberOptions
       />
       <Modal
         open={isModalOpen}

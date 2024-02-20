@@ -12,6 +12,7 @@ const TableLayout = ({
   rowKey,
   tableRef,
   onRowClick,
+  rememberOptions = false,
 }) => {
   return (
     <div className="table-layout">
@@ -27,6 +28,7 @@ const TableLayout = ({
         rowKey={rowKey}
         tableRef={tableRef}
         onRowClick={onRowClick}
+        rememberOptions={rememberOptions}
       />
     </div>
   );
