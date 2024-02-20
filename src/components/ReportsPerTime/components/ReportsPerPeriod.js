@@ -20,6 +20,7 @@ const ReportsPerPeriod = ({ groupBy }) => {
   const tableRef = useRef();
 
   const [form] = Form.useForm();
+  const reportDate = Form.useWatch("reportDate", form);
 
   const columns = [
     {
@@ -70,17 +71,8 @@ const ReportsPerPeriod = ({ groupBy }) => {
     },
   };
 
-  const handleApplyFilter = ({ reportDate }) => {
-    tableRef.current.refreshTable({
-      filters: {
-        createdFrom: reportDate?.[0],
-        createdTo: reportDate?.[1],
-      },
-    });
-  };
-
   const fetchData = useCallback(
-    async ({ pageSize, pageNumber, filters }) => {
+    async ({ pageSize, pageNumber }) => {
       try {
         const {
           paginatedData: { data: paginatedData, count },
@@ -89,7 +81,8 @@ const ReportsPerPeriod = ({ groupBy }) => {
           page: pageNumber,
           limit: pageSize,
           groupBy,
-          ...filters,
+          createdFrom: reportDate?.[0],
+          createdTo: reportDate?.[1],
         });
         setData(paginatedData);
         setAnalyticsData(newAnalyticsData);
@@ -102,13 +95,13 @@ const ReportsPerPeriod = ({ groupBy }) => {
         return { count: 0 };
       }
     },
-    [openNotification, groupBy]
+    [openNotification, groupBy, reportDate]
   );
 
   return (
     <div className="filtered-reports-page">
       <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
-        <Form form={form} layout="vertical" onFinish={handleApplyFilter}>
+        <Form form={form} layout="vertical">
           <Form.Item
             name="reportDate"
             label={fmt({ id: "reports.date_period" })}
@@ -116,13 +109,13 @@ const ReportsPerPeriod = ({ groupBy }) => {
             <DatePicker.RangePicker locale={getRangePickerLocale()} />
           </Form.Item>
 
-          <div style={{ display: "flex", gap: "12px" }}>
-            <ASButton label={fmt({ id: "common.filter" })} htmlType="submit" />
+          <div
+            style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}
+          >
             <ASButton
               label={fmt({ id: "common.clear" })}
               onClick={() => {
                 form.resetFields();
-                tableRef.current.refreshTable({});
               }}
               type="destructive-basic"
             />

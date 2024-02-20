@@ -26,6 +26,9 @@ function ReportsPerReporter({ pageType }) {
   const tableRef = useRef();
 
   const [form] = Form.useForm();
+  const reportDate = Form.useWatch("reportDate", form);
+  const creatorsIds = Form.useWatch("creatorsIds", form);
+  const departmentsIds = Form.useWatch("departmentsIds", form);
 
   const [data, setData] = useState([]);
   const [analytics, setAnalytics] = useState([]);
@@ -89,21 +92,11 @@ function ReportsPerReporter({ pageType }) {
 
   const { openNotification } = useContext(LayoutContextWrapper);
 
-  const handleApplyFilter = ({ reportDate, creatorsIds, departmentsIds }) => {
-    tableRef.current.refreshTable({
-      filters: {
-        createdFrom: reportDate?.[0],
-        createdTo: reportDate?.[1],
-        ...(!!creatorsIds?.length && { creatorsIds: creatorsIds.toString() }),
-        ...(!!departmentsIds?.length && {
-          departmentsIds: departmentsIds.toString(),
-        }),
-      },
-    });
-  };
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   const fetchData = useCallback(
-    async ({ pageSize, pageNumber, filters }) => {
+    async ({ pageSize, pageNumber }) => {
       const dataApi = {
         reporter: getReportsByReporter,
         department: getReportsByDepartment,
@@ -116,7 +109,14 @@ function ReportsPerReporter({ pageType }) {
         } = await dataApi[pageType]({
           page: pageNumber,
           limit: pageSize,
-          ...filters,
+          createdFrom: reportDate?.[0],
+          createdTo: reportDate?.[1],
+          ...(!!creatorsIds?.length && {
+            creatorsIds: creatorsIds.toString(),
+          }),
+          ...(!!departmentsIds?.length && {
+            departmentsIds: departmentsIds.toString(),
+          }),
         });
         setData(data);
         setAnalytics(analyticsData);
@@ -128,7 +128,7 @@ function ReportsPerReporter({ pageType }) {
         });
       }
     },
-    [pageType, openNotification]
+    [pageType, openNotification, reportDate, creatorsIds, departmentsIds]
   );
 
   useEffect(() => {
@@ -173,7 +173,7 @@ function ReportsPerReporter({ pageType }) {
   return (
     <div className="filtered-reports-page">
       <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
-        <Form form={form} layout="vertical" onFinish={handleApplyFilter}>
+        <Form form={form} layout="vertical">
           <Form.Item
             name="reportDate"
             label={fmt({ id: "reports.date_period" })}
@@ -195,6 +195,8 @@ function ReportsPerReporter({ pageType }) {
                 placeholder={fmt({ id: "reports.reporters" })}
                 mode="multiple"
                 virtual={false}
+                optionFilterProp="children"
+                filterOption={filterOption}
               />
             </Form.Item>
           )}
@@ -212,23 +214,24 @@ function ReportsPerReporter({ pageType }) {
                 })}
                 mode="multiple"
                 virtual={false}
+                optionFilterProp="children"
+                filterOption={filterOption}
               />
             </Form.Item>
           )}
-          <div style={{ display: "flex", gap: "12px" }}>
-            <ASButton label={fmt({ id: "common.filter" })} htmlType="submit" />
+          <div
+            style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}
+          >
             <ASButton
               label={fmt({ id: "common.clear" })}
               onClick={() => {
                 form.resetFields();
-                tableRef.current.refreshTable({});
               }}
               type="destructive-basic"
             />
           </div>
         </Form>
       </ASCollapse>
-      {console.log(pageType)}
       <ASTable
         columns={columns}
         dataSource={data}

@@ -12,6 +12,7 @@ import {
   checkSmartDate,
   disabledDate,
   getRangePickerLocale,
+  useDebounce,
 } from "../../utils/helpers";
 import { getLocale } from "../../utils/intl-provider";
 import { getAllDepartments } from "../../services/departments";
@@ -44,8 +45,13 @@ function Followup() {
   const tableRef = useRef();
 
   const [form] = Form.useForm();
-  const actionId = Form.useWatch("actionId", form);
+  const actionId = useDebounce(Form.useWatch("actionId", form), 1000);
+  const reportId = useDebounce(Form.useWatch("reportId", form), 1000);
   const status = Form.useWatch("status", form);
+  const departmentId = Form.useWatch("departmentId", form);
+  const reportDate = Form.useWatch("reportDate", form);
+  const deadline = Form.useWatch("deadline", form);
+  const byWhomId = Form.useWatch("byWhomId", form);
 
   const onStatusClick = (id, state) => {
     return async () => {
@@ -222,30 +228,6 @@ function Followup() {
       : []),
   ];
 
-  const fetchData = useCallback(
-    async ({ pageSize, pageNumber, search, filters }) => {
-      try {
-        const { actions, count } = await getFollowupActions({
-          page: pageNumber,
-          limit: pageSize,
-          ...(search && {
-            reportId: search,
-          }),
-          ...filters,
-        });
-        setActions(actions);
-        return { count };
-      } catch (error) {
-        openNotification({
-          title: error.message,
-          type: "error",
-        });
-        return { count: 0 };
-      }
-    },
-    [openNotification]
-  );
-
   const getAnalytics = useCallback(
     async (payload = {}) => {
       try {
@@ -261,38 +243,58 @@ function Followup() {
     [openNotification]
   );
 
-  const handleFilterSubmit = ({
-    status,
-    departmentId,
-    reportDate,
-    deadline,
-    reportId,
-    actionId,
-    byWhomId,
-  }) => {
-    tableRef.current.refreshTable({
-      filters: {
-        state: status,
-        departmentId,
-        createdFrom: reportDate?.[0],
-        createdTo: reportDate?.[1],
-        deadLineFrom: deadline?.[0],
-        deadLineTo: deadline?.[1],
-        ...(reportId && { reportId }),
-        ...(actionId && { referenceId: actionId }),
-        byWhomId,
-      },
-    });
-    getAnalytics({
-      departmentId,
-      createdFrom: reportDate?.[0],
-      createdTo: reportDate?.[1],
-      deadLineFrom: deadline?.[0],
-      deadLineTo: deadline?.[1],
-      ...(reportId && { reportId }),
+  const fetchData = useCallback(
+    async ({ pageSize, pageNumber, search }) => {
+      try {
+        const { actions, count } = await getFollowupActions({
+          page: pageNumber,
+          limit: pageSize,
+          ...(search && {
+            reportId: search,
+          }),
+          state: status,
+          departmentId,
+          createdFrom: reportDate?.[0],
+          createdTo: reportDate?.[1],
+          deadLineFrom: deadline?.[0],
+          deadLineTo: deadline?.[1],
+          ...(reportId && { reportId }),
+          ...(actionId && { referenceId: actionId }),
+          byWhomId,
+        });
+        setActions(actions);
+        userData?.role === "ADMIN" &&
+          getAnalytics({
+            departmentId,
+            createdFrom: reportDate?.[0],
+            createdTo: reportDate?.[1],
+            deadLineFrom: deadline?.[0],
+            deadLineTo: deadline?.[1],
+            ...(reportId && { reportId }),
+            byWhomId,
+          });
+        return { count };
+      } catch (error) {
+        openNotification({
+          title: error.message,
+          type: "error",
+        });
+        return { count: 0 };
+      }
+    },
+    [
+      openNotification,
+      actionId,
       byWhomId,
-    });
-  };
+      deadline,
+      departmentId,
+      reportDate,
+      reportId,
+      status,
+      getAnalytics,
+      userData?.role,
+    ]
+  );
 
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
@@ -336,14 +338,10 @@ function Followup() {
     getUsers();
   }, [openNotification]);
 
-  useEffect(() => {
-    userData?.role === "ADMIN" && getAnalytics();
-  }, [userData?.role, getAnalytics]);
-
   return (
     <div className="followups">
       <ASCollapse panelHeader={fmt({ id: "reports.filters" })}>
-        <Form form={form} layout="vertical" onFinish={handleFilterSubmit}>
+        <Form form={form} layout="vertical">
           <div className="followups__date-filters">
             <Form.Item
               name="reportDate"
@@ -415,13 +413,10 @@ function Followup() {
             </Form.Item>
           </div>
           <div className="followup__filter-actions">
-            <ASButton label={fmt({ id: "common.filter" })} htmlType="submit" />
             <ASButton
               label={fmt({ id: "common.clear" })}
               onClick={() => {
                 form.resetFields();
-                tableRef.current.refreshTable({});
-                getAnalytics();
               }}
               type="destructive-basic"
             />
@@ -439,7 +434,9 @@ function Followup() {
           navigate(`/reports/${reportId}`);
         }}
       />
-      {!actionId && !status && userData.role === "ADMIN" && <Pie {...config} />}
+      {!actionId && !status && userData?.role === "ADMIN" && (
+        <Pie {...config} />
+      )}
     </div>
   );
 }

@@ -37,15 +37,15 @@ const ReportsImages = ({ intl, images, setImages, report }) => {
   };
 
   const beforeUpload = (file) => {
-    const isLt10M = file.size / 1024 / 1024 <= 10;
-    if (!isLt10M) {
+    const isLt40M = file.size / 1024 / 1024 <= 40;
+    if (!isLt40M) {
       openNotification({
         title: intl.formatMessage({
           id: "international_shipping_in.upload_modal.size_error",
         }),
       });
     }
-    return isLt10M;
+    return isLt40M;
   };
 
   const onRemoveImage = (deletedImage) => {

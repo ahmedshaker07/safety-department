@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isBoolean from "lodash/isBoolean";
 import DOMPurify from "dompurify";
@@ -198,3 +199,16 @@ export const removeEmptyValues = (object) => {
 export const disabledDate = (current, date) => {
   return current && current.valueOf() < date.setDate(date.getDate() - 1);
 };
+
+export function useDebounce(value, wait = 500) {
+  const [debounceValue, setDebounceValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounceValue(value);
+    }, wait);
+    return () => clearTimeout(timer);
+  }, [value, wait]);
+
+  return debounceValue;
+}
