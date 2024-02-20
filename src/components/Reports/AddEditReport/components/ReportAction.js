@@ -30,6 +30,9 @@ const ReportAction = ({
     UN_SAFE_ACTION: 37,
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <div>
       <Form.Item className="add-edit-report__action" key={id}>
@@ -52,8 +55,11 @@ const ReportAction = ({
             {...restField}
           >
             <Select
-              placeholder={placeholder}
+              showSearch
+              optionFilterProp="children"
+              filterOption={filterOption}
               options={formattedTypeActions}
+              placeholder={placeholder}
               virtual={false}
             />
           </Form.Item>

@@ -15,6 +15,9 @@ const ReportsFirstSection = ({ departments }) => {
     })
   );
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <div className="add-edit-report__card">
       <Form.Item
@@ -23,9 +26,11 @@ const ReportsFirstSection = ({ departments }) => {
         rules={[{ required: true, message: fmt({ id: "common.required" }) }]}
       >
         <Select
-          placeholder={fmt({ id: "reports.area" })}
+          showSearch
+          optionFilterProp="children"
+          filterOption={filterOption}
           options={formattedDepartments}
-          virtual={false}
+          placeholder={fmt({ id: "reports.area" })}
         />
       </Form.Item>
 

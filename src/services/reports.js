@@ -1,7 +1,7 @@
 import http from "../http.js";
 
 export const uploadImages = ({ formData }) => {
-  return http.postForm(`https://vflbe.cyclic.app/images`, formData);
+  return http.postForm(`"https://vfl-backend.ecpc.com.eg/images`, formData);
 };
 
 export const createReport = (payload) => {
