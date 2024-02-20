@@ -294,6 +294,9 @@ function Followup() {
     });
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   useEffect(() => {
     const getDepartments = async () => {
       try {
@@ -357,6 +360,9 @@ function Followup() {
           </div>
           <Form.Item name="departmentId" label={fmt({ id: "reports.area" })}>
             <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={filterOption}
               placeholder={fmt({ id: "reports.area" })}
               options={departments}
               virtual={false}
@@ -369,6 +375,10 @@ function Followup() {
             })}
           >
             <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={filterOption}
+              virtual={false}
               options={users}
               placeholder={fmt({
                 id: "reports.by_whom",

@@ -53,9 +53,9 @@ function ASHeader({
           alt=""
         />
       )}
-      <div>
+      <div style={{ display: "flex" }}>
         <ASLanguageChanger />
-        {token && !isLargeMobileScreen && (
+        {token && (
           <ASButton
             label={intl.formatMessage({ id: "common.logout" })}
             onClick={logout}

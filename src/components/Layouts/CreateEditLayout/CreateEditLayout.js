@@ -18,7 +18,30 @@ function CreateEditLayout({
   isLoading,
   hideCancel = false,
   isSaveDisabled = false,
+  addActionsBottom = false,
 }) {
+  const actionsDiv = (
+    <div className="add-edit-report__actions">
+      {actions || (
+        <>
+          {!hideCancel && (
+            <ASButton
+              type="destructive-basic"
+              label={intl.formatMessage({ id: "common.cancel" })}
+              onClick={onCancelClick}
+              disabled={isLoading}
+            />
+          )}
+          <ASButton
+            label={intl.formatMessage({ id: "common.save" })}
+            htmlType="submit"
+            isLoading={isLoading}
+            disabled={isSaveDisabled}
+          />
+        </>
+      )}
+    </div>
+  );
   return (
     <Form
       className={classNames("create-edit-layout", className)}
@@ -27,27 +50,9 @@ function CreateEditLayout({
       form={form}
       initialValues={initialFormValues}
     >
-      <div className="add-edit-report__actions">
-        {actions || (
-          <>
-            {!hideCancel && (
-              <ASButton
-                type="destructive-basic"
-                label={intl.formatMessage({ id: "common.cancel" })}
-                onClick={onCancelClick}
-                disabled={isLoading}
-              />
-            )}
-            <ASButton
-              label={intl.formatMessage({ id: "common.save" })}
-              htmlType="submit"
-              isLoading={isLoading}
-              disabled={isSaveDisabled}
-            />
-          </>
-        )}
-      </div>
+      {actionsDiv}
       {children}
+      {addActionsBottom && actionsDiv}
     </Form>
   );
 }

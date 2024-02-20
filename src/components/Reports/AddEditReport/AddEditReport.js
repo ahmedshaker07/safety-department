@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Spin } from "antd";
+import { Form, Spin, Input } from "antd";
 import classNames from "classnames";
 
 import { getAllDepartments } from "../../../services/departments";
@@ -24,6 +24,7 @@ import ReportsFirstSection from "./components/ReportsFirstSection";
 import ActionsList from "./components/ActionsList";
 import FollowupActionsList from "./components/FollowupActionsList";
 import ReportsImages from "./components/ReportsImages";
+import { fmt } from "../../IntlWrapper/IntlWrapper";
 
 import "./AddEditReport.scss";
 
@@ -299,6 +300,7 @@ function AddEditReport({ intl }) {
       })}
       onCancelClick={() => navigate("/reports")}
       isLoading={isSubmitting}
+      addActionsBottom
     >
       <ReportsFirstSection departments={departments} />
 
@@ -354,6 +356,16 @@ function AddEditReport({ intl }) {
 
       <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
         <ReportsImages images={images} setImages={setImages} report={report} />
+      </ReportsCards>
+
+      <ReportsCards title={intl.formatMessage({ id: "reports.comment" })}>
+        <Form.Item name="comment">
+          <Input.TextArea
+            placeholder={fmt({ id: "reports.comment" })}
+            autoSize={{ minRows: 4, maxRows: 6 }}
+            maxLength={300}
+          />
+        </Form.Item>
       </ReportsCards>
 
       <ReportsFooter />

@@ -38,6 +38,7 @@
     // content of the page
     > :nth-child(2) {
       filter: blur(5px);
+      pointer-events: none;
     }
   }
 }
