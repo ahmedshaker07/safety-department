@@ -146,6 +146,7 @@ function AddEditReport({ intl }) {
     safeactions = [],
     unsafeactions = [],
     NumberOfObservers,
+    comment,
   }) => {
     try {
       setIsSubmitting(true);
@@ -163,6 +164,7 @@ function AddEditReport({ intl }) {
         followUpActions,
         actions: newReportActions,
         images: images.length ? images.map((image) => image.url) : undefined,
+        comment,
       };
 
       const editPayload = report ? getEditPayload(report, payload) : {};
@@ -271,6 +273,7 @@ function AddEditReport({ intl }) {
           safeactions: getInitialActions(SAFE_ACTION),
           unsafeactions: getInitialActions(UNSAFE_ACTION),
           followUpActions: initialFollowupActions,
+          comment: reportData?.comment,
         });
       } catch (error) {
         openNotification({
