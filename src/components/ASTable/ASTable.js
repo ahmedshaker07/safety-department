@@ -28,7 +28,8 @@ const ASTable = forwardRef(
       onRowClick = () => {},
       tableRef,
       externalLoading,
-      rememberOptions = false,
+      pageNumberFromLocalStorage,
+      pageLimitFromLocalStorage,
     },
     _
   ) => {
@@ -39,11 +40,11 @@ const ASTable = forwardRef(
 
     const getData = useCallback(
       async ({
-        pageNumber = rememberOptions
-          ? parseInt(localStorage.getItem("pageNumber") || 1)
+        pageNumber = pageNumberFromLocalStorage
+          ? parseInt(localStorage.getItem(pageNumberFromLocalStorage) || 1)
           : 1,
-        pageSize = rememberOptions
-          ? parseInt(localStorage.getItem("pageLimit") || 10)
+        pageSize = pageLimitFromLocalStorage
+          ? parseInt(localStorage.getItem(pageLimitFromLocalStorage) || 10)
           : 10,
         sorter = {},
         filters = {},
@@ -58,13 +59,13 @@ const ASTable = forwardRef(
         setTotal(count);
         setPageSize(pageSize);
         setPageNumber(pageNumber);
-        if (rememberOptions) {
-          localStorage.setItem("pageLimit", pageSize);
-          localStorage.setItem("pageNumber", pageNumber);
+        if (pageNumberFromLocalStorage && pageLimitFromLocalStorage) {
+          localStorage.setItem(pageNumberFromLocalStorage, pageNumber);
+          localStorage.setItem(pageLimitFromLocalStorage, pageSize);
         }
         setLoading(false);
       },
-      [fetchData, rememberOptions]
+      [fetchData, pageNumberFromLocalStorage, pageLimitFromLocalStorage]
     );
 
     const handleTableChange = ({ current, pageSize }, _, { field, order }) => {

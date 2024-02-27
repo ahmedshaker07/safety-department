@@ -144,7 +144,8 @@ function Reports({ intl }) {
         rowKey={(record) => record.id}
         tableRef={tableRef}
         onRowClick={({ data: { id } }) => navigate(`/reports/${id}`)}
-        rememberOptions
+        pageNumberFromLocalStorage="reportsPageNumber"
+        pageLimitFromLocalStorage="reportsPageLimit"
       />
       <Modal
         open={isModalOpen}

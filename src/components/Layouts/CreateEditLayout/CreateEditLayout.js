@@ -19,11 +19,19 @@ function CreateEditLayout({
   hideCancel = false,
   isSaveDisabled = false,
   addActionsBottom = false,
+  handlePDFDownload,
 }) {
   const actionsDiv = (
     <div className="add-edit-report__actions">
       {actions || (
         <>
+          {handlePDFDownload && (
+            <ASButton
+              label="PDF"
+              disabled={isSaveDisabled}
+              onClick={handlePDFDownload}
+            />
+          )}
           {!hideCancel && (
             <ASButton
               type="destructive-basic"

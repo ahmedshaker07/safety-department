@@ -12,7 +12,8 @@ const TableLayout = ({
   rowKey,
   tableRef,
   onRowClick,
-  rememberOptions = false,
+  pageNumberFromLocalStorage = false,
+  pageLimitFromLocalStorage = false,
 }) => {
   return (
     <div className="table-layout">
@@ -28,7 +29,8 @@ const TableLayout = ({
         rowKey={rowKey}
         tableRef={tableRef}
         onRowClick={onRowClick}
-        rememberOptions={rememberOptions}
+        pageNumberFromLocalStorage={pageNumberFromLocalStorage}
+        pageLimitFromLocalStorage={pageLimitFromLocalStorage}
       />
     </div>
   );

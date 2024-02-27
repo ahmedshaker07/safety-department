@@ -433,6 +433,8 @@ function Followup() {
         onRowClick={({ data: { reportId } }) => {
           navigate(`/reports/${reportId}`);
         }}
+        pageNumberFromLocalStorage="followupsPageNumber"
+        pageLimitFromLocalStorage="followupsPageLimit"
       />
       {!actionId && !status && userData?.role === "ADMIN" && (
         <Pie {...config} />

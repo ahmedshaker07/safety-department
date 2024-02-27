@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, Spin, Input } from "antd";
 import classNames from "classnames";
+import { useReactToPrint } from "react-to-print";
 
 import { getAllDepartments } from "../../../services/departments";
 import { LayoutContextWrapper } from "../../../contexts/layout.context";
@@ -40,6 +41,18 @@ function AddEditReport({ intl }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState([]);
+
+  const pdfRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => pdfRef.current,
+    documentTitle: "report-data",
+    pageStyle: `@media print {
+      @page {
+        margin: 24px;
+      }
+    }`,
+  });
 
   const canUserEditReport =
     !report ||
@@ -304,74 +317,88 @@ function AddEditReport({ intl }) {
       onCancelClick={() => navigate("/reports")}
       isLoading={isSubmitting}
       addActionsBottom
+      handlePDFDownload={handlePrint}
     >
-      <ReportsFirstSection departments={departments} />
-
-      <ReportsCards title={intl.formatMessage({ id: "reports.safe_acts" })}>
-        <ActionsList
-          name="safeactions"
-          type={SAFE_ACTION}
-          placeholder={intl.formatMessage({
-            id: "reports.safe_action",
-          })}
-          ctaLabel={intl.formatMessage({ id: "reports.add_safe_action" })}
-          limit={7}
-          typeActions={safeActions}
-          form={form}
-        />
-      </ReportsCards>
-
-      <div className="add-edit-report__alert caption">
-        {intl.formatMessage({ id: "reports.hsm" })}
-      </div>
-
-      <ReportsCards title={intl.formatMessage({ id: "reports.unsafe_acts" })}>
-        <ActionsList
-          name="unsafeactions"
-          type={UNSAFE_ACTION}
-          placeholder={intl.formatMessage({
-            id: "reports.unsafe_action",
-          })}
-          ctaLabel={intl.formatMessage({ id: "reports.add_unsafe_action" })}
-          limit={7}
-          typeActions={unsafeActions}
-          form={form}
-        />
-      </ReportsCards>
-
-      <ReportsCards
-        title={intl.formatMessage({ id: "reports.agreed_followups" })}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "24px",
+        }}
+        ref={pdfRef}
       >
-        <FollowupActionsList
-          name="followUpActions"
-          placeholder={intl.formatMessage({
-            id: "reports.followup_action",
-          })}
-          ctaLabel={intl.formatMessage({ id: "reports.add_followup_action" })}
-          limit={4}
-          users={users}
-        />
-      </ReportsCards>
+        <ReportsFirstSection departments={departments} />
 
-      <div className="add-edit-report__alert caption">
-        {intl.formatMessage({ id: "reports.nmha" })}
-      </div>
-
-      <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
-        <ReportsImages images={images} setImages={setImages} report={report} />
-      </ReportsCards>
-
-      <ReportsCards title={intl.formatMessage({ id: "reports.comment" })}>
-        <Form.Item name="comment">
-          <Input.TextArea
-            placeholder={fmt({ id: "reports.comment" })}
-            autoSize={{ minRows: 4, maxRows: 6 }}
-            maxLength={300}
+        <ReportsCards title={intl.formatMessage({ id: "reports.safe_acts" })}>
+          <ActionsList
+            name="safeactions"
+            type={SAFE_ACTION}
+            placeholder={intl.formatMessage({
+              id: "reports.safe_action",
+            })}
+            ctaLabel={intl.formatMessage({ id: "reports.add_safe_action" })}
+            limit={7}
+            typeActions={safeActions}
+            form={form}
           />
-        </Form.Item>
-      </ReportsCards>
+        </ReportsCards>
 
-      <ReportsFooter />
+        <div className="add-edit-report__alert caption">
+          {intl.formatMessage({ id: "reports.hsm" })}
+        </div>
+
+        <ReportsCards title={intl.formatMessage({ id: "reports.unsafe_acts" })}>
+          <ActionsList
+            name="unsafeactions"
+            type={UNSAFE_ACTION}
+            placeholder={intl.formatMessage({
+              id: "reports.unsafe_action",
+            })}
+            ctaLabel={intl.formatMessage({ id: "reports.add_unsafe_action" })}
+            limit={7}
+            typeActions={unsafeActions}
+            form={form}
+          />
+        </ReportsCards>
+
+        <ReportsCards
+          title={intl.formatMessage({ id: "reports.agreed_followups" })}
+        >
+          <FollowupActionsList
+            name="followUpActions"
+            placeholder={intl.formatMessage({
+              id: "reports.followup_action",
+            })}
+            ctaLabel={intl.formatMessage({ id: "reports.add_followup_action" })}
+            limit={4}
+            users={users}
+          />
+        </ReportsCards>
+
+        <div className="add-edit-report__alert caption">
+          {intl.formatMessage({ id: "reports.nmha" })}
+        </div>
+
+        <ReportsCards title={intl.formatMessage({ id: "reports.images" })}>
+          <ReportsImages
+            images={images}
+            setImages={setImages}
+            report={report}
+          />
+        </ReportsCards>
+
+        <ReportsCards title={intl.formatMessage({ id: "reports.comment" })}>
+          <Form.Item name="comment">
+            <Input.TextArea
+              placeholder={fmt({ id: "reports.comment" })}
+              autoSize={{ minRows: 4, maxRows: 6 }}
+              maxLength={300}
+            />
+          </Form.Item>
+        </ReportsCards>
+
+        <ReportsFooter />
+      </div>
     </CreateEditLayout>
   );
 }
