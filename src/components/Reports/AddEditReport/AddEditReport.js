@@ -193,7 +193,7 @@ function AddEditReport({ intl }) {
         type: "success",
       });
 
-      return navigate("/reports");
+      return navigate(-1);
     } catch (error) {
       openNotification({
         title: error.message,
@@ -314,7 +314,7 @@ function AddEditReport({ intl }) {
       className={classNames("add-edit-report__form", {
         "add-edit-report__form-disabled": !canUserEditReport,
       })}
-      onCancelClick={() => navigate("/reports")}
+      onCancelClick={() => navigate(-1)}
       isLoading={isSubmitting}
       addActionsBottom
       handlePDFDownload={handlePrint}
