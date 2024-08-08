@@ -64,7 +64,15 @@
     "subtitle": "Enter your credentials to sign in to your account",
     "email": "Email",
     "password": "Password",
-    "continue": "Continue"
+    "continue": "Continue",
+    "forgot": "Forgot password?"
+  },
+  "reset_password": {
+    "title": "Forgot your password?",
+    "subtitle": "Enter your email and we will send you your new password",
+    "reset": "Reset Password",
+    "go_back": "Go back?",
+    "password_reset": "Your new password has been sent, please check your inbox."
   },
   "overview": {
     "metrics": {
@@ -90,6 +98,7 @@
     "unsafe_action": "Unsafe action",
     "followup_action": "Follow up action",
     "by_whom": "By whom",
+    "assigned_to": "Assigned to",
     "by_when": "By when",
     "nmha_card": "NMHA Card",
     "area": "Area/Dept",

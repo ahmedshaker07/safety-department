@@ -5,9 +5,10 @@ import { fmt } from "../../../IntlWrapper/IntlWrapper";
 import { ContextWrapper } from "../../../../contexts/user.context";
 import { getLocale } from "../../../../utils/intl-provider";
 
-const ReportsFirstSection = ({ departments }) => {
+const ReportsFirstSection = ({ form, departments }) => {
   const { userData } = useContext(ContextWrapper);
 
+  const departmentId = Form.useWatch("departmentId", form);
   const formattedDepartments = departments.map(
     ({ id, name = "", nameAr = "" }) => ({
       value: id,
@@ -33,6 +34,15 @@ const ReportsFirstSection = ({ departments }) => {
           placeholder={fmt({ id: "reports.area" })}
         />
       </Form.Item>
+
+      {departmentId === 48 && (
+        <Form.Item
+          name="customAreaName"
+          rules={[{ required: true, message: fmt({ id: "common.required" }) }]}
+        >
+          <Input placeholder={fmt({ id: "reports.comment" })} />
+        </Form.Item>
+      )}
 
       <Form.Item
         label={fmt({ id: "reports.assessor" })}

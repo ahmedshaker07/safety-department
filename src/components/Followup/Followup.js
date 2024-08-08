@@ -52,6 +52,7 @@ function Followup() {
   const reportDate = Form.useWatch("reportDate", form);
   const deadline = Form.useWatch("deadline", form);
   const byWhomId = Form.useWatch("byWhomId", form);
+  const assessorId = Form.useWatch("assessorId", form);
 
   const onStatusClick = (id, state) => {
     return async () => {
@@ -176,7 +177,7 @@ function Followup() {
     },
     {
       title: fmt({
-        id: "reports.by_whom",
+        id: "reports.assigned_to",
       }),
       dataIndex: "User",
       render: ({ fullName }) => fullName,
@@ -261,6 +262,7 @@ function Followup() {
           ...(reportId && { reportId }),
           ...(actionId && { referenceId: actionId }),
           byWhomId,
+          assessorId,
         });
         setActions(actions);
         userData?.role === "ADMIN" &&
@@ -272,6 +274,7 @@ function Followup() {
             deadLineTo: deadline?.[1],
             ...(reportId && { reportId }),
             byWhomId,
+            assessorId,
           });
         return { count };
       } catch (error) {
@@ -293,6 +296,7 @@ function Followup() {
       status,
       getAnalytics,
       userData?.role,
+      assessorId,
     ]
   );
 
@@ -369,7 +373,7 @@ function Followup() {
           <Form.Item
             name="byWhomId"
             label={fmt({
-              id: "reports.by_whom",
+              id: "reports.assigned_to",
             })}
           >
             <Select
@@ -379,7 +383,7 @@ function Followup() {
               virtual={false}
               options={users}
               placeholder={fmt({
-                id: "reports.by_whom",
+                id: "reports.assigned_to",
               })}
             />
           </Form.Item>
@@ -396,6 +400,18 @@ function Followup() {
                 },
               ]}
               placeholder={fmt({ id: "actions.followups.status" })}
+            />
+          </Form.Item>
+          <Form.Item name="assessorId" label={fmt({ id: "reports.assessor" })}>
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={filterOption}
+              virtual={false}
+              options={users}
+              placeholder={fmt({
+                id: "reports.assigned_to",
+              })}
             />
           </Form.Item>
           <div className="followups__date-filters">

@@ -4,91 +4,79 @@ import { injectIntl } from "react-intl";
 import { Animated } from "react-animated-css";
 import { useNavigate } from "react-router-dom";
 
-import { login } from "../../services/auth";
-import { ContextWrapper } from "../../contexts/user.context";
+import { sendResetPasswordEmail } from "../../services/auth";
 import { LayoutContextWrapper } from "../../contexts/layout.context";
-import { USER_PERMISSIONS } from "../../constants/permissions";
 
 import ASFormItem from "../ASFormItem/ASFormItem";
 import ASButton from "../ASButton/ASButton";
 
-import "./Signin.scss";
+import "./ForgotPassword.scss";
 
-function Signin({ intl }) {
+function ForgotPassword({ intl }) {
+  const navigate = useNavigate();
+  const { openNotification } = useContext(LayoutContextWrapper);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setToken, setUserData, setPermissions } = useContext(ContextWrapper);
-  const { openNotification } = useContext(LayoutContextWrapper);
-  const navigate = useNavigate();
-
-  async function handleSignin(values) {
+  const handleResetPassword = async (values) => {
     try {
       setIsLoading(true);
-      const { token, ...rest } = await login(values);
-      localStorage.setItem("token", token);
-      setToken(token);
-      setUserData(rest);
-      setPermissions(USER_PERMISSIONS[rest.role]);
+      await sendResetPasswordEmail(values);
+      openNotification({
+        title: intl.formatMessage({ id: "reset_password.password_reset" }),
+        type: "success",
+        placement: "bottom",
+      });
       setIsLoading(false);
+      navigate("/signin");
     } catch (error) {
       setIsLoading(false);
       openNotification({
-        title: error.message,
+        title: "Something went wrong!",
         type: "error",
       });
     }
-  }
+  };
 
   return (
     <div className="signin-page">
       <Animated animationIn="fadeInLeft" className="signin-page__modal">
         <div className="signin-page__modal-title">
           <span className="display-md">
-            {intl.formatMessage({ id: "signin.title" })}
+            {intl.formatMessage({ id: "reset_password.title" })}
           </span>
-          <span>{intl.formatMessage({ id: "signin.subtitle" })}</span>
+          <span>{intl.formatMessage({ id: "reset_password.subtitle" })}</span>
         </div>
         <Form
           name="signin-form"
           className="signin-page__modal-form"
           layout="vertical"
-          onFinish={handleSignin}
+          onFinish={handleResetPassword}
         >
           <ASFormItem
             name="email"
-            label={intl.formatMessage({ id: "signin.email" })}
             placeholder={intl.formatMessage({ id: "signin.email" })}
+            label={intl.formatMessage({ id: "signin.email" })}
             rules={[{ required: true, message: "" }]}
           />
-          <ASFormItem
-            name="password"
-            label={intl.formatMessage({ id: "signin.password" })}
-            placeholder={intl.formatMessage({ id: "signin.password" })}
-            isPassword
-            rules={[
-              {
-                required: true,
-                message: "",
-              },
-            ]}
-          />
+
           <ASButton
             type="primary"
             htmlType="submit"
-            label={intl.formatMessage({ id: "signin.continue" })}
-            loading={isLoading}
+            label={intl.formatMessage({ id: "reset_password.reset" })}
+            isLoading={isLoading}
           />
 
           <ASButton
             type="link"
-            label={intl.formatMessage({ id: "signin.forgot" })}
+            label={intl.formatMessage({ id: "reset_password.go_back" })}
             style={{
               width: "fit-content",
               alignSelf: "end",
               marginTop: "12px",
             }}
             onClick={() => {
-              navigate("/forgot-password");
+              navigate("/signin");
             }}
           />
         </Form>
@@ -97,4 +85,4 @@ function Signin({ intl }) {
   );
 }
 
-export default injectIntl(Signin);
+export default injectIntl(ForgotPassword);

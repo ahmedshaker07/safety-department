@@ -327,7 +327,7 @@ function AddEditReport({ intl }) {
         }}
         ref={pdfRef}
       >
-        <ReportsFirstSection departments={departments} />
+        <ReportsFirstSection departments={departments} form={form} />
 
         <ReportsCards title={intl.formatMessage({ id: "reports.safe_acts" })}>
           <ActionsList

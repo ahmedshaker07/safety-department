@@ -39,7 +39,7 @@ const FollowupActionsList = ({
                           filterOption={filterOption}
                           options={formattedUsers}
                           placeholder={intl.formatMessage({
-                            id: "reports.by_whom",
+                            id: "reports.assigned_to",
                           })}
                         />
                       </Form.Item>

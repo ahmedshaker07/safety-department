@@ -5,7 +5,7 @@ export const USER_PERMISSIONS = {
     VIEW_ANALYTICS: true,
   },
   REPORTER: {
-    UPDATE_FOLLOWUP_STATUS: false,
+    UPDATE_FOLLOWUP_STATUS: true,
     DASHBOARD_DATA_MANAGEMENT: false,
     VIEW_ANALYTICS: false,
   },

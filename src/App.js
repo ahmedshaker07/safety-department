@@ -16,6 +16,7 @@ import Signin from "./components/Signin/Signin";
 import DefaultLayout from "./components/Layouts/DefaultLayout/DefaultLayout";
 import ASHeader from "./components/ASHeader/ASHeader";
 import ASLoading from "./components/ASLoading/ASLoading";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 
 import "./styles/global-overrides.scss";
 
@@ -46,6 +47,18 @@ function App() {
             ) : (
               <React.Suspense fallback={<Spin />}>
                 <Signin />
+              </React.Suspense>
+            )
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            token ? (
+              <Navigate to="/reports" />
+            ) : (
+              <React.Suspense fallback={<Spin />}>
+                <ForgotPassword />
               </React.Suspense>
             )
           }

@@ -7,3 +7,7 @@ export const login = (data) => {
 export const getUserLoginDetails = () => {
   return http.get("/users/userInfo");
 };
+
+export const sendResetPasswordEmail = (data) => {
+  return http.post("/users/reset-password", data);
+};
