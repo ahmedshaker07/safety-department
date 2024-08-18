@@ -174,7 +174,7 @@ function AddEditReport({ intl }) {
         assistorName,
         areaId: 1,
         NumberOfObservers,
-        followUpActions,
+        ...(followUpActions.length ? [followUpActions] : []),
         actions: newReportActions,
         images: images.length ? images.map((image) => image.url) : undefined,
         comment,

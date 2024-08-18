@@ -34,6 +34,11 @@ const ReportAction = ({
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
+  const actions = Form.useWatch(
+    { SAFE_ACTION: "safeactions", UN_SAFE_ACTION: "unsafeactions" }[type],
+    form
+  );
+
   return (
     <div>
       <Form.Item className="add-edit-report__action" key={id}>
@@ -59,7 +64,12 @@ const ReportAction = ({
               showSearch
               optionFilterProp="children"
               filterOption={filterOption}
-              options={formattedTypeActions}
+              options={formattedTypeActions.map((option) => ({
+                ...option,
+                disabled: actions?.find(
+                  (action) => action?.actionId === option.value
+                ),
+              }))}
               placeholder={placeholder}
               virtual={false}
             />
