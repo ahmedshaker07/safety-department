@@ -37,7 +37,7 @@ const ReportsFirstSection = ({ form, departments }) => {
 
       {departmentId === 48 && (
         <Form.Item
-          name="customAreaName"
+          name="customArea"
           rules={[{ required: true, message: fmt({ id: "common.required" }) }]}
         >
           <Input placeholder={fmt({ id: "reports.comment" })} />

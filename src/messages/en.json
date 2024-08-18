@@ -65,14 +65,17 @@
     "email": "Email",
     "password": "Password",
     "continue": "Continue",
-    "forgot": "Forgot password?"
+    "forgot": "Forgot password?",
+    "otp": "OTP"
   },
   "reset_password": {
     "title": "Forgot your password?",
-    "subtitle": "Enter your email and we will send you your new password",
-    "reset": "Reset Password",
+    "subtitle": "Enter your email and we will send you an OTP",
+    "reset": "Send OTP",
     "go_back": "Go back?",
-    "password_reset": "Your new password has been sent, please check your inbox."
+    "password_reset": "We sent you an OTP, please check your inbox.",
+    "enter_otp": "Please enter the OTP you received in your email inbox.",
+    "reset_password": "Reset Password"
   },
   "overview": {
     "metrics": {

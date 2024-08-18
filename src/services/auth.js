@@ -8,6 +8,10 @@ export const getUserLoginDetails = () => {
   return http.get("/users/userInfo");
 };
 
-export const sendResetPasswordEmail = (data) => {
+export const sendResetPasswordOtp = (data) => {
+  return http.post("/users/reset-password-otp", data);
+};
+
+export const resetPassword = (data) => {
   return http.post("/users/reset-password", data);
 };
