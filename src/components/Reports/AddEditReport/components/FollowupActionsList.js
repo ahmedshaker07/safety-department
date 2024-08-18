@@ -24,7 +24,7 @@ const FollowupActionsList = ({
       {(fields, { add, remove }) => {
         return (
           <>
-            {fields.map(({ key, name, ...restField }) => (
+            {fields.map(({ key, name, ...restField }, index) => (
               <div key={key}>
                 <div className="add-edit-report__followup-action">
                   <Form.Item className="add-edit-report__action">
@@ -47,7 +47,9 @@ const FollowupActionsList = ({
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </div>
-                {key < fields.length - 1 && fields.length > 1 && <Divider />}
+                {index !== fields.length - 1 && fields.length > 1 && (
+                  <Divider />
+                )}
               </div>
             ))}
             {fields.length < limit && (

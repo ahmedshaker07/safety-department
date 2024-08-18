@@ -26,7 +26,7 @@ const ActionsList = ({
     <Form.List name={name} rules={[{ required: type === SAFE_ACTION }]}>
       {(fields, { add, remove }) => (
         <>
-          {fields.map(({ key, name, ...restField }) => (
+          {fields.map(({ key, name, ...restField }, index) => (
             <ReportAction
               id={key}
               name={name}
@@ -37,6 +37,7 @@ const ActionsList = ({
               remove={remove}
               form={form}
               placeholder={placeholder}
+              index={index}
             />
           ))}
           {fields.length < limit && (

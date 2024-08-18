@@ -27,11 +27,7 @@ function Reports({ intl }) {
   const tableRef = useRef();
 
   const REPORTS_COLUMNS = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      width: 50,
-    },
+    { title: "ID", dataIndex: "id", width: 50 },
     {
       title: fmt({ id: "reports.assessor" }),
       dataIndex: "creator",

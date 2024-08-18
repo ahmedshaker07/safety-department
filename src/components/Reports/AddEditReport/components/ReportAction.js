@@ -15,6 +15,7 @@ const ReportAction = ({
   fields,
   remove,
   form,
+  index,
 }) => {
   const actionId = Form.useWatch(
     [
@@ -82,7 +83,7 @@ const ReportAction = ({
           <MinusCircleOutlined onClick={() => remove(name)} />
         )}
       </Form.Item>
-      {id < fields.length - 1 && fields.length > 1 && (
+      {index !== fields.length - 1 && fields.length > 1 && (
         <Divider style={{ margin: "24px 0 12px" }} />
       )}
     </div>
