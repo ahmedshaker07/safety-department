@@ -73,6 +73,7 @@ function AddEditReport({ intl }) {
       NumberOfObservers,
       followUpActions,
       actions: newReportActions,
+      customArea,
     }
   ) => {
     const oldReportActions = report.ReportActions.map((action) => {
@@ -105,6 +106,7 @@ function AddEditReport({ intl }) {
       set: {
         ...getEditDiff("assistorName", assistorName, report.assistorName),
         ...getEditDiff("departmentId", departmentId, report.Department.id),
+        ...getEditDiff("customArea", customArea, report?.customArea),
         ...getEditDiff(
           "NumberOfObservers",
           NumberOfObservers,
@@ -160,6 +162,7 @@ function AddEditReport({ intl }) {
     unsafeactions = [],
     NumberOfObservers,
     comment,
+    customArea,
   }) => {
     try {
       setIsSubmitting(true);
@@ -174,10 +177,11 @@ function AddEditReport({ intl }) {
         assistorName,
         areaId: 1,
         NumberOfObservers,
-        ...(followUpActions.length ? [followUpActions] : []),
+        followUpActions,
         actions: newReportActions,
         images: images.length ? images.map((image) => image.url) : undefined,
         comment,
+        customArea,
       };
 
       const editPayload = report ? getEditPayload(report, payload) : {};
@@ -287,6 +291,7 @@ function AddEditReport({ intl }) {
           unsafeactions: getInitialActions(UNSAFE_ACTION),
           followUpActions: initialFollowupActions,
           comment: reportData?.comment,
+          customArea: reportData?.customArea,
         });
       } catch (error) {
         openNotification({
